@@ -6,6 +6,9 @@ export default () => {
         <Tabs>
             <Tabs.Screen name="home" options={{headerShown: false}}/>
             <Tabs.Screen name="list"/>
+            <Tabs.Screen name="rewards"/>
+            <Tabs.Screen name="notifications"/>
+            <Tabs.Screen name="shoppingCart"/>
         </Tabs>
     )
 }
