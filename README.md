@@ -1,6 +1,6 @@
 # JB Burritos
 
-CS 4900 Capstone
+CS 4900 Capstone 
 
 ## 🚀 How to use (run in root project folder)
 
@@ -10,4 +10,4 @@ npx expo start
 
 ## 📝 Notes
 
-- Coming soon
+- Coming very soon
