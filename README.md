@@ -1,14 +1,13 @@
-# Expo Router Example
+# JB Burritos
 
-Use [`expo-router`](https://expo.github.io/router) to build native navigation using files in the `app/` directory.
+CS 4900 Capstone
 
-## 🚀 How to use
+## 🚀 How to use (run in root project folder)
 
 ```sh
-npx create-expo-app -e with-router
+npx expo start
 ```
 
 ## 📝 Notes
 
-- [Expo Router: Docs](https://expo.github.io/router)
-- [Expo Router: Repo](https://github.com/expo/router)
+- Coming soon
