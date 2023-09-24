@@ -1,12 +1,27 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const navigate = () => {
   return (
-    <View>
-      <Text>navigate</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Navigate</Text>
+      {}
     </View>
-  )
-}
+  );
+};
 
-export default navigate
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#FFFCE5',
+  },
+  text: {
+    fontSize: 20,
+    color: '#000000',
+    marginTop: 20,
+  },
+});
+
+export default navigate;

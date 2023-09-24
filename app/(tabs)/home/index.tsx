@@ -1,17 +1,38 @@
 //rnfe to generate name of file component
 
-import { View, Text, Pressable } from 'react-native'
-import React from 'react'
-import { Link } from 'expo-router'
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
-const home = () => {
+const Home = () => {
   return (
-    <View style = {{ flex: 1, justifyContent: 'space-around', alignItems: 'center',}}>
-      <Link href="/home/navigate">Navigate</Link>
-      <Link href="/home/order">Order</Link>
-      <Link href="/home/cater">Cater</Link>
+    <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
+      {}
+      <Link href="/home/navigate" style={styles.link}>
+        <Text style={styles.linkText}>Navigate</Text>
+      </Link>
+      <Link href="/home/order" style={styles.link}>
+        <Text style={styles.linkText}>Order</Text>
+      </Link>
+      <Link href="/home/cater" style={styles.link}>
+        <Text style={styles.linkText}>Cater</Text>
+      </Link>
     </View>
-  )
-}
+  );
+};
 
-export default home
+const styles = {
+  link: {
+    padding: 10,
+    backgroundColor: '#515D52',
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  linkText: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+};
+
+export default Home;

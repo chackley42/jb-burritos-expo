@@ -1,15 +1,34 @@
-import { View, Text } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 
 const list = () => {
-    return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Link href="/list/1">Item One</Link>
-            <Link href="/list/2">Item Two</Link>
-            <Link href="/list/3">Item Three</Link>
-        </View>
-    )
-}
+  return (
+    <View style={styles.container}>
+      <Link style={styles.link} href="/list/1">
+        <Text>Item One</Text>
+      </Link>
+      <Link style={styles.link} href="/list/2">
+        <Text>Item Two</Text>
+      </Link>
+      <Link style={styles.link} href="/list/3">
+        <Text>Item Three</Text>
+      </Link>
+      {}
+    </View>
+  );
+};
 
-export default list
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#FFFCE5',
+  },
+  link: {
+    marginVertical: 10,
+  },
+});
+
+export default list;

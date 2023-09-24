@@ -1,14 +1,29 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import React, { Component } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 
-export class notifications extends Component {
+export class notificatons extends Component {
   render() {
     return (
-      <View>
-        <Text> Notifications </Text>
+      <View style={styles.container}>
+        <Text style={styles.text}>Notifications</Text>
+        {}
       </View>
-    )
+    );
   }
 }
 
-export default notifications
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#FFFCE5',
+  },
+  text: {
+    fontSize: 20,
+    color: '#000000',
+    marginTop: 20,
+  },
+});
+
+export default notificatons;

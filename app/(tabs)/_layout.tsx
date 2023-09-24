@@ -1,14 +1,66 @@
 //Tab Bar
-import { Tabs } from "expo-router"
+import React from 'react';
+import { Tabs } from 'expo-router';
 
 export default () => {
-    return (
-        <Tabs>
-            <Tabs.Screen name="home" options={{headerShown: false}}/>
-            <Tabs.Screen name="list"/>
-            <Tabs.Screen name="rewards"/>
-            <Tabs.Screen name="notifications"/>
-            <Tabs.Screen name="shoppingCart"/>
-        </Tabs>
-    )
-}
+  return (
+    <Tabs>
+      <Tabs.Screen
+        name="home"
+        options={{
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: '#F8E435',
+          },
+          tabBarLabelStyle: {
+            color: '#000000',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="list"
+        options={{
+          tabBarStyle: {
+            backgroundColor: '#F8E435',
+          },
+          tabBarLabelStyle: {
+            color: '#000000',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="rewards"
+        options={{
+          tabBarStyle: {
+            backgroundColor: '#F8E435',
+          },
+          tabBarLabelStyle: {
+            color: '#000000',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          tabBarStyle: {
+            backgroundColor: '#F8E435',
+          },
+          tabBarLabelStyle: {
+            color: '#000000',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="shoppingCart"
+        options={{
+          tabBarStyle: {
+            backgroundColor: '#F8E435',
+          },
+          tabBarLabelStyle: {
+            color: '#000000',
+          },
+        }}
+      />
+    </Tabs>
+  );
+};
