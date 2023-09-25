@@ -12,7 +12,7 @@ const Home = () => {
         <Text style={styles.linkText}>Navigate</Text>
       </Link>
       <Link href="/home/order" style={styles.link}>
-        <Text style={styles.linkText}>Order</Text>
+        <Text style={styles.linkText}>Place an Order</Text>
       </Link>
       <Link href="/home/cater" style={styles.link}>
         <Text style={styles.linkText}>Cater</Text>
