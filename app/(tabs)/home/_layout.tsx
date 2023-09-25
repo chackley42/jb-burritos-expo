@@ -1,5 +1,6 @@
 import React from 'react';
 import { Stack } from 'expo-router';
+import ProfileBtn from '../../../components/ProfileBtn';
 
 const StackLayout = () => {
   return (
@@ -13,6 +14,7 @@ const StackLayout = () => {
           },
           headerTitleStyle: {
             color: '#000000',
+            fontSize: 24
           },
         }}
       />
