@@ -18,18 +18,7 @@ export default () => {
         }}
       />
       <Tabs.Screen
-        name="list"
-        options={{
-          tabBarStyle: {
-            backgroundColor: '#F8E435',
-          },
-          tabBarLabelStyle: {
-            color: '#000000',
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="rewards"
+        name="shoppingCart"
         options={{
           tabBarStyle: {
             backgroundColor: '#F8E435',
@@ -51,7 +40,7 @@ export default () => {
         }}
       />
       <Tabs.Screen
-        name="shoppingCart"
+        name="profile"
         options={{
           tabBarStyle: {
             backgroundColor: '#F8E435',

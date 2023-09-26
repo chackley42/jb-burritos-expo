@@ -3,14 +3,14 @@
 import { Stack } from 'expo-router';
 import ProfileBtn from '../components/ProfileBtn';
 import { Image } from 'react-native';
-import Logo from '../components/Logo';
+import LogoBurrito from '../components/Logo';
 
 const StackLayout = () => {
     return (
         <Stack>
             <Stack.Screen name="(tabs)" options={{ 
-                headerShown: true,
-                headerLeft: () => <Logo/>,
+                headerShown: false,
+                headerLeft: () => <LogoBurrito/>,
                 headerRight: () => <ProfileBtn></ProfileBtn>, 
                 headerTitle: '',
                 headerStyle: {

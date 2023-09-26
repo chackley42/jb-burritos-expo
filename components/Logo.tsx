@@ -4,7 +4,7 @@ import { SvgXml } from 'react-native-svg';
 
 
 
-const Logo = () => {
+const LogoBurrito = () => {
     const xml = `
     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          width="100%" viewBox="0 0 784 999" enable-background="new 0 0 784 832" xml:space="preserve">
@@ -76,4 +76,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default LogoBurrito;
