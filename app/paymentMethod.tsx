@@ -1,29 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Link, useNavigation  } from 'expo-router';
 
-
-const notifications = () => {
-  const navigation = useNavigation();
-
-  const navigateToOrderStatus = () => {
-    navigation.navigate('notificationsOrderStatus');
-  };
+const paymentMethod = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.tab}>
-        <Text style={styles.tabText}>Notifications</Text>
+        <Text style={styles.tabText}>Payment Method</Text>
       </View>
         
-      <TouchableOpacity onPress={navigateToOrderStatus}>
-        <View style={[styles.subTab]}>
-          <Text>Order Status</Text>
-          <Text>Your order was received.</Text>
-          <Text>Order# 34253</Text>
-          <Text>Placed on: 09/13/23</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={[styles.container2]}>
+        <Text>Payment Form</Text>
+      </View>
+      
     </ScrollView>
   );
 };
@@ -33,6 +23,22 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'flex-start',
     backgroundColor: '#FFFFFF',
+  },
+  container2: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    backgroundColor: '#FFFFFF',
+    padding: 30,
+    width: '100%',
+    alignItems: 'left',
+  },
+  container3: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    backgroundColor: '#FFFFFF',
+    padding: 30,
+    width: '100%',
+    alignItems: 'left',
   },
   tab: {
     backgroundColor: '#F8E435',
@@ -52,8 +58,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'left',
     marginBottom: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: 'black',
   },
   subTabText: {
     fontSize: 18,
@@ -61,5 +65,4 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-
-export default notifications;
+export default paymentMethod;

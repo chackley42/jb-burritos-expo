@@ -26,15 +26,21 @@ const order = () => {
       </TouchableOpacity>
       {isBurritosOpen && (
         <>
-          <Link style={[styles.link, styles.subTab]} href="/list/1">
+          <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/1">
             <Text>Breakfast Burrito - Classic</Text>
           </Link>
-          <Link style={[styles.link, styles.subTab]} href="/list/2">
+          </View>
+          <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/2">
             <Text>Bean and Cheese Burrito</Text>
           </Link>
-          <Link style={[styles.link, styles.subTab]} href="/list/3">
+          </View>
+          <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/3">
             <Text>Veggie Burrito</Text>
           </Link>
+          </View>
         </>
       )}
       <TouchableOpacity style={styles.tab} onPress={toggleSides}>
@@ -42,27 +48,37 @@ const order = () => {
       </TouchableOpacity>
       {isSidesOpen && (
         <>
-          <Link style={[styles.link, styles.subTab]} href="/list/4">
+        <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/4">
             <Text>Fries</Text>
           </Link>
-          <Link style={[styles.link, styles.subTab]} href="/list/5">
+          </View>
+          <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/5">
             <Text>Bacon</Text>
           </Link>
+          </View>
         </>
       )}
-      <TouchableOpacity style={[styles.link, styles.tab]} onPress={toggleBeverages}>
+      <TouchableOpacity style={[styles.tab]} onPress={toggleBeverages}>
         <Text style={styles.tabText}>Beverages</Text>
       </TouchableOpacity>
       {isBeveragesOpen && (
         <>
-          <Link style={[styles.link, styles.subTab]} href="/list/6">
+        <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/6">
             <Text>Milk</Text>
           </Link>
-          <Link style={[styles.link, styles.subTab]} href="/list/7">
+          </View>
+          <View style={[styles.subTab]}>
+          <Link style={[styles.link]} href="/list/7">
             <Text>Orange Juice</Text>
           </Link>
+          </View>
         </>
+        
       )}
+      
     </ScrollView>
   );
 };
@@ -89,8 +105,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFCE5',
     padding: 10,
     width: '100%',
-    alignItems: 'center',
-    marginBottom: 10,
+    alignItems: 'left',
+    marginBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
   subTabText: {
     fontSize: 18,

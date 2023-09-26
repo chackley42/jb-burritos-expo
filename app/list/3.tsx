@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Link, useNavigation  } from 'expo-router';
 
 const item3 = () => {
   const [quantity, setQuantity] = useState(1);
@@ -14,14 +15,16 @@ const item3 = () => {
     setQuantity(quantity + 1);
   };
 
+  const navigation = useNavigation();
+
   const addToOrder = () => {
-    
-  };
+      navigation.navigate('shoppingCart');
+    };
 
   return (
     <View>
       <Image
-        source={require('../../images/veggieBurrito.jpeg')}
+        source={require('../../assets/veggieBurrito.jpeg')}
         style={styles.image}
       />
       <View style={styles.tab}>
