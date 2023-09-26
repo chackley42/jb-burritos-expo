@@ -26,13 +26,13 @@ const order = () => {
       </TouchableOpacity>
       {isBurritosOpen && (
         <>
-          <Link style={styles.link, styles.subTab} href="/list/1">
+          <Link style={[styles.link, styles.subTab]} href="/list/1">
             <Text>Breakfast Burrito - Classic</Text>
           </Link>
-          <Link style={styles.link, styles.subTab} href="/list/2">
+          <Link style={[styles.link, styles.subTab]} href="/list/2">
             <Text>Bean and Cheese Burrito</Text>
           </Link>
-          <Link style={styles.link, styles.subTab} href="/list/3">
+          <Link style={[styles.link, styles.subTab]} href="/list/3">
             <Text>Veggie Burrito</Text>
           </Link>
         </>
@@ -42,23 +42,23 @@ const order = () => {
       </TouchableOpacity>
       {isSidesOpen && (
         <>
-          <Link style={styles.link, styles.subTab} href="/list/4">
+          <Link style={[styles.link, styles.subTab]} href="/list/4">
             <Text>Fries</Text>
           </Link>
-          <Link style={styles.link, styles.subTab} href="/list/5">
+          <Link style={[styles.link, styles.subTab]} href="/list/5">
             <Text>Bacon</Text>
           </Link>
         </>
       )}
-      <TouchableOpacity style={styles.link, styles.tab} onPress={toggleBeverages}>
+      <TouchableOpacity style={[styles.link, styles.tab]} onPress={toggleBeverages}>
         <Text style={styles.tabText}>Beverages</Text>
       </TouchableOpacity>
       {isBeveragesOpen && (
         <>
-          <Link style={styles.link, styles.subTab} href="/list/6">
+          <Link style={[styles.link, styles.subTab]} href="/list/6">
             <Text>Milk</Text>
           </Link>
-          <Link style={styles.link, styles.subTab} href="/list/7">
+          <Link style={[styles.link, styles.subTab]} href="/list/7">
             <Text>Orange Juice</Text>
           </Link>
         </>
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'flex-start',
-    alignItems: 'left',
     backgroundColor: '#FFFCE5',
   },
   tab: {
