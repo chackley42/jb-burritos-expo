@@ -1,13 +1,10 @@
-//rnfe to generate name of file component
-
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native'; // Import StyleSheet
 import { Link } from 'expo-router';
 
 const Home = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
-      {}
+    <View style={styles.container}>
       <Link href="/home/navigate" style={styles.link}>
         <Text style={styles.linkText}>Navigate</Text>
       </Link>
@@ -21,7 +18,12 @@ const Home = () => {
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
   link: {
     padding: 10,
     backgroundColor: '#515D52',
@@ -33,6 +35,6 @@ const styles = {
     fontSize: 18,
     fontWeight: 'bold',
   },
-};
+});
 
 export default Home;

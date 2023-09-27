@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFCE5',
     padding: 10,
     width: '100%',
-    alignItems: 'left',
+    alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
