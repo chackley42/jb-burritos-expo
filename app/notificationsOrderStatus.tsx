@@ -8,11 +8,15 @@ const notificationsOrderStatus = () => {
   const navigateToFoodTruck = () => {
     navigation.navigate('navigate');
   };
+
+  // navigation.setOptions({
+  //   title: 'Order Status',
+  //   headerStyle: {
+  //     backgroundColor: '#F8E435',
+  //   },
+  // });
   return (
     <ScrollView>
-      <View style={styles.tab}>
-        <Text style={styles.tabText}>Order Status</Text>
-      </View>
         
       <View style={[styles.container2]}>
         <Text>Order# 34253</Text>

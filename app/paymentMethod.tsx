@@ -7,9 +7,6 @@ const paymentMethod = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.tab}>
-        <Text style={styles.tabText}>Payment Method</Text>
-      </View>
         
       <View style={[styles.container2]}>
         <PaymentForm></PaymentForm>

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const navigate = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Navigate</Text>
+      
       {}
     </View>
   );

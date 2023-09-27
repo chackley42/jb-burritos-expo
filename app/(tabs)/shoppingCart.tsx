@@ -26,9 +26,6 @@ const shoppingCart = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.tab}>
-        <Text style={styles.tabText}>Cart</Text>
-      </View>
         
         <View style={[styles.subTab]}>
           <Text>Breakfast Burrito - Classic</Text>

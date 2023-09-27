@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useNavigation  } from 'expo-router';
 
 const order = () => {
+  // const navigation = useNavigation();
+  // navigation.setOptions({
+  //   title: 'Order',
+  //   headerStyle: {
+  //     backgroundColor: '#F8E435',
+  //   },
+  // });
   const [isBurritosOpen, setBurritosOpen] = useState(true);
   const [isSidesOpen, setSidesOpen] = useState(true);
   const [isBeveragesOpen, setBeveragesOpen] = useState(true);

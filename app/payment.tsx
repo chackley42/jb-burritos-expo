@@ -13,11 +13,15 @@ const navigation = useNavigation();
   const placeOrder = () => {
       navigation.navigate('notifications');
     };
+  // navigation.setOptions({
+  //     title: 'Payment',
+  //     // headerStyle: {
+  //     //   backgroundColor: '#F8E435',
+  //     // },
+  //   });
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.tab}>
-        <Text style={styles.tabText}>Payment Details</Text>
-      </View>
         
       <TouchableOpacity onPress={navigateToPaymentMethod}>
         <View style={[styles.subTab]}>

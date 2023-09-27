@@ -12,9 +12,6 @@ const notifications = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.tab}>
-        <Text style={styles.tabText}>Notifications</Text>
-      </View>
         
       <TouchableOpacity onPress={navigateToOrderStatus}>
         <View style={[styles.subTab]}>
