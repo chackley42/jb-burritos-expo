@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Link, useNavigation  } from 'expo-router';
+import PaymentForm from '../components/PaymentForm'
 
 const paymentMethod = () => {
 
@@ -11,7 +12,7 @@ const paymentMethod = () => {
       </View>
         
       <View style={[styles.container2]}>
-        <Text>Payment Form</Text>
+        <PaymentForm></PaymentForm>
       </View>
       
     </ScrollView>
