@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation  } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 
 
 const notifications = () => {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFCE5',
     padding: 30,
     width: '100%',
-    alignItems: 'left',
+    alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',

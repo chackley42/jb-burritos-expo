@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 30,
     width: '100%',
-    alignItems: 'left',
+    alignItems: 'flex-start',
   },
   container3: {
     flexGrow: 1,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 30,
     width: '100%',
-    alignItems: 'left',
+    alignItems: 'flex-start',
   },
   tab: {
     backgroundColor: '#F8E435',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFCE5',
     padding: 30,
     width: '100%',
-    alignItems: 'left',
+    alignItems: 'flex-start',
     marginBottom: 0,
   },
   subTabText: {

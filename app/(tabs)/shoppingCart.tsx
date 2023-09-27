@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFCE5',
     padding: 30,
     width: '100%',
-    alignItems: 'left',
+    alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,   // Add this line for bottom border
     borderBottomColor: 'black', // Add this line for bottom border color
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8E435',
     padding: 30,
     width: '100%',
-    alignItems: 'leftt',
+    alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
