@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation  } from 'expo-router';
+import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import storeMenuData from '../../../utils/storage';
+
+storeMenuData()
 
 const order = () => {
   // const navigation = useNavigation();
@@ -13,6 +17,24 @@ const order = () => {
   const [isBurritosOpen, setBurritosOpen] = useState(true);
   const [isSidesOpen, setSidesOpen] = useState(true);
   const [isBeveragesOpen, setBeveragesOpen] = useState(true);
+  const [menuData, setMenuData] = useState(null);
+
+  useEffect(() => {
+    // Fetch menu data from AsyncStorage
+    const fetchMenuData = async () => {
+      try {
+        const menuDataJSON = await AsyncStorage.getItem('menuData');
+        if (menuDataJSON) {
+          const parsedMenuData = JSON.parse(menuDataJSON);
+          setMenuData(parsedMenuData);
+        }
+      } catch (error) {
+        console.error('Error fetching menu data from AsyncStorage:', error);
+      }
+    };
+
+    fetchMenuData();
+  }, []);
 
   const toggleBurritos = () => {
     setBurritosOpen(!isBurritosOpen);
@@ -31,64 +53,37 @@ const order = () => {
       <TouchableOpacity style={styles.tab} onPress={toggleBurritos}>
         <Text style={styles.tabText}>Burritos</Text>
       </TouchableOpacity>
-      {isBurritosOpen && (
-        <>
-          <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/1">
-            <Text>Breakfast Burrito - Classic</Text>
+      {isBurritosOpen && menuData && menuData.burritos.map((item) => (
+        <View key={item.id} style={[styles.subTab]}>
+          <Link style={[styles.link]} href={`/list/${item.id}`}>
+            <Text>{item.name}</Text>
           </Link>
-          </View>
-          <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/2">
-            <Text>Bean and Cheese Burrito</Text>
-          </Link>
-          </View>
-          <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/3">
-            <Text>Veggie Burrito</Text>
-          </Link>
-          </View>
-        </>
-      )}
+        </View>
+      ))}
       <TouchableOpacity style={styles.tab} onPress={toggleSides}>
         <Text style={styles.tabText}>Sides</Text>
       </TouchableOpacity>
-      {isSidesOpen && (
-        <>
-        <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/4">
-            <Text>Fries</Text>
+      {isSidesOpen && menuData && menuData.sides.map((item) => (
+        <View key={item.id} style={[styles.subTab]}>
+          <Link style={[styles.link]} href={`/list/${item.id}`}>
+            <Text>{item.name}</Text>
           </Link>
-          </View>
-          <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/5">
-            <Text>Bacon</Text>
-          </Link>
-          </View>
-        </>
-      )}
+        </View>
+      ))}
       <TouchableOpacity style={[styles.tab]} onPress={toggleBeverages}>
         <Text style={styles.tabText}>Beverages</Text>
       </TouchableOpacity>
-      {isBeveragesOpen && (
-        <>
-        <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/6">
-            <Text>Milk</Text>
+      {isBeveragesOpen && menuData && menuData.drinks.map((item) => (
+        <View key={item.id} style={[styles.subTab]}>
+          <Link style={[styles.link]} href={`/list/${item.id}`}>
+            <Text>{item.name}</Text>
           </Link>
-          </View>
-          <View style={[styles.subTab]}>
-          <Link style={[styles.link]} href="/list/7">
-            <Text>Orange Juice</Text>
-          </Link>
-          </View>
-        </>
-        
-      )}
-      
+        </View>
+      ))}
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
