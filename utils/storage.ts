@@ -44,7 +44,7 @@ type MenuItem = {
         image: '../assets/veggieBurrito.jpeg',
       },
       {
-        id: 4,
+        id: 9,
         name: 'Virtual Burrito',
         price: 0.00,
         calories: 0,
@@ -54,7 +54,7 @@ type MenuItem = {
     ],
     sides: [
       {
-        id: 1,
+        id: 4,
         name: 'Fries',
         price: 2.00,
         calories: 250,
@@ -63,7 +63,7 @@ type MenuItem = {
       },
       // Add more side items here
       {
-        id: 2,
+        id: 5,
         name: 'Bacon',
         price: 2.00,
         calories: 250,
@@ -73,7 +73,7 @@ type MenuItem = {
     ],
     drinks: [
       {
-        id: 1,
+        id: 6,
         name: 'Milk',
         price: 2.00,
         calories: 250,
@@ -82,7 +82,7 @@ type MenuItem = {
       },
       // Add more drink items here
       {
-        id: 2,
+        id: 7,
         name: 'Orange Juice',
         price: 2.00,
         calories: 250,
