@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-type MenuItem = {
+export type MenuItem = {
     id: number;
     name: string;
     price: number;
@@ -10,7 +10,7 @@ type MenuItem = {
     image: string; // You can use string to represent the image URL or file path
   };
   
-  type Menu = {
+  export type Menu = {
     burritos: MenuItem[];
     sides: MenuItem[];
     drinks: MenuItem[];

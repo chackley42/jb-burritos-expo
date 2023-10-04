@@ -3,48 +3,65 @@ import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'rea
 import { Link, useNavigation,  Stack, useLocalSearchParams} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../utils/storage';
+import { Menu, MenuItem } from '../../utils/storage';
+import { parse } from 'path';
 
 
-const getObjectById = async (id) => {
-    try {
-      const menuDataJSON = await AsyncStorage.getItem('menuData');
-      if (menuDataJSON) {
-        const parsedMenuData = JSON.parse(menuDataJSON);
-        const menuItem = parsedMenuData.logs.find(item => item.id === id);
-        if (menuItem) {
-          console.log('Object found:', menuItem);
-          return menuItem;
-        } else {
-          console.log('Object not found.');
-          return null;
+function convertToNumber(input: string | string[]): number | null {
+    if (typeof input === 'string'){
+        const parsedNumber = parseInt(input);
+        if (isNaN(parsedNumber)){
+            return null;
         }
-      }
-    } catch (error) {
-      console.error('Error fetching menu data from AsyncStorage:', error);
-      return null;
-    }
-  };
 
+        return parsedNumber
+    } else if (Array.isArray(input)){
+        const joinedString = input.join('');
+        const parsedNumber = parseInt(joinedString);
+        if (isNaN(parsedNumber)){
+            return null;
+        }
+        return parsedNumber;
+    }
+}
+
+function findMenuItemById (itemId: number, menu: Menu): MenuItem | undefined {
+    let menuItem = menu.burritos.find(item => item.id === itemId);
+    if (!menuItem){
+        menuItem = menu.sides.find(item => item.id === itemId)
+    }
+    if (!menuItem){
+        menuItem = menu.drinks.find(item => item.id === itemId)
+    }
+
+    return menuItem;
+}
 
 const DetailsPage = () => {
 
-    const [menuData, setMenuData] = useState(null);
+    const [menuData, setMenuData] = useState<MenuItem | null>(null);
     const { id } = useLocalSearchParams();
 
     useEffect(() => {
-        const fetchCurrentMenuItemData = async () => {
-            try {
-                const menuItem = await getObjectById(id);
-                if (menuItem) {
-                    setMenuData([menuItem]); // Wrap the menu item in an array to handle single item rendering
-                }
-            } catch (error) {
-                console.error('Error fetching menu data from AsyncStorage:', error);
+        // Fetch menu data from AsyncStorage
+        const fetchMenuData = async () => {
+          try {
+            const menuDataJSON = await AsyncStorage.getItem('menuData');
+            if (menuDataJSON) {
+              const parsedMenuData: Menu = JSON.parse(menuDataJSON);
+              console.log(parsedMenuData)
+              //find item
+              const itemForDetailPage: MenuItem = findMenuItemById(convertToNumber(id), parsedMenuData)
+              console.log(itemForDetailPage);
+              setMenuData(itemForDetailPage);
             }
+          } catch (error) {
+            console.error('Error fetching menu data from AsyncStorage:', error);
+          }
         };
-        fetchCurrentMenuItemData();
-    }, [id]);
-   
+    
+        fetchMenuData();
+      }, []);
 
     const [quantity, setQuantity] = useState(1);
 
@@ -64,21 +81,24 @@ const DetailsPage = () => {
         navigation.navigate('shoppingCart');
     };
 
+    console.log(menuData)
 
     return (
+        
         <View>
             <Stack.Screen options={{ headerTitle: `Details #${id}` }} />
+            
             <Image
                 source={require('../../assets/breakfastBurrito.jpeg')}
                 style={styles.image}
             />
             <View style={styles.tab}>
-                <Text style={styles.tabText}>{menuData}</Text>
+                <Text style={styles.tabText}>{menuData ? menuData.name : 'Loading...'}</Text>
             </View>
             <View style={styles.infoContainer}>
-                <Text style={styles.infoText}>390 Calories</Text>
-                <Text style={styles.infoText}>The burrito that started it all. Made with fresh tortilla, eggs, beef and cheese.</Text>
-                <Text style={styles.infoText}>$3.50</Text>
+                <Text style={styles.infoText}>Calories: {menuData ? menuData.calories : 'Loading...'}</Text>
+                <Text style={styles.infoText}>{menuData ? menuData.description:'Loading...'}</Text>
+                <Text style={styles.infoText}>${menuData ? menuData.price : 'Loading...'}</Text>
             </View>
             <View style={styles.quantityContainer}>
                 <TouchableOpacity onPress={decreaseQuantity}>
@@ -94,8 +114,6 @@ const DetailsPage = () => {
                     </View>
                 </TouchableOpacity>
             </View>
-
-            <Text>My Details for: {id}</Text>
         </View>
     );
 }
