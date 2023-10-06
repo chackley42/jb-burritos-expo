@@ -24,7 +24,7 @@ export type MenuItem = {
         price: 3.50,
         calories: 390,
         description: 'The burrito that started it all made with fresh tortilla, eggs, beef, and cheese',
-        image: '../assets/breakfastBurrito.jpeg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/breakfastBurrito.jpeg',
       },
       // Add more burrito items here
       {
@@ -33,7 +33,7 @@ export type MenuItem = {
         price: 3.50,
         calories: 320,
         description: 'Made with fresh tortilla, bean and cheese',
-        image: '../assets/beanAndCheeseBurrito.jpeg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/beanAndCheeseBurrito.jpeg',
       },
       {
         id: 3,
@@ -41,7 +41,7 @@ export type MenuItem = {
         price: 3.50,
         calories: 390,
         description: 'Made with fresh tortilla, rice, beans, tomatoes, corn and cheese.',
-        image: '../assets/veggieBurrito.jpeg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/veggieBurrito.jpeg',
       },
       {
         id: 9,
@@ -49,7 +49,7 @@ export type MenuItem = {
         price: 0.00,
         calories: 0,
         description: 'Worth as much as an NFT',
-        image: '../assets/veggieBurrito.jpeg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/nftMan.jpg',
       },
     ],
     sides: [
@@ -59,7 +59,7 @@ export type MenuItem = {
         price: 2.00,
         calories: 250,
         description: 'Made with fresh potatoes, and salt.',
-        image: 'fries.jpg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/fries.jpeg',
       },
       // Add more side items here
       {
@@ -68,7 +68,7 @@ export type MenuItem = {
         price: 2.00,
         calories: 250,
         description: 'Made from fresh pork and fried to desired tast.',
-        image: 'fries.jpg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/bacon.jpeg',
       }
     ],
     drinks: [
@@ -78,7 +78,7 @@ export type MenuItem = {
         price: 2.00,
         calories: 250,
         description: 'From fresh cows.',
-        image: 'milk.jpeg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/milk.jpeg',
       },
       // Add more drink items here
       {
@@ -87,7 +87,7 @@ export type MenuItem = {
         price: 2.00,
         calories: 250,
         description: 'From fresh oranges',
-        image: 'orangeJuice.jpeg',
+        image: 'https://github.com/chackley42/jb-burritos-public-images/blob/main/orangeJuice.jpeg',
       },
     ],
   };

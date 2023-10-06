@@ -2,8 +2,8 @@ import React, { useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Link, useNavigation,  Stack, useLocalSearchParams} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import storeMenuData from '../../utils/storage';
-import { Menu, MenuItem } from '../../utils/storage';
+import storeMenuData from '../../../utils/storage';
+import { Menu, MenuItem } from '../../../utils/storage';
 import { parse } from 'path';
 
 
@@ -81,15 +81,12 @@ const DetailsPage = () => {
         navigation.navigate('shoppingCart');
     };
 
-    console.log(menuData)
 
     return (
         
         <View>
-            <Stack.Screen options={{ headerTitle: `Details #${id}` }} />
-            
             <Image
-                source={require('../../assets/breakfastBurrito.jpeg')}
+                source={menuData ? { uri: menuData.image }: require('../../../assets/noImage.jpg')}
                 style={styles.image}
             />
             <View style={styles.tab}>
