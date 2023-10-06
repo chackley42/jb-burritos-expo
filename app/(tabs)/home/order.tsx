@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../../utils/storage';
 
@@ -50,6 +50,7 @@ const order = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Stack.Screen options={{title: 'Order', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <TouchableOpacity style={styles.tab} onPress={toggleBurritos}>
         <Text style={styles.tabText}>Burritos</Text>
       </TouchableOpacity>

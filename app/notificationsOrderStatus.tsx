@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation  } from 'expo-router';
+import { Link, useNavigation, Stack  } from 'expo-router';
 
 const notificationsOrderStatus = () => {
   const navigation = useNavigation();
@@ -17,7 +17,7 @@ const notificationsOrderStatus = () => {
   // });
   return (
     <ScrollView>
-        
+      <Stack.Screen options={{title: 'Order Status', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <View style={[styles.container2]}>
         <Text>Order# 34253</Text>
         <Text>Placed on 09/13/23 at 3:52pm.</Text>

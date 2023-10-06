@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation  } from 'expo-router';
+import { Link, useNavigation, Stack  } from 'expo-router';
 
 
 const payment = () => {
@@ -22,9 +22,10 @@ const navigation = useNavigation();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        
+      
       <TouchableOpacity onPress={navigateToPaymentMethod}>
         <View style={[styles.subTab]}>
+        <Stack.Screen options={{title: 'Payment', headerStyle: {     backgroundColor: '#F8E435'}}}/>
           <Text>Payment Method</Text>
         </View>
       </TouchableOpacity>

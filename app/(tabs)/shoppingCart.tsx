@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-start',
     marginBottom: 0,
-    borderBottomWidth: 1,   // Add this line for bottom border
-    borderBottomColor: 'black', // Add this line for bottom border color
+    borderBottomWidth: 1,
+    borderBottomColor: 'black', 
   },
   subTabText: {
     fontSize: 18,
@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
   },
   addToOrderButton: {
     backgroundColor: '#515D52',
+    borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

@@ -5,6 +5,9 @@ import { Link } from 'expo-router';
 const Home = () => {
   return (
     <View style={styles.container}>
+      <View>
+        <Text>Food Truck's Current Location</Text>
+      </View>
       <Link href="/home/navigate" style={styles.link}>
         <Text style={styles.linkText}>Navigate</Text>
       </Link>

@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Link, Stack } from 'expo-router';
 
 const navigate = () => {
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{title: 'Navigate', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       
       {}
     </View>

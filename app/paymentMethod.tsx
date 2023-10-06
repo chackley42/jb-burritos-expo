@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation  } from 'expo-router';
+import { Link, useNavigation, Stack  } from 'expo-router';
 import PaymentForm from '../components/PaymentForm'
 
 const paymentMethod = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        
+      <Stack.Screen options={{title: 'Payment Method', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <View style={[styles.container2]}>
         <PaymentForm></PaymentForm>
       </View>

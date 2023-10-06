@@ -86,8 +86,7 @@ const DetailsPage = () => {
     return (
         
         <View>
-            <Stack.Screen options={{ headerTitle: `Details #${id}` }} />
-            
+            <Stack.Screen options={{headerTitle: `Details #${id}`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
             <Image
                 source={require('../../assets/breakfastBurrito.jpeg')}
                 style={styles.image}
