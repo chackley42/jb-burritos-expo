@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
   },
   addToOrderButtonText: {
     color: '#ffffff',

@@ -1,13 +1,11 @@
-//Root Layout
-//Uses Stack
 import React from 'react';
 import { Stack } from 'expo-router';
-
 
 const StackLayout = () => {
     return (
         <Stack>
-            <Stack.Screen name="(tabs)" options={{ 
+            {/* name attribute must match a file within current directory  */}
+            <Stack.Screen name="index" options={{ 
                 headerShown: false,
                 }}/>
         </Stack>
