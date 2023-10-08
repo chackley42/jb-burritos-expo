@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation  } from 'expo-router';
+import { Link, useNavigation } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getMenuData } from '../../../utils/storage';
 
 const shoppingCart = () => {
   const navigation = useNavigation();
-
-  const payment = () => {
-    navigation.navigate('payment');
-  };
   const [quantity, setQuantity] = useState(1);
+  const [selectedMenuItems, setSelectedMenuItems] = useState([]);
+
+  useEffect(() => {
+    const menuData = getMenuData();
+
+    const selectedMenuItemIds = [1, 2, 3];
+
+    const selectedItems = selectedMenuItemIds.map((itemId) =>
+      menuData.burritos.find((item) => item.id === itemId)
+    );
+
+    setSelectedMenuItems(selectedItems);
+  }, []);
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -22,14 +32,19 @@ const shoppingCart = () => {
   };
 
   const addToOrder = () => {
+    
+  };
+
+  const payment = () => {
+    navigation.navigate('payment');
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        
-        <View style={[styles.subTab]}>
-          <Text>Breakfast Burrito - Classic</Text>
-
+      {selectedMenuItems[0] && (
+        <View key={selectedMenuItems[0].id} style={[styles.subTab]}>
+          <Text>{selectedMenuItems[0].name}</Text>
+          <View style={styles.quantityContainer}>
           <View style={styles.quantityContainer}>
         <TouchableOpacity onPress={decreaseQuantity}>
           <Text style={styles.actionButton}>-</Text>
@@ -44,13 +59,17 @@ const shoppingCart = () => {
 
         
           <View style={styles.priceContainer}>
-            <Text style={styles.priceText}>$3.50</Text>
+          <Text style={styles.priceText}>${selectedMenuItems[2].price.toFixed(2)}</Text>
           </View>
       </View>
+          </View>
         </View>
-        <View style={[styles.subTab]}>
-          <Text>Fries</Text>
+      )}
 
+      {selectedMenuItems[1] && (
+        <View key={selectedMenuItems[1].id} style={[styles.subTab]}>
+          <Text>{selectedMenuItems[1].name}</Text>
+          <View style={styles.quantityContainer}>
           <View style={styles.quantityContainer}>
         <TouchableOpacity onPress={decreaseQuantity}>
           <Text style={styles.actionButton}>-</Text>
@@ -65,13 +84,17 @@ const shoppingCart = () => {
 
         
           <View style={styles.priceContainer}>
-            <Text style={styles.priceText}>$2.00</Text>
+          <Text style={styles.priceText}>${selectedMenuItems[2].price.toFixed(2)}</Text>
           </View>
       </View>
+          </View>
         </View>
-        <View style={[styles.subTab]}>
-          <Text>Milk</Text>
+      )}
 
+      {selectedMenuItems[2] && (
+        <View key={selectedMenuItems[2].id} style={[styles.subTab]}>
+          <Text>{selectedMenuItems[2].name}</Text>
+          <View style={styles.quantityContainer}>
           <View style={styles.quantityContainer}>
         <TouchableOpacity onPress={decreaseQuantity}>
           <Text style={styles.actionButton}>-</Text>
@@ -86,16 +109,19 @@ const shoppingCart = () => {
 
         
           <View style={styles.priceContainer}>
-            <Text style={styles.priceText}>$2.00</Text>
+          <Text style={styles.priceText}>${selectedMenuItems[2].price.toFixed(2)}</Text>
           </View>
       </View>
+          </View>
         </View>
-        <View style={[styles.totalTabContainer]}>
-          <Text>Subtotal: $7.50</Text>
-          <Text>Taxes: $0.54</Text>
-          <Text>Total: $8.05</Text>
+      )}
+      <View style={[styles.totalTabContainer]}>
+          <Text>Subtotal: $10.50</Text>
+          <Text>Taxes: $0.76</Text>
+          <Text>Total: $11.26</Text>
         </View>
-        <View style={styles.tab}>
+
+      <View style={styles.tab}>
         <TouchableOpacity onPress={payment}>
           <View style={styles.addToOrderButton}>
             <Text style={styles.addToOrderButtonText}>Proceed To Payment</Text>

@@ -91,6 +91,7 @@ export type MenuItem = {
       },
     ],
   };
+  export const getMenuData = () => menu;
 
   const storeMenuData = async () => {
     try {
