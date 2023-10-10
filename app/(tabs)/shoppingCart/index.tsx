@@ -3,7 +3,6 @@ import { Link, useNavigation } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MenuItem, getMenuData, createMenuItem, OrderItem } from '../../../utils/storage';
 
-
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../home/order';
@@ -133,18 +132,32 @@ const OrderComponent = () => {
       console.error('Error incrementing item quantity:', error);
     }
   };
+  const payment = () => {
+    navigation.navigate('payment');
+  };
 
   const renderItem = ({ item }: { item: OrderItem }) => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.subTab}>
         <Text>{item.name}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Button title="Delete" onPress={() => handleDelete(item.id)} />
-          <Button title="-" onPress={() => handleDecrement(item.id)} />
+        <View style={styles.quantityContainer}>
+        <TouchableOpacity onPress={() => handleDecrement(item.id)}>
+          <Text style={styles.actionButton}>-</Text>
+          </TouchableOpacity>
           <Text>{item.quantity}</Text>
-          <Button title="+" onPress={() => handleIncrement(item.id)} />
+          <TouchableOpacity onPress={() => handleIncrement(item.id)}>
+          <Text style={styles.actionButton}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleDelete(item.id)}>
+           <Icon name="trash" size={24} />
+         </TouchableOpacity>
+         <View style={styles.priceContainer}>
+           <Text style={styles.priceText}>${item.price.toFixed(2)}</Text>
+           </View>
         </View>
       </View>
+      </ScrollView>
     );
   };
 
@@ -155,14 +168,22 @@ const OrderComponent = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
+      <View style={[styles.totalTabContainer]}>
+           <Text>Subtotal: $10.50</Text>
+           <Text>Taxes: $0.76</Text>
+           <Text>Total: $11.26</Text>
+         </View>
+
+       <View style={styles.tab}>
+         <TouchableOpacity onPress={payment}>
+           <View style={styles.addToOrderButton}>
+             <Text style={styles.addToOrderButtonText}>Proceed To Payment</Text>
+           </View>
+         </TouchableOpacity>
+         </View>
     </View>
   );
 };
-
-export default OrderComponent;
-
-
-
 
 // const shoppingCart = () => {
   // const navigation = useNavigation();
@@ -387,4 +408,4 @@ const styles = StyleSheet.create({
   },
 });
 
-//export default shoppingCart;
+export default OrderComponent;
