@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button} from 'react-native';
 import { Link, useNavigation } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { MenuItem, getMenuData, createMenuItem } from '../../../utils/storage';
+import { MenuItem, getMenuData, createMenuItem, OrderItem } from '../../../utils/storage';
 
 
 import React, { useState, useEffect } from 'react';
@@ -10,11 +10,11 @@ import order from '../home/order';
 
 
 
-const getOrderData = async (): Promise<MenuItem[]> => {
+const getOrderData = async (): Promise<OrderItem[]> => {
   try {
     const orderData = await AsyncStorage.getItem('order');
     if (orderData) {
-      const parsedOrderData: MenuItem[] = JSON.parse(orderData);
+      const parsedOrderData: OrderItem[] = JSON.parse(orderData);
       console.log(parsedOrderData)
       return parsedOrderData;
     } else {
@@ -27,7 +27,7 @@ const getOrderData = async (): Promise<MenuItem[]> => {
 };
 
 const OrderComponent = () => {
-  const [orderItems, setOrderItems] = useState<MenuItem[]>([]);
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -47,8 +47,8 @@ const OrderComponent = () => {
       //get current order data
       const orderData = await AsyncStorage.getItem('order');
       if (orderData){
-        // parse to arr of MenuItem instances
-        const orderItems: MenuItem[] = JSON.parse(orderData);
+        // parse to arr of OrderItem instances
+        const orderItems: OrderItem[] = JSON.parse(orderData);
         //find index of item to be deleted, then delete
         const itemIndex = orderItems.findIndex((item) => item.id === itemId);
         if (itemIndex !== -1){
@@ -67,23 +67,81 @@ const OrderComponent = () => {
   };
 
   const handleIncrement = async (itemId: number) => {
-     // Implement Increment logic here
+    try {
+      // Get the current order data from AsyncStorage
+      const orderData = await AsyncStorage.getItem('order');
+      if (orderData) {
+        // Parse the order data into an array of OrderItems
+        const orderItems: OrderItem[] = JSON.parse(orderData);
+  
+        // Find the index of the item to be incremented
+        const itemIndex = orderItems.findIndex((item) => item.id === itemId);
+  
+        if (itemIndex !== -1) {
+          // Create a new OrderItem instance based on the found item
+          const updatedOrderItems: OrderItem[] = [...orderItems];
+          // Increment the quantity property of the item
+          updatedOrderItems[itemIndex] = {
+            ...updatedOrderItems[itemIndex], // Copy existing properties
+            quantity: (updatedOrderItems[itemIndex].quantity || 1) + 1, // Increment the quantity
+          };
+  
+          // Update the order data in AsyncStorage
+          await AsyncStorage.setItem('order', JSON.stringify(updatedOrderItems));
+  
+          // Update the state to trigger a re-render and reflect the changes
+          setOrderItems(updatedOrderItems);
+        }
+      }
+    } catch (error) {
+      console.error('Error incrementing item quantity:', error);
+    }
   };
   
   
+  
 
-  const handleDecrement = (itemId: number) => {
-    // Implement decrement logic here
+  const handleDecrement = async (itemId: number) => {
+    try {
+      // Get the current order data from AsyncStorage
+      const orderData = await AsyncStorage.getItem('order');
+      if (orderData) {
+        // Parse the order data into an array of OrderItems
+        const orderItems: OrderItem[] = JSON.parse(orderData);
+  
+        // Find the index of the item to be incremented
+        const itemIndex = orderItems.findIndex((item) => item.id === itemId);
+  
+        if (itemIndex !== -1) {
+          // Create a new OrderItem instance based on the found item
+          const updatedOrderItems: OrderItem[] = [...orderItems];
+          // Decrement the quantity property of the item
+          if (updatedOrderItems[itemIndex].quantity > 1)
+          updatedOrderItems[itemIndex] = {
+            ...updatedOrderItems[itemIndex], // Copy existing properties
+            quantity: (updatedOrderItems[itemIndex].quantity || 1) - 1, // Decrement the quantity
+          };
+  
+          // Update the order data in AsyncStorage
+          await AsyncStorage.setItem('order', JSON.stringify(updatedOrderItems));
+  
+          // Update the state to trigger a re-render and reflect the changes
+          setOrderItems(updatedOrderItems);
+        }
+      }
+    } catch (error) {
+      console.error('Error incrementing item quantity:', error);
+    }
   };
 
-  const renderItem = ({ item }: { item: MenuItem }) => {
+  const renderItem = ({ item }: { item: OrderItem }) => {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
         <Text>{item.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button title="Delete" onPress={() => handleDelete(item.id)} />
           <Button title="-" onPress={() => handleDecrement(item.id)} />
-          <Text>{/* Quantity goes here */}</Text>
+          <Text>{item.quantity}</Text>
           <Button title="+" onPress={() => handleIncrement(item.id)} />
         </View>
       </View>

@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'rea
 import { Link, useNavigation,  Stack, useLocalSearchParams} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../utils/storage';
-import { Menu, MenuItem } from '../../utils/storage';
+import { Menu, MenuItem, OrderItem } from '../../utils/storage';
 import { parse } from 'path';
 
 
@@ -63,16 +63,16 @@ const DetailsPage = () => {
         fetchMenuData();
       }, []);
 
-    const [quantity, setQuantity] = useState(1);
+    const [itemQuantity, setQuantity] = useState(1);
 
     const decreaseQuantity = () => {
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
+        if (itemQuantity > 1) {
+            setQuantity(itemQuantity - 1);
         }
     };
 
     const increaseQuantity = () => {
-        setQuantity(quantity + 1);
+        setQuantity(itemQuantity + 1);
     };
 
     const navigation = useNavigation();
@@ -85,18 +85,16 @@ const DetailsPage = () => {
       try {
         // get order array, any other orders should appear here.
         const existingOrder = await AsyncStorage.getItem('order');
-        let order: MenuItem[] = [];
+        let order: OrderItem[] = [];
         if (existingOrder) {
           order = JSON.parse(existingOrder);
         }
         if (menuData) {
-          const itemToAdd: MenuItem = {
+          const itemToAdd: OrderItem = {
             id: menuData.id,
             name: menuData.name,
-            calories: menuData.calories,
-            description: menuData.description,
             price: menuData.price,
-            image: menuData.image,
+            quantity: itemQuantity
           };
           order.push(itemToAdd);
           await AsyncStorage.setItem('order', JSON.stringify(order));
@@ -133,7 +131,7 @@ const DetailsPage = () => {
                 <TouchableOpacity onPress={decreaseQuantity}>
                     <Text style={styles.actionButton}>-</Text>
                 </TouchableOpacity>
-                <Text style={styles.quantity}>{quantity}</Text>
+                <Text style={styles.quantity}>{itemQuantity}</Text>
                 <TouchableOpacity onPress={increaseQuantity}>
                     <Text style={styles.actionButton}>+</Text>
                 </TouchableOpacity>
