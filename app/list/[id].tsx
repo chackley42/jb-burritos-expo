@@ -77,9 +77,39 @@ const DetailsPage = () => {
 
     const navigation = useNavigation();
 
-    const addToOrder = () => {
-        navigation.navigate('shoppingCart');
+    // const addToOrder = () => {
+    //     navigation.navigate('shoppingCart');
+    // };
+
+    const addToOrder = async () => {
+      try {
+        // get order array, any other orders should appear here.
+        const existingOrder = await AsyncStorage.getItem('order');
+        let order: MenuItem[] = [];
+        if (existingOrder) {
+          order = JSON.parse(existingOrder);
+        }
+        if (menuData) {
+          const itemToAdd: MenuItem = {
+            id: menuData.id,
+            name: menuData.name,
+            calories: menuData.calories,
+            description: menuData.description,
+            price: menuData.price,
+            image: menuData.image,
+          };
+          order.push(itemToAdd);
+          await AsyncStorage.setItem('order', JSON.stringify(order));
+          navigation.navigate('shoppingCart');
+          console.log("====================================================" + order)
+          console.log(existingOrder)
+        }
+      } catch (error) {
+        console.error('Error adding item to order:', error);
+      }
     };
+    
+ 
 
     console.log(menuData)
 

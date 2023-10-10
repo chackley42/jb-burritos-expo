@@ -1,5 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import order from '../app/(tabs)/home/order';
 
+
+export type OrderItem = {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+  };
 
 export type MenuItem = {
     id: number;
@@ -9,6 +17,17 @@ export type MenuItem = {
     description: string;
     image: string; // You can use string to represent the image URL or file path
   };
+
+export function createMenuItem(id: number, name: string, price: number, calories: number, description: string, image: string): MenuItem {
+    return {
+      id,
+      name,
+      price,
+      calories,
+      description,
+      image,
+    };
+  }
   
   export type Menu = {
     burritos: MenuItem[];
@@ -102,6 +121,19 @@ export type MenuItem = {
       console.error('Error storing menu data in AsyncStorage:', error);
     }
   };
+
+  export const getOrderData = async (): Promise<MenuItem[]> => {
+    try {
+        const orderData = await AsyncStorage.getItem('order');
+        if (orderData) {
+            const parsedOrderData: MenuItem[] = JSON.parse(orderData);
+            console.log("***************************** "+ parsedOrderData)
+            return parsedOrderData
+        }
+    } catch (error) {
+      console.log(`Error retreiving Order data from AsyncStorage:`, error)
+    }
+  } 
 
 
 export default storeMenuData
