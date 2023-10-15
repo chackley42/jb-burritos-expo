@@ -137,6 +137,15 @@ const OrderComponent = () => {
   };
 
   const renderItem = ({ item }: { item: OrderItem }) => {
+
+    if (!item) {
+      return (
+        <View style={styles.noItemsContainer}>
+          <Text>No items</Text>
+        </View>
+      );
+    }
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.subTab}>
@@ -153,7 +162,7 @@ const OrderComponent = () => {
            <Icon name="trash" size={24} />
          </TouchableOpacity>
          <View style={styles.priceContainer}>
-           <Text style={styles.priceText}>${item.price.toFixed(2)}</Text>
+           <Text style={styles.priceText}> {item.price !== undefined ? `$${item.price.toFixed(2)}` : 'Price not available'}</Text>
            </View>
         </View>
       </View>
@@ -166,7 +175,7 @@ const OrderComponent = () => {
       <FlatList
         data={orderItems}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?.id?.toString() || null}
       />
       <View style={[styles.totalTabContainer]}>
            <Text>Subtotal: $10.50</Text>
@@ -405,6 +414,12 @@ const styles = StyleSheet.create({
   addToOrderButtonText: {
     color: '#ffffff',
     fontSize: 16,
+  },
+  noItemsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', // You can set the background color here
   },
 });
 
