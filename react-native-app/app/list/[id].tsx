@@ -45,23 +45,34 @@ const DetailsPage = () => {
     useEffect(() => {
         // Fetch menu data from AsyncStorage
         const fetchMenuData = async () => {
+          // try {
+          //   const menuDataJSON = await AsyncStorage.getItem('menuData');
+          //   if (menuDataJSON) {
+          //     const parsedMenuData: Menu = JSON.parse(menuDataJSON);
+          //     console.log(parsedMenuData)
+          //     //find item
+          //     const itemForDetailPage: MenuItem = findMenuItemById(convertToNumber(id), parsedMenuData)
+          //     console.log(itemForDetailPage);
+          //     setMenuData(itemForDetailPage);
+          //   }
+          // } catch (error) {
+          //   console.error('Error fetching menu data from AsyncStorage:', error);
+          // }
           try {
-            const menuDataJSON = await AsyncStorage.getItem('menuData');
-            if (menuDataJSON) {
-              const parsedMenuData: Menu = JSON.parse(menuDataJSON);
-              console.log(parsedMenuData)
-              //find item
-              const itemForDetailPage: MenuItem = findMenuItemById(convertToNumber(id), parsedMenuData)
-              console.log(itemForDetailPage);
-              setMenuData(itemForDetailPage);
+            const response = await fetch(`http://localhost:5000/api/menu/${id}`);
+            if (response.ok) {
+              const data = await response.json();
+              setMenuData(data);
+            } else {
+              console.error('Error fetching menu item details:', response.status);
             }
           } catch (error) {
-            console.error('Error fetching menu data from AsyncStorage:', error);
+            console.error('Error fetching menu item details:', error);
           }
         };
     
         fetchMenuData();
-      }, []);
+      }, [id]);
 
     const [itemQuantity, setQuantity] = useState(1);
 

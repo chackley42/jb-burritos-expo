@@ -17,20 +17,39 @@ const order = () => {
   const [isBurritosOpen, setBurritosOpen] = useState(true);
   const [isSidesOpen, setSidesOpen] = useState(true);
   const [isBeveragesOpen, setBeveragesOpen] = useState(true);
-  const [menuData, setMenuData] = useState(null);
+  const [menuData, setMenuData] = useState({ burritos: [], sides: [], drinks: [] });
 
   useEffect(() => {
     // Fetch menu data from AsyncStorage
     const fetchMenuData = async () => {
+      // try {
+      //   const menuDataJSON = await AsyncStorage.getItem('menuData');
+      //   if (menuDataJSON) {
+      //     const parsedMenuData = JSON.parse(menuDataJSON);
+      //     setMenuData(parsedMenuData);
+      //   }
+      // } catch (error) {
+      //   console.error('Error fetching menu data from AsyncStorage:', error);
+      // }
       try {
-        const menuDataJSON = await AsyncStorage.getItem('menuData');
-        if (menuDataJSON) {
-          const parsedMenuData = JSON.parse(menuDataJSON);
-          setMenuData(parsedMenuData);
-        }
+        // Fetch burritos data from the API
+        const burritosResponse = await fetch('http://localhost:5000/api/burritos');
+        const burritosData = await burritosResponse.json();
+        
+        // Fetch sides data from the API
+        const sidesResponse = await fetch('http://localhost:5000/api/sides');
+        const sidesData = await sidesResponse.json();
+
+        // Fetch beverages data from the API
+        const beveragesResponse = await fetch('http://localhost:5000/api/drinks');
+        const beveragesData = await beveragesResponse.json();
+
+        // Set the menu data state
+        setMenuData({ burritos: burritosData, sides: sidesData, drinks: beveragesData });
       } catch (error) {
-        console.error('Error fetching menu data from AsyncStorage:', error);
+        console.error('Error fetching menu data:', error);
       }
+
     };
 
     fetchMenuData();
