@@ -40,7 +40,12 @@ function findMenuItemById (itemId: number, menu: Menu): MenuItem | undefined {
 const DetailsPage = () => {
 
     const [menuData, setMenuData] = useState<MenuItem | null>(null);
-    const { id } = useLocalSearchParams();
+    //const { id } = useLocalSearchParams();
+    const {collection, id } = useLocalSearchParams();
+    const idString = id;
+    const isCollection = collection;
+    console.log(collection)
+    console.log(idString)
 
     useEffect(() => {
         // Fetch menu data from AsyncStorage
@@ -59,7 +64,7 @@ const DetailsPage = () => {
           //   console.error('Error fetching menu data from AsyncStorage:', error);
           // }
           try {
-            const response = await fetch(`http://localhost:5000/api/menu/${id}`);
+            const response = await fetch(`http://172.20.10.3:8080/api/${collection}/${id}`);
             if (response.ok) {
               const data = await response.json();
               setMenuData(data);
@@ -72,7 +77,7 @@ const DetailsPage = () => {
         };
     
         fetchMenuData();
-      }, [id]);
+      }, [id, collection]);
 
     const [itemQuantity, setQuantity] = useState(1);
 

@@ -33,15 +33,15 @@ const order = () => {
       // }
       try {
         // Fetch burritos data from the API
-        const burritosResponse = await fetch('http://localhost:5000/api/burritos');
+        const burritosResponse = await fetch('http://172.20.10.3:8080/api/burritos');
         const burritosData = await burritosResponse.json();
         
         // Fetch sides data from the API
-        const sidesResponse = await fetch('http://localhost:5000/api/sides');
+        const sidesResponse = await fetch('http://172.20.10.3:8080/api/sides');
         const sidesData = await sidesResponse.json();
 
         // Fetch beverages data from the API
-        const beveragesResponse = await fetch('http://localhost:5000/api/drinks');
+        const beveragesResponse = await fetch('http://172.20.10.3:8080/api/drinks');
         const beveragesData = await beveragesResponse.json();
 
         // Set the menu data state

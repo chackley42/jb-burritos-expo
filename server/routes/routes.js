@@ -15,11 +15,8 @@ async function getMenuItemById(collectionName, id) {
     const database = client.db('jb-burritos');
     const collection = database.collection(collectionName);
 
-    // Convert the id parameter to Decimal128 type
-    const decimalId = Decimal128.fromString(id);
-
-    // Search by Decimal128 type id
-    const menuItem = await collection.findOne({ id: decimalId });
+    // Search by string type id
+    const menuItem = await collection.findOne({ id: id });
     return menuItem;
   } finally {
     client.close();
