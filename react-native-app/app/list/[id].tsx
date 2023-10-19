@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../utils/storage';
 import { Menu, MenuItem, OrderItem } from '../../utils/storage';
 import { parse } from 'path';
+import iosLocalHost from '../../utils/testingConsts';
 
 
 function convertToNumber(input: string | string[]): number | null {
@@ -44,40 +45,31 @@ const DetailsPage = () => {
     const {collection, id } = useLocalSearchParams();
     const idString = id;
     const isCollection = collection;
+    const collections = ['burritos', 'sides', 'drinks'];
     console.log(collection)
     console.log(idString)
 
     useEffect(() => {
-        // Fetch menu data from AsyncStorage
-        const fetchMenuData = async () => {
-          // try {
-          //   const menuDataJSON = await AsyncStorage.getItem('menuData');
-          //   if (menuDataJSON) {
-          //     const parsedMenuData: Menu = JSON.parse(menuDataJSON);
-          //     console.log(parsedMenuData)
-          //     //find item
-          //     const itemForDetailPage: MenuItem = findMenuItemById(convertToNumber(id), parsedMenuData)
-          //     console.log(itemForDetailPage);
-          //     setMenuData(itemForDetailPage);
-          //   }
-          // } catch (error) {
-          //   console.error('Error fetching menu data from AsyncStorage:', error);
-          // }
-          try {
-            const response = await fetch(`http://172.20.10.3:8080/api/${collection}/${id}`);
+      const fetchMenuData = async () => {
+        try {
+          for (const collectionItemItem of collections) {
+            const response = await fetch(`${iosLocalHost}:8080/api/getOne/${collectionItemItem}/${id}`);
             if (response.ok) {
               const data = await response.json();
+              console.log("+++++++++++++++++++++++++++++" + JSON.stringify(data))
               setMenuData(data);
-            } else {
-              console.error('Error fetching menu item details:', response.status);
+              return; // Exit the loop if a valid response is found
             }
-          } catch (error) {
-            console.error('Error fetching menu item details:', error);
           }
-        };
-    
-        fetchMenuData();
-      }, [id, collection]);
+          // Handle the case when no valid response is found for any collection
+          console.error('Menu item not found for ID:', id);
+        } catch (error) {
+          console.error('Error fetching menu item details:', error);
+        }
+      };
+  
+      fetchMenuData();
+    }, [id, collection]);
 
     const [itemQuantity, setQuantity] = useState(1);
 

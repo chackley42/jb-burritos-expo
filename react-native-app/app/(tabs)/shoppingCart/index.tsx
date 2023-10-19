@@ -162,7 +162,7 @@ const OrderComponent = () => {
            <Icon name="trash" size={24} />
          </TouchableOpacity>
          <View style={styles.priceContainer}>
-           <Text style={styles.priceText}> {item.price !== undefined ? `$${item.price.toFixed(2)}` : 'Price not available'}</Text>
+           <Text style={styles.priceText}> {item.price !== undefined ? `$${item.price}` : 'Price not available'}</Text>
            </View>
         </View>
       </View>
