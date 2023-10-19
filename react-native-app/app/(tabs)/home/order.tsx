@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { Link, Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../../utils/storage';
+import iosLocalHost from '../../../utils/testingConsts';
 
-storeMenuData()
+//storeMenuData()
 
 const order = () => {
   // const navigation = useNavigation();
@@ -33,15 +34,15 @@ const order = () => {
       // }
       try {
         // Fetch burritos data from the API
-        const burritosResponse = await fetch('http://172.20.10.3:8080/api/burritos');
+        const burritosResponse = await fetch(`${iosLocalHost}:8080/api/burritos`);
         const burritosData = await burritosResponse.json();
         
         // Fetch sides data from the API
-        const sidesResponse = await fetch('http://172.20.10.3:8080/api/sides');
+        const sidesResponse = await fetch(`${iosLocalHost}:8080/api/sides`);
         const sidesData = await sidesResponse.json();
 
         // Fetch beverages data from the API
-        const beveragesResponse = await fetch('http://172.20.10.3:8080/api/drinks');
+        const beveragesResponse = await fetch(`${iosLocalHost}:8080/api/drinks`);
         const beveragesData = await beveragesResponse.json();
 
         // Set the menu data state
