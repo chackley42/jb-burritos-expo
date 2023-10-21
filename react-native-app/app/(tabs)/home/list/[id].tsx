@@ -2,10 +2,10 @@ import React, { useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Link, useNavigation,  Stack, useLocalSearchParams} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import storeMenuData from '../../utils/storage';
-import { Menu, MenuItem, OrderItem } from '../../utils/storage';
+import storeMenuData from '../../../../utils/storage';
+import { Menu, MenuItem, OrderItem } from '../../../../utils/storage';
 import { parse } from 'path';
-import iosLocalHost from '../../utils/testingConsts';
+import iosLocalHost from '../../../../utils/testingConsts';
 
 
 function convertToNumber(input: string | string[]): number | null {
@@ -124,7 +124,7 @@ const DetailsPage = () => {
         <View>
             <Stack.Screen options={{headerTitle: `Details #${id}`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
             <Image
-                source={require('../../assets/breakfastBurrito.jpeg')}
+                source={require('../../../../assets/breakfastBurrito.jpeg')}
                 style={styles.image}
             />
             <View style={styles.tab}>

@@ -76,7 +76,7 @@ const order = () => {
       </TouchableOpacity>
       {isBurritosOpen && menuData && menuData.burritos.map((item) => (
         <View key={item.id} style={[styles.subTab]}>
-          <Link style={[styles.link]} href={`/list/${item.id}`}>
+          <Link style={[styles.link]} href={`home/list/${item.id}`}>
             <Text>{item.name}</Text>
           </Link>
         </View>
@@ -86,7 +86,7 @@ const order = () => {
       </TouchableOpacity>
       {isSidesOpen && menuData && menuData.sides.map((item) => (
         <View key={item.id} style={[styles.subTab]}>
-          <Link style={[styles.link]} href={`/list/${item.id}`}>
+          <Link style={[styles.link]} href={`home/list/${item.id}`}>
             <Text>{item.name}</Text>
           </Link>
         </View>
@@ -96,7 +96,7 @@ const order = () => {
       </TouchableOpacity>
       {isBeveragesOpen && menuData && menuData.drinks.map((item) => (
         <View key={item.id} style={[styles.subTab]}>
-          <Link style={[styles.link]} href={`/list/${item.id}`}>
+          <Link style={[styles.link]} href={`home/list/${item.id}`}>
             <Text>{item.name}</Text>
           </Link>
         </View>
