@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button} from 'react-native';
-import { Link, useNavigation } from 'expo-router';
+import { Link, useNavigation, useFocusEffect } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MenuItem, getMenuData, createMenuItem, OrderItem } from '../../../utils/storage';
 
@@ -28,19 +28,20 @@ const getOrderData = async (): Promise<OrderItem[]> => {
 const OrderComponent = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const data = await getOrderData();
-        setOrderItems(data);
-      } catch (error) {
-        console.error('Error fetching order data:', error);
-      }
-    };
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchOrderData = async () => {
+        try {
+          const data = await getOrderData();
+          setOrderItems(data);
+        } catch (error) {
+          console.error('Error fetching order data:', error);
+        }
+      };
 
-    fetchOrderData();
-  }, []); // Empty dependency array ensures the effect runs once after the initial render
-
+      fetchOrderData();
+    }, [])
+  );
   const handleDelete = async (itemId: number) => {
     try {
       //get current order data

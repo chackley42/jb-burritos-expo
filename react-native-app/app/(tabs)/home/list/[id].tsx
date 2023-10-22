@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import { Link, useNavigation,  Stack, useLocalSearchParams} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../../../utils/storage';
@@ -121,7 +121,7 @@ const DetailsPage = () => {
 
     return (
         
-        <View>
+      <ScrollView contentContainerStyle={styles.container}>
             <Stack.Screen options={{headerTitle: `Details #${id}`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
             <Image
                 source={require('../../../../assets/breakfastBurrito.jpeg')}
@@ -149,7 +149,7 @@ const DetailsPage = () => {
                     </View>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'flex-start',
+      justifyContent: 'space-between',
       paddingTop: 0,
       backgroundColor: '#FFFCE5',
     },
