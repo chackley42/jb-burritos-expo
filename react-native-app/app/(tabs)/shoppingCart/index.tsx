@@ -42,6 +42,17 @@ const OrderComponent = () => {
       fetchOrderData();
     }, [])
   );
+
+  const calculateSubtotal = (): number => {
+    return orderItems.reduce((total, item) => {
+      // Ensure item has a valid price before adding to the total
+      if (item && item.price) {
+        total += item.price * (item.quantity || 1);
+      }
+      return total;
+    }, 0);
+  };
+  
   const handleDelete = async (itemId: number) => {
     try {
       //get current order data
@@ -133,6 +144,8 @@ const OrderComponent = () => {
       console.error('Error incrementing item quantity:', error);
     }
   };
+  const navigation = useNavigation();
+ 
   const payment = () => {
     navigation.navigate('payment');
   };
@@ -163,7 +176,7 @@ const OrderComponent = () => {
            <Icon name="trash" size={24} />
          </TouchableOpacity>
          <View style={styles.priceContainer}>
-           <Text style={styles.priceText}> {item.price !== undefined ? `$${item.price}` : 'Price not available'}</Text>
+           <Text style={styles.priceText}> {item.price !== undefined ? `$${item.price * item.quantity}` : 'Price not available'}</Text>
            </View>
         </View>
       </View>
@@ -178,11 +191,12 @@ const OrderComponent = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item?.id?.toString() || null}
       />
-      <View style={[styles.totalTabContainer]}>
-           <Text>Subtotal: $10.50</Text>
-           <Text>Taxes: $0.76</Text>
-           <Text>Total: $11.26</Text>
-         </View>
+      <View style={styles.totalTabContainer}>
+        <Text>Subtotal: ${calculateSubtotal().toFixed(2)}</Text>
+        {/* Include tax calculation logic here if needed */}
+        {/* <Text>Taxes: $0.76</Text> */}
+        <Text>Total: ${calculateSubtotal().toFixed(2)}</Text>
+      </View>
 
        <View style={styles.tab}>
          <TouchableOpacity onPress={payment}>
