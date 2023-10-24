@@ -8,7 +8,7 @@ const Home = () => {
     <View style={styles.container}>
       <View>
         <Text>Food Truck's Current Location</Text>
-        <TruckMapView></TruckMapView>
+        {/* <TruckMapView></TruckMapView> */}
         <Link href="/home/navigate" style={styles.link}>
         <Text style={styles.linkText}>Navigate</Text>
       </Link>

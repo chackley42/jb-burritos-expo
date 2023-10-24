@@ -40,7 +40,7 @@ const PaymentModal = () => {
               <Text style={styles.closeButtonText}>X</Text>
             </Pressable>
             <Text style={styles.modalText}>Enter Payment Details</Text>
-            <TextInput
+            <TextInput 
               style={styles.input}
               placeholder="Card Number"
               keyboardType="numeric"
@@ -72,8 +72,8 @@ const PaymentModal = () => {
           </View>
         </View>
       </Modal>
-      <Pressable style={[styles.button, styles.buttonOpen]} onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Show Modal</Text>
+      <Pressable onPress={() => setModalVisible(true)}>
+        <Text>Show Modal</Text>
       </Pressable>
     </View>
   );
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    margin: 40,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: 40,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -106,9 +106,9 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
+  // buttonOpen: {
+  //   backgroundColor: '#F194FF',
+  // },
   buttonClose: {
     backgroundColor: '#2196F3',
   },
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 20,
     paddingLeft: 10,
+    text: 'black'
   },
   closeButton: {
     position: 'absolute',

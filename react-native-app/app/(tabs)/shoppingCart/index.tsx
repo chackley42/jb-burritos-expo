@@ -200,7 +200,9 @@ const OrderComponent = () => {
         {/* <View style={styles.addToOrderButton}>
              <Text style={styles.addToOrderButtonText}>Payment Details</Text>
            </View> */}
-           <PaymentModal></PaymentModal>
+           <View style={styles.paymentModalButton}>
+           <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
+           </View>
       </View>
 
        <View style={styles.tab}>
@@ -290,6 +292,13 @@ const styles = StyleSheet.create({
   addToOrderButtonText: {
     color: '#ffffff',
     fontSize: 16,
+  },
+  paymentModalButton:{
+    backgroundColor: '#515D52',
+    // borderRadius: 10,
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+    height: 40,
   },
   noItemsContainer: {
     flex: 1,
