@@ -6,6 +6,7 @@ import { MenuItem, getMenuData, createMenuItem, OrderItem } from '../../../utils
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../home/order';
+import PaymentModal from '../../../components/PaymentModal';
 
 
 
@@ -194,14 +195,18 @@ const OrderComponent = () => {
       <View style={styles.totalTabContainer}>
         <Text>Subtotal: ${calculateSubtotal().toFixed(2)}</Text>
         {/* Include tax calculation logic here if needed */}
-        {/* <Text>Taxes: $0.76</Text> */}
-        <Text>Total: ${calculateSubtotal().toFixed(2)}</Text>
+        <Text>Taxes: ${(calculateSubtotal() * 0.0725).toFixed(2)}</Text>
+        <Text>Total: ${(calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2)}</Text>
+        {/* <View style={styles.addToOrderButton}>
+             <Text style={styles.addToOrderButtonText}>Payment Details</Text>
+           </View> */}
+           <PaymentModal></PaymentModal>
       </View>
 
        <View style={styles.tab}>
          <TouchableOpacity onPress={payment}>
            <View style={styles.addToOrderButton}>
-             <Text style={styles.addToOrderButtonText}>Proceed To Payment</Text>
+             <Text style={styles.addToOrderButtonText}>Place Order</Text>
            </View>
          </TouchableOpacity>
          </View>
@@ -209,150 +214,6 @@ const OrderComponent = () => {
   );
 };
 
-// const shoppingCart = () => {
-  // const navigation = useNavigation();
-  // const [quantity, setQuantity] = useState(1);
-  // const [selectedMenuItems, setSelectedMenuItems] = useState([]);
-
-  // const [order, setOrder] = useState<MenuItem[]>([]);
-
-  // useEffect(() => {
-  //   //Get Order data
-  //   const orderList = getOrderData();
-  //   setOrder(orderList)
-    
-  // }, []); // empty array esnures it runs once after render
-
-  // useEffect(() => {
-  //   const menuData = getMenuData();
-  //   const orderData =  getOrderData()
-  //   // order array here
-  //   const selectedMenuItemIds = [1, 2, 3];
-   
-
-  //   const selectedItems = selectedMenuItemIds.map((itemId) =>
-  //     menuData.burritos.find((item) => item.id === itemId)
-  //   );
-
-  //   setSelectedMenuItems(selectedItems);
-  // }, []);
-
-  // const decreaseQuantity = () => {
-  //   if (quantity > 1) {
-  //     setQuantity(quantity - 1);
-  //   }
-  // };
-
-  // const increaseQuantity = () => {
-  //   setQuantity(quantity + 1);
-  // };
-
-  // const addToOrder = () => {
-    
-  // };
-
-  // const payment = () => {
-  //   navigation.navigate('payment');
-  // };
-
-  // return (
-
-  // )
-  
-  
-  
-  // (
-//     <ScrollView contentContainerStyle={styles.container}>
-//       {selectedMenuItems[0] && (
-//         <View key={selectedMenuItems[0].id} style={[styles.subTab]}>
-//           <Text>{selectedMenuItems[0].name}</Text>
-//           <View style={styles.quantityContainer}>
-//           <View style={styles.quantityContainer}>
-//         <TouchableOpacity onPress={decreaseQuantity}>
-//           <Text style={styles.actionButton}>-</Text>
-//         </TouchableOpacity>
-//         <Text style={styles.quantity}>{quantity}</Text>
-//         <TouchableOpacity onPress={increaseQuantity}>
-//           <Text style={styles.actionButton}>+</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Icon name="trash" size={24} />
-//         </TouchableOpacity>
-
-        
-//           <View style={styles.priceContainer}>
-//           <Text style={styles.priceText}>${selectedMenuItems[2].price.toFixed(2)}</Text>
-//           </View>
-//       </View>
-//           </View>
-//         </View>
-//       )}
-
-//       {selectedMenuItems[1] && (
-//         <View key={selectedMenuItems[1].id} style={[styles.subTab]}>
-//           <Text>{selectedMenuItems[1].name}</Text>
-//           <View style={styles.quantityContainer}>
-//           <View style={styles.quantityContainer}>
-//         <TouchableOpacity onPress={decreaseQuantity}>
-//           <Text style={styles.actionButton}>-</Text>
-//         </TouchableOpacity>
-//         <Text style={styles.quantity}>{quantity}</Text>
-//         <TouchableOpacity onPress={increaseQuantity}>
-//           <Text style={styles.actionButton}>+</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Icon name="trash" size={24} />
-//         </TouchableOpacity>
-
-        
-//           <View style={styles.priceContainer}>
-//           <Text style={styles.priceText}>${selectedMenuItems[2].price.toFixed(2)}</Text>
-//           </View>
-//       </View>
-//           </View>
-//         </View>
-//       )}
-
-//       {selectedMenuItems[2] && (
-//         <View key={selectedMenuItems[2].id} style={[styles.subTab]}>
-//           <Text>{selectedMenuItems[2].name}</Text>
-//           <View style={styles.quantityContainer}>
-//           <View style={styles.quantityContainer}>
-//         <TouchableOpacity onPress={decreaseQuantity}>
-//           <Text style={styles.actionButton}>-</Text>
-//         </TouchableOpacity>
-//         <Text style={styles.quantity}>{quantity}</Text>
-//         <TouchableOpacity onPress={increaseQuantity}>
-//           <Text style={styles.actionButton}>+</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity>
-//           <Icon name="trash" size={24} />
-//         </TouchableOpacity>
-
-        
-//           <View style={styles.priceContainer}>
-//           <Text style={styles.priceText}>${selectedMenuItems[2].price.toFixed(2)}</Text>
-//           </View>
-//       </View>
-//           </View>
-//         </View>
-//       )}
-//       <View style={[styles.totalTabContainer]}>
-//           <Text>Subtotal: $10.50</Text>
-//           <Text>Taxes: $0.76</Text>
-//           <Text>Total: $11.26</Text>
-//         </View>
-
-//       <View style={styles.tab}>
-//         <TouchableOpacity onPress={payment}>
-//           <View style={styles.addToOrderButton}>
-//             <Text style={styles.addToOrderButtonText}>Proceed To Payment</Text>
-//           </View>
-//         </TouchableOpacity>
-//       </View>
-//     </ScrollView>
-//   );
- //};
 
 const styles = StyleSheet.create({
   container: {
