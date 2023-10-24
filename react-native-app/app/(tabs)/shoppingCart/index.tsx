@@ -147,8 +147,8 @@ const OrderComponent = () => {
   };
   const navigation = useNavigation();
  
-  const payment = () => {
-    navigation.navigate('payment');
+  const notifications = () => {
+    navigation.navigate('notifications');
   };
 
   const renderItem = ({ item }: { item: OrderItem }) => {
@@ -206,7 +206,7 @@ const OrderComponent = () => {
       </View>
 
        <View style={styles.tab}>
-         <TouchableOpacity onPress={payment}>
+         <TouchableOpacity onPress={notifications}>
            <View style={styles.addToOrderButton}>
              <Text style={styles.addToOrderButtonText}>Place Order</Text>
            </View>
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   paymentModalButton:{
-    backgroundColor: '#515D52',
+    //backgroundColor: '#515D52',
     // borderRadius: 10,
     // paddingVertical: 10,
     // paddingHorizontal: 20,

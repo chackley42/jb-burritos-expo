@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TextInput, Pressable, View, Button } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, TextInput, Pressable, View, Button, TouchableOpacity } from 'react-native';
 
 const PaymentModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,9 +40,10 @@ const PaymentModal = () => {
               <Text style={styles.closeButtonText}>X</Text>
             </Pressable>
             <Text style={styles.modalText}>Enter Payment Details</Text>
-            <TextInput 
+            <TextInput
               style={styles.input}
               placeholder="Card Number"
+              placeholderTextColor="black"
               keyboardType="numeric"
               value={cardNumber}
               onChangeText={(text) => setCardNumber(text)}
@@ -50,6 +51,7 @@ const PaymentModal = () => {
             <TextInput
               style={styles.input}
               placeholder="Expiry Date (MM/YY)"
+              placeholderTextColor="black"
               keyboardType="numeric"
               value={expiryDate}
               onChangeText={(text) => setExpiryDate(text)}
@@ -57,6 +59,7 @@ const PaymentModal = () => {
             <TextInput
               style={styles.input}
               placeholder="CVV"
+              placeholderTextColor="black"
               keyboardType="numeric"
               value={cvv}
               onChangeText={(text) => setCVV(text)}
@@ -64,6 +67,7 @@ const PaymentModal = () => {
             <TextInput
               style={styles.input}
               placeholder="Phone Number"
+              placeholderTextColor="black"
               keyboardType="phone-pad"
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
@@ -72,9 +76,13 @@ const PaymentModal = () => {
           </View>
         </View>
       </Modal>
-      <Pressable onPress={() => setModalVisible(true)}>
-        <Text>Show Modal</Text>
-      </Pressable>
+      <View>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+      <View style={styles.addToOrderButton}>
+        <Text style={styles.addToOrderButtonText}>Enter Payment Details</Text>
+        </View>
+      </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -87,10 +95,10 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 40,
+    margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 40,
+    padding: 95,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -112,6 +120,16 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: '#2196F3',
   },
+  addToOrderButton: {
+    backgroundColor: '#515D52',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  addToOrderButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
@@ -124,11 +142,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    width: 200,
+    borderColor: 'black',
     borderWidth: 1,
     marginBottom: 20,
     paddingLeft: 10,
-    text: 'black'
+    color: "black",
   },
   closeButton: {
     position: 'absolute',
