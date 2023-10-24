@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native'; // Import StyleSheet
 import { Link } from 'expo-router';
+import TruckMapView from '../../../components/TruckMapView';
 
 const Home = () => {
   return (
     <View style={styles.container}>
       <View>
         <Text>Food Truck's Current Location</Text>
-      </View>
-      <Link href="/home/navigate" style={styles.link}>
+        <TruckMapView></TruckMapView>
+        <Link href="/home/navigate" style={styles.link}>
         <Text style={styles.linkText}>Navigate</Text>
       </Link>
       <Link href="/home/order" style={styles.link}>
@@ -17,6 +18,8 @@ const Home = () => {
       <Link href="/home/cater" style={styles.link}>
         <Text style={styles.linkText}>Cater</Text>
       </Link>
+      </View>
+      
     </View>
   );
 };

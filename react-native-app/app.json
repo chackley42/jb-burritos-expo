@@ -11,6 +11,13 @@
       "expo-router"
     ],
     "name": "jb-burritos-expo",
-    "slug": "jb-burritos-expo"
+    "slug": "jb-burritos-expo",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.ProjectName",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCiW6MgySmBfYFcH8oHUtbkB7Xv59Pl_q4"
+    }
   }
+}
 }
