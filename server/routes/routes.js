@@ -1,5 +1,10 @@
 const express = require('express');
 const { MongoClient, ObjectId, Decimal128 } = require('mongodb'); // Import ObjectId from mongodb
+//New Imports
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const User = require("../models/users.ts")
+//New Imports End
 
 const router = express.Router()
 
@@ -86,3 +91,95 @@ router.get('/getAll', (req, res) => {
 // router.delete('/delete/:id', (req, res) => {
 //   res.send('Delete by ID API')
 // })
+
+//New Routes
+function verifyJWT(req, res, next) {
+  const token = req.headers["x-access-token"]?.split(' ')[1]
+
+  if (token) {
+    jwt.verify(token, process.env.PASSPORTSECRET, (err, decoded) => {
+      if (err) return res.json({
+        isLoggedIn: false,
+        message: "Failed to Authenticate"
+      });
+      req.user = {};
+      req.user.id = decoded.id;
+      req.user.username = decoded.username;
+      next();
+    });
+  } else {
+    res.json({ message: "Incorrect Token Given", isLoggedIn: false });
+  }
+}
+
+// Define your routes
+router.post("/register", async (req, res) => {
+  const user = req.body;
+
+  // Check if user already exists or if the username or email is taken
+  const takenUsername = await User.findOne({ username: user.username });
+  const takenEmail = await User.findOne({ email: user.email });
+
+  if (takenUsername || takenEmail) {
+    res.json({ message: "Username or email has already been taken" });
+  } else {
+    user.password = await bcrypt.hash(req.body.password, 10);
+
+    const dbUser = new User({
+      username: user.username.toLowerCase(),
+      email: user.email.toLowerCase(),
+      password: user.password
+    });
+
+    await dbUser.save();
+    res.json({ message: "Success" });
+  }
+});
+
+router.post("/login", (req, res) => {
+  const userLoggingIn = req.body;
+
+  User.findOne({ username: userLoggingIn.username })
+    .then((dbUser) => {
+      if (!dbUser) {
+        return res.json({
+          message: "Invalid Username or Password"
+        });
+      }
+
+      bcrypt.compare(userLoggingIn.password, dbUser.password)
+        .then((isCorrect) => {
+          if (isCorrect) {
+            const payload = {
+              id: dbUser._id,
+              username: dbUser.username,
+            };
+
+            jwt.sign(
+              payload,
+              process.env.JWT_SECRET,
+              { expiresIn: 86400 },
+              (err, token) => {
+                if (err) return res.json({ message: err });
+                return res.json({
+                  message: "Success",
+                  token: "Bearer " + token
+                });
+              }
+            );
+          } else {
+            return res.json({
+              message: "Invalid Username or Password"
+            });
+          }
+        });
+    })
+    .catch((err) => {
+      return res.json({ message: err });
+    });
+});
+
+router.get("/getUsername", verifyJWT, (req, res) => {
+  res.json({ isLoggedIn: true, username: req.user.username });
+});
+//New Routes End
