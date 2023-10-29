@@ -18,12 +18,7 @@ app.use(bodyParser.json(), urlencodedParser);
 
 const dbURI = process.env.mongoDbAtlasUri;
 
-mongoose.connect(dbURI, { useNewUrlParser:true, useUnifiedTopology:true })
-.then((res) => {
-  app.listen(8082, () => console.log("Server is live!!!!!!"))
-  
-})
-.catch(err => console.log(err))
+
 
 app.use(cors());
 app.use(express.json());
@@ -39,6 +34,13 @@ app.use('/api', routes)
 const uri = process.env.mongoDbAtlasUri;
 
 async function checkDatabaseExistence() {
+
+  mongoose.connect(dbURI, { useNewUrlParser:true, useUnifiedTopology:true })
+.then((res) => {
+  app.listen(port, () => console.log("Mongoose connected!"))
+  
+})
+.catch(err => console.log(err))
   const client = new MongoClient(uri);
 
   try {
@@ -152,6 +154,6 @@ checkDatabaseExistence();
 //   res.json({isLoggedIn: true, username: req.user.username})
 // })
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on port: ${port}`);
+// });
