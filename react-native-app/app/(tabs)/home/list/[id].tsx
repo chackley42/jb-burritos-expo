@@ -56,7 +56,7 @@ const DetailsPage = () => {
             const response = await fetch(`${iosLocalHost}:8080/api/getOne/${collectionItemItem}/${id}`);
             if (response.ok) {
               const data = await response.json();
-              console.log("+++++++++++++++++++++++++++++" + JSON.stringify(data))
+              //console.log("+++++++++++++++++++++++++++++" + JSON.stringify(data))
               setMenuData(data);
               return; // Exit the loop if a valid response is found
             }

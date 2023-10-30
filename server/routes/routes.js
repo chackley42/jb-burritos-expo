@@ -4,6 +4,7 @@ const { MongoClient, ObjectId, Decimal128 } = require('mongodb'); // Import Obje
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/users.ts")
+const Order = require("../models/order.ts")
 //New Imports End
 
 const router = express.Router()
@@ -183,3 +184,29 @@ router.get("/getUsername", verifyJWT, (req, res) => {
   res.json({ isLoggedIn: true, username: req.user.username });
 });
 //New Routes End
+
+router.post('/orders', async (req, res) => {
+  const { orderID, phoneNumber, subtotal, tax, total, items, username } = req.body;
+
+  try {
+    // Create a new order document using the Mongoose model
+    const order = new Order({
+      orderID,
+      phoneNumber,
+      subtotal,
+      tax,
+      total,
+      items,
+      username,
+    });
+
+    // Save the order document to the 'orders' collection
+    await order.save();
+
+    // Send a response back to the frontend
+    res.status(201).json({ message: 'Order created successfully', orderId: order._id });
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});

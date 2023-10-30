@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button, Alert} from 'react-native';
 import { Link, useNavigation, useFocusEffect } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MenuItem, getMenuData, createMenuItem, OrderItem } from '../../../utils/storage';
@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../home/order';
 import PaymentModal from '../../../components/PaymentModal';
+import iosLocalHost from '../../../utils/testingConsts';
 
 
 
@@ -52,6 +53,37 @@ const OrderComponent = () => {
       }
       return total;
     }, 0);
+  };
+
+  const placeOrder = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const orderData = await getOrderData();
+
+      const response = await fetch(`${iosLocalHost}:8080/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          order: orderData,
+        }),
+      });
+
+      if (response.ok) {
+        // Order placed successfully, handle the response if needed
+        console.log('Order placed successfully!');
+      } else {
+        // Handle error response from the server
+        console.error('Failed to place order:', response.status, response.statusText);
+        Alert.alert('Error', 'Failed to place order. Please try again later.');
+      }
+    } catch (error) {
+      // Handle other errors like network issues, etc.
+      console.error('Error placing order:', error);
+      Alert.alert('Error', 'Failed to place order. Please check your internet connection and try again.');
+    }
   };
   
   const handleDelete = async (itemId: number) => {
@@ -206,7 +238,7 @@ const OrderComponent = () => {
       </View>
 
        <View style={styles.tab}>
-         <TouchableOpacity onPress={notifications}>
+         <TouchableOpacity onPress={placeOrder}>
            <View style={styles.addToOrderButton}>
              <Text style={styles.addToOrderButtonText}>Place Order</Text>
            </View>
