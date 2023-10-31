@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button, Alert} from 'react-native';
 import { Link, useNavigation, useFocusEffect } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { MenuItem, getMenuData, createMenuItem, OrderItem } from '../../../utils/storage';
+import { MenuItem, getMenuData, createMenuItem, OrderItem, Order } from '../../../utils/storage';
 
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,7 +16,9 @@ const getOrderData = async (): Promise<OrderItem[]> => {
     const orderData = await AsyncStorage.getItem('order');
     if (orderData) {
       const parsedOrderData: OrderItem[] = JSON.parse(orderData);
-      console.log(parsedOrderData)
+      
+      console.log('------------------------------' + orderData)
+      // console.log('++++++++++++++++++++++++++++++++' + parsedOrderData)
       return parsedOrderData;
     } else {
       return [];
@@ -26,6 +28,8 @@ const getOrderData = async (): Promise<OrderItem[]> => {
     throw error;
   }
 };
+
+
 
 const OrderComponent = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
@@ -55,10 +59,39 @@ const OrderComponent = () => {
     }, 0);
   };
 
+  const getSubmittedData = async (): Promise<Order> => {
+    try {
+      const orderData = await AsyncStorage.getItem('order');
+      if (orderData) {
+        
+        const parsedOrderData: OrderItem[] = JSON.parse(orderData);
+        const newOrder: Order = {
+          orderID: '12345',
+          phoneNumber: '000-000-0000',
+          subtotal: calculateSubtotal().toFixed(2).toString(), // Note: Assuming subtotal, tax, and total are represented as strings
+          tax: (calculateSubtotal() * 0.0725).toFixed(2).toString(),
+          total: (calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2).toString(),
+          items: parsedOrderData,
+          username: 'jenson'
+        };
+        
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + JSON.stringify(newOrder))
+        // console.log('++++++++++++++++++++++++++++++++' + parsedOrderData)
+        return newOrder;
+      } else {
+        return ;
+      }
+    } catch (error) {
+      console.error(`Error retrieving Order data from AsyncStorage:`, error);
+      throw error;
+    }
+  };
+
   const placeOrder = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const orderData = await getOrderData();
+      const orderData = await getSubmittedData();
+      console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO' + orderData)
 
       const response = await fetch(`${iosLocalHost}:8080/api/orders`, {
         method: 'POST',

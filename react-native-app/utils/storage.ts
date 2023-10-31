@@ -2,6 +2,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../app/(tabs)/home/order';
 
 
+export type Order = {
+  orderID: string;
+  phoneNumber: string;
+  subtotal: string;
+  tax: string;
+  total: string;
+  items: OrderItem[]; // Assuming items are represented as strings, modify the type accordingly if they have a specific structure
+  username: string;
+};
+
 export type OrderItem = {
     id: number;
     name: string;
