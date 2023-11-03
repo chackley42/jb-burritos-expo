@@ -99,9 +99,7 @@ const OrderComponent = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          order: orderData,
-        }),
+        body: JSON.stringify(orderData),
       });
 
       if (response.ok) {
