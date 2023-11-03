@@ -93,6 +93,7 @@ const OrderComponent = () => {
   const placeOrder = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
+      const username = await AsyncStorage.getItem('username');
       const orderData = await getSubmittedData();
       console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO' + orderData)
 
@@ -101,6 +102,7 @@ const OrderComponent = () => {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
+          username: `username ${username}`
         },
         body: JSON.stringify(orderData),
       });

@@ -69,6 +69,10 @@ const LoginScreen = () => {
       if (response.ok) {
         // Save JWT token to AsyncStorage
         await AsyncStorage.setItem('token', data.token);
+
+        // Save the username in AsyncStorage
+      await AsyncStorage.setItem('username', loginData.username);
+       
         // Update login status and username
         setIsLoggedIn(true);
         setUsername(loginData.username);

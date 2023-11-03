@@ -181,6 +181,9 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/getUsername", verifyJWT, (req, res) => {
+  console.log("GetUsername route called");
+  console.log("Decoded user data:", req.user);
+  
   res.json({ isLoggedIn: true, username: req.user.username });
 });
 //New Routes End

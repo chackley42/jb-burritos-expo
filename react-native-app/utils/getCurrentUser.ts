@@ -9,6 +9,8 @@ const getCurrentUserName = async (): Promise<string> => {
     try {
         const token = await AsyncStorage.getItem('token');
         console.log("TOKEN:", token);
+        const username = await AsyncStorage.getItem('username');
+        console.log("USERNAME:", username);
         if (token) {
             console.log("IF STATEMENT REACHED");
             // Token found, user is logged in
@@ -17,14 +19,15 @@ const getCurrentUserName = async (): Promise<string> => {
                 const response = await fetch(`${iosLocalHost}:8080/api/getUsername`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'username': `username ${username}`
                     },
                 });
                 const userData = await response.json();
                 console.log("USERDATA:", userData);
 
-                if (userData && userData.username) {
-                    return userData.username;
+                if (username) {
+                    return username;
                 } else {
                     console.log("No username found in the response.");
                     return "No Username Found";
