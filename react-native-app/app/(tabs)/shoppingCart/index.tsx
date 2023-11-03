@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button,
 import { Link, useNavigation, useFocusEffect } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MenuItem, getMenuData, createMenuItem, OrderItem, Order } from '../../../utils/storage';
+import getCurrentUserName from '../../../utils/getCurrentUser';
 
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -65,6 +66,8 @@ const OrderComponent = () => {
       if (orderData) {
         
         const parsedOrderData: OrderItem[] = JSON.parse(orderData);
+        const username: string = await getCurrentUserName()
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" +username)
         const newOrder: Order = {
           orderID: '12345',
           phoneNumber: '000-000-0000',
@@ -72,9 +75,9 @@ const OrderComponent = () => {
           tax: (calculateSubtotal() * 0.0725).toFixed(2).toString(),
           total: (calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2).toString(),
           items: parsedOrderData,
-          username: 'jenson'
+          username: username
         };
-        
+        console.log('New Order:', newOrder);
         console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + JSON.stringify(newOrder))
         // console.log('++++++++++++++++++++++++++++++++' + parsedOrderData)
         return newOrder;
