@@ -129,6 +129,7 @@ router.post("/register", async (req, res) => {
     const dbUser = new User({
       username: user.username.toLowerCase(),
       email: user.email.toLowerCase(),
+      phonenumber: user.phonenumber,
       password: user.password
     });
 

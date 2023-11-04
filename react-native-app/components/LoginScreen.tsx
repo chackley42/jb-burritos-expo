@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
 
@@ -13,6 +14,13 @@ const LoginScreen = () => {
     username: '',
     password: '',
   });
+
+  const navigation = useNavigation(); // Initialize navigation
+
+  const handleCreateAccount = () => {
+    // Navigate to the RegistrationScreen when "Create Account" button is pressed
+    navigation.navigate('RegistrationScreen');
+  };
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
@@ -125,7 +133,7 @@ const LoginScreen = () => {
   
         <Button title="Login" onPress={handleLogin} />
   
-        <TouchableOpacity style={styles.signupButton}>
+        <TouchableOpacity style={styles.signupButton} onPress={handleCreateAccount}>
           <Text style={styles.signupText}>Create Account</Text>
         </TouchableOpacity>
   
