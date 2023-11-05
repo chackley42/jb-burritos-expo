@@ -1,26 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import getCurrentUserName from '../../../utils/getCurrentUser';
+import iosLocalHost from '../../../utils/testingConsts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-const notifications = () => {
+const Notifications = () => {
   const navigation = useNavigation();
+  const [orders, setOrders] = useState([]);
 
-  const navigateToOrderStatus = () => {
-    navigation.navigate('notificationsOrderStatus');
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch orders associated with the username
+      const username = await getCurrentUserName();
+      const token = await AsyncStorage.getItem('token');
+      if (username && username !== 'Not Logged In' && username !== 'Error Retrieving Token') {
+        try {
+          const response = await fetch(`${iosLocalHost}:8080/api/orders/${username}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          const orderData = await response.json();
+          setOrders(orderData);
+        } catch (error) {
+          console.error('Error fetching orders:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const navigateToOrderStatus = (order) => {
+    // Pass the order details to the next screen
+    navigation.navigate('notificationsOrderStatus', { order });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        
-      <TouchableOpacity onPress={navigateToOrderStatus}>
-        <View style={[styles.subTab]}>
-          <Text>Order Status</Text>
-          <Text>Your order was received.</Text>
-          <Text>Order# 34253</Text>
-          <Text>Placed on: 09/13/23</Text>
-        </View>
-      </TouchableOpacity>
+      {orders.map((order) => (
+        <TouchableOpacity key={order._id} onPress={() => navigateToOrderStatus(order)}>
+          <View style={[styles.subTab]}>
+            <Text>Order Status</Text>
+            <Text>Your order was {order.status}.</Text>
+            <Text>Order# {order._id}</Text>
+            <Text>Placed on: {order.createdAt}</Text>
+          </View>
+        </TouchableOpacity>
+      ))}
     </ScrollView>
   );
 };
@@ -59,4 +88,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default notifications;
+
+export default Notifications;

@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
     enum: ['order received and is being prepared', 'ready for pickup'],
     default: 'order received and is being prepared', // Default value if not provided
   },
-});
+},{timestamps: true});
 
 const Order = mongoose.model('Order', orderSchema);
 

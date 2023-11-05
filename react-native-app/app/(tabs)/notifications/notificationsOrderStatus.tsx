@@ -1,41 +1,33 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation, Stack  } from 'expo-router';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const notificationsOrderStatus = () => {
+const NotificationsOrderStatus = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  // Get the selected order from route.params
+  const { order } = route.params;
 
   const navigateToFoodTruck = () => {
     navigation.navigate('navigate');
   };
 
-  // navigation.setOptions({
-  //   title: 'Order Status',
-  //   headerStyle: {
-  //     backgroundColor: '#F8E435',
-  //   },
-  // });
   return (
     <ScrollView>
-      <Stack.Screen options={{title: 'Order Status', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <View style={[styles.container2]}>
-        <Text>Order# 34253</Text>
-        <Text>Placed on 09/13/23 at 3:52pm.</Text>
-        <Text>Estimated to be ready at 4:00pm.</Text>
-        <Text></Text>
-        <Text>You received rewards points on this order!</Text>
-        <Text></Text>
-      </View>
-      <View style={[styles.container3]}>
-        <Text>Food Truck's Current Location</Text>
-      </View>
-      <View style={styles.tab}>
-        <TouchableOpacity onPress={navigateToFoodTruck}>
-          <View style={styles.navigateButton}>
-            <Text style={styles.navigateButtonText}>Navigate to Food Truck</Text>
+        <Text>Order# {order.orderID}</Text>
+        <Text>Placed on {order.date}</Text>
+        {/* Display other order details as needed */}
+        {order.items.map((item, index) => (
+          <View key={index}>
+            <Text>Item: {item.name}</Text>
+            <Text>Price: {item.price}</Text>
+            <Text>Quantity: {item.quantity}</Text>
           </View>
-        </TouchableOpacity>
+        ))}
       </View>
+      {/* Rest of your component */}
     </ScrollView>
   );
 };
@@ -97,4 +89,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default notificationsOrderStatus;
+
+export default NotificationsOrderStatus;

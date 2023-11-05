@@ -215,3 +215,17 @@ router.post('/orders', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+router.get('/orders/:username', async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    // Fetch orders associated with the provided username
+    const orders = await Order.find({ username });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
