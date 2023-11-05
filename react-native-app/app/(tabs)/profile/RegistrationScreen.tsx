@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import iosLocalHost from '../../../utils/testingConsts';
+import SuccessModal from '../../../components/SuccessModal';
 
 interface RegistrationFormValues {
   username: string;
@@ -16,6 +17,8 @@ const RegistrationScreen = () => {
     phonenumber: '',
     password: '',
   });
+  
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
 
   const handleUsernameChange = (text: string) => {
     setRegistrationData({ ...registrationData, username: text });
@@ -33,6 +36,10 @@ const RegistrationScreen = () => {
     setRegistrationData({ ...registrationData, password: text });
   };
 
+  const handleCloseSuccessModal = () => {
+    setIsSuccessModalVisible(false);
+  }
+
   const handleRegistration = async () => {
     try {
       const response = await fetch(`${iosLocalHost}:8080/api/register`, {
@@ -48,6 +55,8 @@ const RegistrationScreen = () => {
       if (response.ok) {
         // Handle successful registration logic (navigate to login screen, show success message, etc.)
         console.log('Registration successful!');
+        setIsSuccessModalVisible(true);
+        
       } else {
         // Handle registration failure, show error message to the user
         console.log('Registration failed:', data.message);
@@ -93,6 +102,7 @@ const RegistrationScreen = () => {
     />
 
     <Button title="Register" onPress={handleRegistration} />
+      <SuccessModal visible={isSuccessModalVisible} onClose={handleCloseSuccessModal} />
   </ScrollView>
   );
 };
