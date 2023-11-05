@@ -136,11 +136,6 @@ const LoginScreen = () => {
         <TouchableOpacity style={styles.signupButton} onPress={handleCreateAccount}>
           <Text style={styles.signupText}>Create Account</Text>
         </TouchableOpacity>
-  
-        <Text style={styles.orText}>Or sign in with:</Text>
-  
-        {/* Placeholder for social login buttons */}
-        {/* Add buttons for Google, Facebook, Apple login */}
       </View>
     );
   }

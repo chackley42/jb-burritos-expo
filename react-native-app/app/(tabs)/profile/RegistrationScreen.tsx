@@ -55,6 +55,7 @@ const RegistrationScreen = () => {
       if (response.ok) {
         // Handle successful registration logic (navigate to login screen, show success message, etc.)
         console.log('Registration successful!');
+        setRegistrationData({...registrationData, username: "", email: "", phonenumber: "", password: ""})
         setIsSuccessModalVisible(true);
         
       } else {
