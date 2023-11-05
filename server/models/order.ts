@@ -1,5 +1,5 @@
-// Order.js
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+
 const orderSchema = new mongoose.Schema({
   orderID: String,
   phoneNumber: String,
@@ -15,6 +15,11 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   username: String,
+  status: {
+    type: String,
+    enum: ['order received and is being prepared', 'ready for pickup'],
+    default: 'order received and is being prepared', // Default value if not provided
+  },
 });
 
 const Order = mongoose.model('Order', orderSchema);

@@ -190,7 +190,7 @@ router.get("/getUsername", verifyJWT, (req, res) => {
 //New Routes End
 
 router.post('/orders', async (req, res) => {
-  const { orderID, phoneNumber, subtotal, tax, total, items, username } = req.body;
+  const { orderID, phoneNumber, subtotal, tax, total, items, username, status } = req.body;
 
   try {
     // Create a new order document using the Mongoose model
@@ -202,6 +202,7 @@ router.post('/orders', async (req, res) => {
       total,
       items,
       username,
+      status
     });
 
     // Save the order document to the 'orders' collection
