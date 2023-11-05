@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import iosLocalHost from '../../../utils/testingConsts';
 
 interface RegistrationFormValues {
@@ -58,42 +58,42 @@ const RegistrationScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Username:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your username"
-        value={registrationData.username}
-        onChangeText={handleUsernameChange}
-      />
+    <ScrollView contentContainerStyle={styles.container}>
+    <Text style={styles.label}>Username:</Text>
+    <TextInput
+      style={styles.input}
+      placeholder="Enter your username"
+      value={registrationData.username}
+      onChangeText={handleUsernameChange}
+    />
 
-      <Text style={styles.label}>Email:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        value={registrationData.email}
-        onChangeText={handleEmailChange}
-      />
+    <Text style={styles.label}>Email:</Text>
+    <TextInput
+      style={styles.input}
+      placeholder="Enter your email"
+      value={registrationData.email}
+      onChangeText={handleEmailChange}
+    />
 
-      <Text style={styles.label}>Phone Number:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your phone number"
-        value={registrationData.phonenumber}
-        onChangeText={handlePhonenumberChange}
-      />
+    <Text style={styles.label}>Phone Number:</Text>
+    <TextInput
+      style={styles.input}
+      placeholder="Enter your phone number"
+      value={registrationData.phonenumber}
+      onChangeText={handlePhonenumberChange}
+    />
 
-      <Text style={styles.label}>Password:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={registrationData.password}
-        onChangeText={handlePasswordChange}
-        secureTextEntry
-      />
+    <Text style={styles.label}>Password:</Text>
+    <TextInput
+      style={styles.input}
+      placeholder="Enter your password"
+      value={registrationData.password}
+      onChangeText={handlePasswordChange}
+      secureTextEntry
+    />
 
-      <Button title="Register" onPress={handleRegistration} />
-    </View>
+    <Button title="Register" onPress={handleRegistration} />
+  </ScrollView>
   );
 };
 
