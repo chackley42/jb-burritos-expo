@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { Link, Stack } from 'expo-router';
 
 const NotificationsOrderStatus = () => {
   const navigation = useNavigation();
@@ -15,7 +16,8 @@ const NotificationsOrderStatus = () => {
 
   return (
     <ScrollView>
-      <View style={[styles.container2]}>
+      <Stack.Screen options={{title: 'Order Status and Details', headerStyle: {     backgroundColor: '#F8E435'}}}/>
+      <View style={[styles.subTab]}>
         <Text>Order# {order.orderID}</Text>
         <Text>Placed on {order.date}</Text>
         {/* Display other order details as needed */}
@@ -26,8 +28,8 @@ const NotificationsOrderStatus = () => {
             <Text>Quantity: {item.quantity}</Text>
           </View>
         ))}
-      </View>
-      {/* Rest of your component */}
+        </View>
+      {}
     </ScrollView>
   );
 };

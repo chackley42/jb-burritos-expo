@@ -38,9 +38,12 @@ const Notifications = () => {
     navigation.navigate('notificationsOrderStatus', { order });
   };
 
+  // Reverse the orders array
+  const reversedOrders = [...orders].reverse();
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {orders.map((order) => (
+      {reversedOrders.map((order) => (
         <TouchableOpacity key={order._id} onPress={() => navigateToOrderStatus(order)}>
           <View style={[styles.subTab]}>
             <Text>Order Status</Text>
@@ -53,7 +56,6 @@ const Notifications = () => {
     </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,

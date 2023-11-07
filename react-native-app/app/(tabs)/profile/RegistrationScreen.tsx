@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import iosLocalHost from '../../../utils/testingConsts';
 import SuccessModal from '../../../components/SuccessModal';
+import { Link, Stack } from 'expo-router';
 
 interface RegistrationFormValues {
   username: string;
@@ -69,6 +70,7 @@ const RegistrationScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Stack.Screen options={{title: 'Registration', headerStyle: {     backgroundColor: '#F8E435'}}}/>
     <Text style={styles.label}>Username:</Text>
     <TextInput
       style={styles.input}
