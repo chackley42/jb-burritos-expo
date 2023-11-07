@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 const tabOptions = (headerTitle, iconName) => ({
   headerShown: true,
   headerTitle: headerTitle,
-  headerRight: () => <LogoPng />,
+  headerLeft: () => <LogoPng />,
   headerStyle: styles.headerStyle,
   headerTitleStyle: styles.headerTitleStyle,
   tabBarShowLabel: false,

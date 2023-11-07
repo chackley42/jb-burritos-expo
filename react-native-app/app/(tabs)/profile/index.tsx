@@ -12,4 +12,4 @@ export class profile extends Component {
   }
 }
 
-export default profile
+export default profile;
