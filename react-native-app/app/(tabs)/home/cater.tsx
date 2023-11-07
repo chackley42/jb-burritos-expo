@@ -1,17 +1,32 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import CaterForm from '../../../components/CaterForm'
-import Logo from '../../../components/Logo'
+import React from 'react';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import CaterForm from '../../../components/CaterForm';
+import Logo from '../../../components/Logo';
 import { Link, Stack } from 'expo-router';
 
 const cater = () => {
   return (
-    <View>
-      <Stack.Screen options={{title: 'Cater', headerStyle: {     backgroundColor: '#F8E435'}}}/>
-      <Text>cater</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Stack.Screen options={{ title: 'Cater', headerStyle: { backgroundColor: '#F8E435' } }} />
       <CaterForm></CaterForm>
-    </View>
-  )
+    </ScrollView>
+  );
 }
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+  },
+});
 
-export default cater
+export default cater;

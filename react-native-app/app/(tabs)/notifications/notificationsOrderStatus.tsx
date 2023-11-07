@@ -27,7 +27,7 @@ const NotificationsOrderStatus = () => {
             <Text>Price: {item.price}</Text>
             <Text>Quantity: {item.quantity}</Text>
           </View>
-        ))}
+        ))} 
         </View>
       {}
     </ScrollView>
