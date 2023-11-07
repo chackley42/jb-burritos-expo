@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../home/order';
 import PaymentModal from '../../../components/PaymentModal';
 import iosLocalHost from '../../../utils/testingConsts';
+import OrderSuccessModal from '../../../components/OrderSuccessModal';
 
 
 
@@ -34,6 +35,7 @@ const getOrderData = async (): Promise<OrderItem[]> => {
 
 const OrderComponent = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [isOrderSuccessModalVisible, setIsOrderSuccessModalVisible] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -49,6 +51,13 @@ const OrderComponent = () => {
       fetchOrderData();
     }, [])
   );
+  const handleCloseSuccessModal = () => {
+    setIsOrderSuccessModalVisible(false);
+  }
+  const goToNotifications = () => {
+    setIsOrderSuccessModalVisible(false); // Close the modal
+    navigation.navigate('notifications'); // Navigate to the notifications page
+  };
 
   const calculateSubtotal = (): number => {
     return orderItems.reduce((total, item) => {
@@ -110,6 +119,7 @@ const OrderComponent = () => {
       if (response.ok) {
         // Order placed successfully, handle the response if needed
         console.log('Order placed successfully!');
+        setIsOrderSuccessModalVisible(true); // Show the success modal
       } else {
         // Handle error response from the server
         console.error('Failed to place order:', response.status, response.statusText);
@@ -280,6 +290,11 @@ const OrderComponent = () => {
            </View>
          </TouchableOpacity>
          </View>
+         <OrderSuccessModal
+        visible={isOrderSuccessModalVisible}
+        onClose={handleCloseSuccessModal}
+        onGoToNotifications={notifications} // Pass the function to navigate to notifications
+      />
     </View>
   );
 };
