@@ -3,12 +3,15 @@ import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-nat
 import iosLocalHost from '../../../utils/testingConsts';
 import SuccessModal from '../../../components/SuccessModal';
 import { Link, Stack } from 'expo-router';
+import { CheckBox } from 'react-native-elements';
+import ToggleSwitch from '../../../components/toggleSwitch';
 
 interface RegistrationFormValues {
   username: string;
   email: string;
   phonenumber: string;
   password: string;
+  isAdmin: boolean; // Add the isAdmin field
 }
 
 const RegistrationScreen = () => {
@@ -17,9 +20,10 @@ const RegistrationScreen = () => {
     email: '',
     phonenumber: '',
     password: '',
+    isAdmin: true, // Initialize isAdmin to false
   });
-  
-  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
+
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
   const handleUsernameChange = (text: string) => {
     setRegistrationData({ ...registrationData, username: text });
@@ -37,9 +41,13 @@ const RegistrationScreen = () => {
     setRegistrationData({ ...registrationData, password: text });
   };
 
+  const toggleIsAdmin = () => {
+    setRegistrationData({ ...registrationData, isAdmin: !registrationData.isAdmin });
+  };
+
   const handleCloseSuccessModal = () => {
     setIsSuccessModalVisible(false);
-  }
+  };
 
   const handleRegistration = async () => {
     try {
@@ -56,9 +64,14 @@ const RegistrationScreen = () => {
       if (response.ok) {
         // Handle successful registration logic (navigate to login screen, show success message, etc.)
         console.log('Registration successful!');
-        setRegistrationData({...registrationData, username: "", email: "", phonenumber: "", password: ""})
+        setRegistrationData({
+          username: '',
+          email: '',
+          phonenumber: '',
+          password: '',
+          isAdmin: false, // Reset isAdmin to false
+        });
         setIsSuccessModalVisible(true);
-        
       } else {
         // Handle registration failure, show error message to the user
         console.log('Registration failed:', data.message);
@@ -70,43 +83,48 @@ const RegistrationScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{title: 'Registration', headerStyle: {     backgroundColor: '#F8E435'}}}/>
-    <Text style={styles.label}>Username:</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Enter your username"
-      value={registrationData.username}
-      onChangeText={handleUsernameChange}
-    />
+      <Stack.Screen options={{ title: 'Registration', headerStyle: { backgroundColor: '#F8E435' } }} />
+      <Text style={styles.label}>Username:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your username"
+        value={registrationData.username}
+        onChangeText={handleUsernameChange}
+      />
 
-    <Text style={styles.label}>Email:</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Enter your email"
-      value={registrationData.email}
-      onChangeText={handleEmailChange}
-    />
+      <Text style={styles.label}>Email:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your email"
+        value={registrationData.email}
+        onChangeText={handleEmailChange}
+      />
 
-    <Text style={styles.label}>Phone Number:</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Enter your phone number"
-      value={registrationData.phonenumber}
-      onChangeText={handlePhonenumberChange}
-    />
+      <Text style={styles.label}>Phone Number:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your phone number"
+        value={registrationData.phonenumber}
+        onChangeText={handlePhonenumberChange}
+      />
 
-    <Text style={styles.label}>Password:</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Enter your password"
-      value={registrationData.password}
-      onChangeText={handlePasswordChange}
-      secureTextEntry
-    />
+      <Text style={styles.label}>Password:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your password"
+        value={registrationData.password}
+        onChangeText={handlePasswordChange}
+        secureTextEntry
+      />
 
-    <Button title="Register" onPress={handleRegistration} />
+      <Text style={styles.label}>Is Admin:</Text>
+      <View style={styles.checkboxContainer}>
+      <ToggleSwitch label="Is Admin:" value={registrationData.isAdmin} onValueChange={toggleIsAdmin} />
+      </View>
+
+      <Button title="Register" onPress={handleRegistration} />
       <SuccessModal visible={isSuccessModalVisible} onClose={handleCloseSuccessModal} />
-  </ScrollView>
+    </ScrollView>
   );
 };
 
@@ -124,6 +142,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

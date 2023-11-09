@@ -1,14 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import LogoPng from '../../components/LogoImage';
 import { StatusBar, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default () => {
   useEffect(() => {
-    StatusBar.setBarStyle('dark-content')
+    StatusBar.setBarStyle('dark-content');
   }, []);
 
+  const [isAdmin, setIsAdmin] = useState(false); // Set the initial state to false
+
+  // Retrieve the isAdmin value from local storage when the component mounts
+  useEffect(() => {
+    async function fetchIsAdmin() {
+      try {
+        const isAdminValue = await AsyncStorage.getItem('isAdmin');
+        if (isAdminValue !== null) {
+          setIsAdmin(isAdminValue === 'true'); // Parse as a boolean
+        }
+      } catch (error) {
+        console.error('Error retrieving isAdmin from AsyncStorage:', error);
+      }
+    }
+
+    fetchIsAdmin();
+  }, []);
   return (
     <Tabs>
       <Tabs.Screen
@@ -23,6 +41,12 @@ export default () => {
         name="notifications"
         options={tabOptions('Notifications', 'bell')}
       />
+      {isAdmin && (
+        <Tabs.Screen
+          name="admin"
+          options={tabOptions('Admin', 'cog')} // Adjust icon and label as needed
+        />
+      )}
       <Tabs.Screen
         name="profile"
         options={tabOptions('Profile', 'user')}

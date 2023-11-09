@@ -24,6 +24,7 @@ const LoginScreen = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   const handleUsernameChange = (text: string) => {
     setLoginData({ ...loginData, username: text });
@@ -40,24 +41,34 @@ const LoginScreen = () => {
 
   const checkLoggedInStatus = async () => {
     const token = await AsyncStorage.getItem('token');
-    if (token) {
-      // Token found, user is logged in
+    const username = await AsyncStorage.getItem('username'); // Get the username from AsyncStorage
+  
+    if (token && username) {
       try {
-        // Fetch user details using the token and update the state with the username
-        const response = await fetch(`${iosLocalHost}:8080/api/getUsername`, {
+        const response = await fetch(`${iosLocalHost}:8080/api/getUsername/${username}`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
           },
         });
-        const userData = await response.json();
-        setUsername(userData.username);
+        const userDataArray = await response.json();
+        if (userDataArray.length > 0) {
+          const userData = userDataArray[0]; // Access the first element of the array
+          console.log('THIS IS MY USERDATA', userData);
+  
+          // Save isAdmin directly without comparison
+          await AsyncStorage.setItem('isAdmin', userData.isAdmin.toString());
+  
+          setUsername(userData.username);
+          setIsAdmin(userData.isAdmin);
+        } else {
+          console.error('User not found');
+          setIsLoggedIn(false);
+        }
       } catch (error) {
-        // Handle error while fetching user details
         console.error('Error fetching user details:', error);
       }
     } else {
-      // Token not found, user is not logged in
       setIsLoggedIn(false);
     }
   };
@@ -77,17 +88,19 @@ const LoginScreen = () => {
       if (response.ok) {
         // Save JWT token to AsyncStorage
         await AsyncStorage.setItem('token', data.token);
-
+  
         // Save the username in AsyncStorage
-      await AsyncStorage.setItem('username', loginData.username);
-       
+        await AsyncStorage.setItem('username', loginData.username);
         // Update login status and username
         setIsLoggedIn(true);
         setUsername(loginData.username);
-        // Handle successful login logic (navigate to home screen, etc.)
+        setIsAdmin(loginData.isAdmin);
+        // Handle successful login logic (navigate to the home screen, etc.)
         console.log('Login successful!');
+        console.log(loginData.username);
+        console.log('isAdmin:' + loginData.isAdmin);
       } else {
-        // Handle login failure, show error message to the user
+        // Handle login failure, show an error message to the user
         console.log('Login failed:', data.message);
       }
     } catch (error) {
@@ -99,6 +112,8 @@ const LoginScreen = () => {
   const handleLogout = async () => {
     // Clear token from AsyncStorage and update login status
     await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('username');
+    await AsyncStorage.removeItem('isAdmin');
     setIsLoggedIn(false);
   };
 
@@ -114,29 +129,33 @@ const LoginScreen = () => {
   } else {
     return (
       <View style={styles.container}>
-        <Text style={styles.label}>Username:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your username"
-          value={loginData.username}
-          onChangeText={handleUsernameChange}
-        />
-  
-        <Text style={styles.label}>Password:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your password"
-          value={loginData.password}
-          onChangeText={handlePasswordChange}
-          secureTextEntry
-        />
-  
-        <Button title="Login" onPress={handleLogin} />
-  
-        <TouchableOpacity style={styles.signupButton} onPress={handleCreateAccount}>
-          <Text style={styles.signupText}>Create Account</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.label}>Username:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your username"
+        value={loginData.username}
+        onChangeText={handleUsernameChange}
+      />
+
+      <Text style={styles.label}>Password:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your password"
+        value={loginData.password}
+        onChangeText={handlePasswordChange}
+        secureTextEntry
+      />
+
+      <Button title="Login" onPress={handleLogin} />
+
+      <TouchableOpacity style={styles.signupButton} onPress={handleCreateAccount}>
+        <Text style={styles.signupText}>Create Account</Text>
+      </TouchableOpacity>
+
+      {isAdmin && (
+        <Text>Testing Purposes: You are an admin.</Text>
+      )}
+    </View>
     );
   }
 };

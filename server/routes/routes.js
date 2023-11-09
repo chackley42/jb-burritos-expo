@@ -95,21 +95,24 @@ router.get('/getAll', (req, res) => {
 
 //New Routes
 function verifyJWT(req, res, next) {
-  const token = req.headers["x-access-token"]?.split(' ')[1]
-
+  const token = req.headers["x-access-token"]?.split(' ')[1];
+  console.log("VERIFY JWT CALLED");
   if (token) {
     jwt.verify(token, process.env.PASSPORTSECRET, (err, decoded) => {
-      if (err) return res.json({
-        isLoggedIn: false,
-        message: "Failed to Authenticate"
-      });
+      if (err) {
+        console.error('JWT Verification Error:', err);
+        return res.status(401).json({
+          isLoggedIn: false,
+          message: "Failed to Authenticate"
+        });
+      }
       req.user = {};
       req.user.id = decoded.id;
       req.user.username = decoded.username;
       next();
     });
   } else {
-    res.json({ message: "Incorrect Token Given", isLoggedIn: false });
+    res.status(401).json({ message: "No Token Provided", isLoggedIn: false });
   }
 }
 
@@ -181,12 +184,20 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.get("/getUsername", verifyJWT, (req, res) => {
-  console.log("GetUsername route called");
-  console.log("Decoded user data:", req.user);
-  
-  res.json({ isLoggedIn: true, username: req.user.username });
+//get username info
+router.get('/getUsername/:username', async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    // Fetch orders associated with the provided username
+    const userInfo = await User.find({ username });
+    res.status(200).json(userInfo);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
+
 //New Routes End
 
 router.post('/orders', async (req, res) => {

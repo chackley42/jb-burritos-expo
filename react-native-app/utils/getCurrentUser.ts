@@ -11,6 +11,8 @@ const getCurrentUserName = async (): Promise<string> => {
         console.log("TOKEN:", token);
         const username = await AsyncStorage.getItem('username');
         console.log("USERNAME:", username);
+        const isAdmin = await AsyncStorage.getItem('isAdmin');
+        console.log("ISADMIN:", isAdmin);
         if (token) {
             console.log("IF STATEMENT REACHED");
             // Token found, user is logged in
@@ -20,7 +22,8 @@ const getCurrentUserName = async (): Promise<string> => {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                        'username': `username ${username}`
+                        'username': `username ${username}`,
+                        'isAdmin': `isAdmin ${isAdmin}`,
                     },
                 });
                 const userData = await response.json();
