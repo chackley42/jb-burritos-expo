@@ -133,7 +133,8 @@ router.post("/register", async (req, res) => {
       username: user.username.toLowerCase(),
       email: user.email.toLowerCase(),
       phonenumber: user.phonenumber,
-      password: user.password
+      password: user.password,
+      isAdmin: user.isAdmin
     });
 
     await dbUser.save();
