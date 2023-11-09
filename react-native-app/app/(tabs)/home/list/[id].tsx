@@ -118,11 +118,13 @@ const DetailsPage = () => {
  
 
     console.log(menuData)
-
+    const goToShoppingCart = () => {
+      navigation.navigate('shoppingCart'); // Navigate back to the menu or any other appropriate route
+    };
     return (
-        
+      <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
-            <Stack.Screen options={{headerTitle: `Details #${id}`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
+            <Stack.Screen options={{headerTitle: `Menu`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
             <Image
                 source={require('../../../../assets/breakfastBurrito.jpeg')}
                 style={styles.image}
@@ -135,7 +137,8 @@ const DetailsPage = () => {
                 <Text style={styles.infoText}>{menuData ? menuData.description:'Loading...'}</Text>
                 <Text style={styles.infoText}>${menuData ? menuData.price : 'Loading...'}</Text>
             </View>
-            <View style={styles.quantityContainer}>
+        </ScrollView>
+        <View style={styles.quantityContainer}>
                 <TouchableOpacity onPress={decreaseQuantity}>
                     <Text style={styles.actionButton}>-</Text>
                 </TouchableOpacity>
@@ -149,7 +152,14 @@ const DetailsPage = () => {
                     </View>
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+        <View style={styles.bottomTab}>
+        <TouchableOpacity onPress={goToShoppingCart}>
+          <View style={styles.shoppingCartButton}>
+            <Text style={styles.shoppingCartButtonText}>View Shopping Cart</Text>
+          </View>
+        </TouchableOpacity>
+        </View>
+        </View>
     );
 }
 
@@ -177,6 +187,13 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: 'black',
     },
+    bottomTab: {
+      backgroundColor: '#F8E435',
+      padding: 10,
+      width: '100%',
+      alignItems: 'center',
+      marginBottom: 0,
+    },
     image: {
       width: imageWidth,
       height: imageHeight,
@@ -196,6 +213,8 @@ const styles = StyleSheet.create({
       width: '100%',
       padding: 10,
       backgroundColor: '#F8E435',
+      borderBottomWidth: 1,
+    borderBottomColor: 'black',
     },
     actionButton: {
       fontSize: 20,
@@ -211,6 +230,16 @@ const styles = StyleSheet.create({
       borderRadius: 5,
     },
     addToOrderButtonText: {
+      color: '#ffffff',
+      fontSize: 16,
+    },
+    shoppingCartButton: {
+      backgroundColor: '#515D52',
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+    },
+    shoppingCartButtonText: {
       color: '#ffffff',
       fontSize: 16,
     },

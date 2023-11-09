@@ -7,7 +7,6 @@ const OrderSuccessModal = ({ visible, onClose, onGoToNotifications }) => {
       <View style={styles.modalContainer}>
       <View style={styles.modalContent}>
           <Text>Your order was successfully placed!</Text>
-          <Button title="Go to Notifications" onPress={onGoToNotifications} />
           <Button title="Close" onPress={onClose} />
         </View>
       </View>

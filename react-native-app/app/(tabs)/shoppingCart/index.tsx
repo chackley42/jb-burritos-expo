@@ -56,7 +56,6 @@ const OrderComponent = () => {
   }
   const goToNotifications = () => {
     setIsOrderSuccessModalVisible(false); // Close the modal
-    navigation.navigate('notifications'); // Navigate to the notifications page
   };
 
   const calculateSubtotal = (): number => {
@@ -262,9 +261,18 @@ const OrderComponent = () => {
       </ScrollView>
     );
   };
-
+  const goToMenu = () => {
+    navigation.navigate('order'); // Navigate back to the menu or any other appropriate route
+  };
   return (
     <View style={{ flex: 1 }}>
+      <View style={styles.tab}>
+      <TouchableOpacity onPress={goToMenu}>
+        <View style={styles.addToOrderButton}>
+          <Text style={styles.addToOrderButtonText}>View Menu</Text>
+        </View>
+      </TouchableOpacity>
+      </View>
       <FlatList
         data={orderItems}
         renderItem={renderItem}
@@ -278,8 +286,10 @@ const OrderComponent = () => {
         {/* <View style={styles.addToOrderButton}>
              <Text style={styles.addToOrderButtonText}>Payment Details</Text>
            </View> */}
+           <View style={styles.tab}>
            <View style={styles.paymentModalButton}>
            <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
+           </View>
            </View>
       </View>
 
@@ -377,6 +387,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   paymentModalButton:{
+    paddingVertical: 0,
+    paddingHorizontal: 20,
     //backgroundColor: '#515D52',
     // borderRadius: 10,
     // paddingVertical: 10,
@@ -388,6 +400,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF', // You can set the background color here
+  },
+  backButton: {
+    backgroundColor: '#515D52', // Change this color to your desired background color
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    margin: 10, // Adjust the margin as needed
+  },
+  backButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    textAlign: 'center',
+    backgroundColor: '#515D52'
   },
 });
 

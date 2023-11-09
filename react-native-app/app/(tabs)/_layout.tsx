@@ -41,12 +41,12 @@ export default () => {
         name="notifications"
         options={tabOptions('Notifications', 'bell')}
       />
-      {isAdmin && (
+      {/* {isAdmin && (
         <Tabs.Screen
           name="admin"
-          options={tabOptions('Admin', 'cog')} // Adjust icon and label as needed
+          options={tabOpt ions('Admin', 'cog')} // Adjust icon and label as needed
         />
-      )}
+      )} */}
       <Tabs.Screen
         name="profile"
         options={tabOptions('Profile', 'user')}

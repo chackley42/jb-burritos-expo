@@ -13,8 +13,12 @@ const NotificationsOrderStatus = () => {
   const navigateToFoodTruck = () => {
     navigation.navigate('navigate');
   };
+  const goToNavigate = () => {
+    navigation.navigate('navigate'); // Navigate back to the menu or any other appropriate route
+  };
 
   return (
+    <View style={{ flex: 1 }}>
     <ScrollView>
       <Stack.Screen options={{title: 'Order Status and Details', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <View style={[styles.subTab]}>
@@ -31,6 +35,15 @@ const NotificationsOrderStatus = () => {
         </View>
       {}
     </ScrollView>
+    <View style={styles.bottomTab}>
+    <TouchableOpacity onPress={goToNavigate}>
+      <View style={styles.shoppingCartButton}>
+        <Text style={styles.shoppingCartButtonText}>Navigate to Food Truck</Text>
+      </View>
+    </TouchableOpacity>
+    </View>
+    </View>
+    
   );
 };
 
@@ -80,6 +93,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  bottomTab: {
+    backgroundColor: '#F8E435',
+    padding: 10,
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 0,
+  },
   navigateButton: {
     backgroundColor: '#515D52',
     paddingVertical: 10,
@@ -87,6 +107,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   navigateButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
+  shoppingCartButton: {
+    backgroundColor: '#515D52',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  shoppingCartButtonText: {
     color: '#ffffff',
     fontSize: 16,
   },

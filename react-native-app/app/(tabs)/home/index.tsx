@@ -15,17 +15,17 @@ const Home = () => {
       <View style={styles.linksContainer}>
         <View style={styles.link}>
           <Link href="/home/navigate">
-            <Text style={styles.linkText}>Navigate</Text>
+            <Text style={styles.linkText}>Navigate to Food Truck</Text>
           </Link>
         </View>
         <View style={styles.link}>
           <Link href="/home/order">
-            <Text style={styles.linkText}>Place an Order</Text>
+            <Text style={styles.linkText}>View Menu</Text>
           </Link>
         </View>
         <View style={styles.link}>
           <Link href="/home/cater">
-            <Text style={styles.linkText}>Cater</Text>
+            <Text style={styles.linkText}>Catering Requests</Text>
           </Link>
         </View>
       </View>

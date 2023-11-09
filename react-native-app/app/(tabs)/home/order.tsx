@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, Stack } from 'expo-router';
+import { Link, useNavigation, Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../../utils/storage';
 import iosLocalHost from '../../../utils/testingConsts';
@@ -19,6 +19,7 @@ const order = () => {
   const [isSidesOpen, setSidesOpen] = useState(true);
   const [isBeveragesOpen, setBeveragesOpen] = useState(true);
   const [menuData, setMenuData] = useState({ burritos: [], sides: [], drinks: [] });
+  const navigation = useNavigation();
 
   useEffect(() => {
     // Fetch menu data from AsyncStorage
@@ -67,10 +68,14 @@ const order = () => {
   const toggleBeverages = () => {
     setBeveragesOpen(!isBeveragesOpen);
   };
+  const goToShoppingCart = () => {
+    navigation.navigate('shoppingCart'); // Navigate back to the menu or any other appropriate route
+  };
 
   return (
+    <View style={{ flex: 1 }}>
     <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{title: 'Order', headerStyle: {     backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Menu', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <TouchableOpacity style={styles.tab} onPress={toggleBurritos}>
         <Text style={styles.tabText}>Burritos</Text>
       </TouchableOpacity>
@@ -102,6 +107,14 @@ const order = () => {
         </View>
       ))}
     </ScrollView>
+    <View style={styles.bottomTab}>
+    <TouchableOpacity onPress={goToShoppingCart}>
+      <View style={styles.shoppingCartButton}>
+        <Text style={styles.shoppingCartButtonText}>View Shopping Cart</Text>
+      </View>
+    </TouchableOpacity>
+    </View>
+    </View>
   );
 };
 
@@ -124,6 +137,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  bottomTab: {
+    backgroundColor: '#F8E435',
+    padding: 10,
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 0,
+  },
   subTab: {
     backgroundColor: '#FFFCE5',
     padding: 10,
@@ -140,6 +160,16 @@ const styles = StyleSheet.create({
   },
   link: {
     marginVertical: 5,
+  },
+  shoppingCartButton: {
+    backgroundColor: '#515D52',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  shoppingCartButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
   },
 });
 
