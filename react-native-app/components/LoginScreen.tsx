@@ -58,9 +58,13 @@ const LoginScreen = () => {
   
           // Save isAdmin directly without comparison
           await AsyncStorage.setItem('isAdmin', userData.isAdmin.toString());
-  
+          setIsLoggedIn(true)
           setUsername(userData.username);
-          setIsAdmin(userData.isAdmin);
+          // await AsyncStorage.getItem("isAdmin")
+          //setIsAdmin(userData.isAdmin)
+          if (await AsyncStorage.getItem('isAdmin') === "true"){
+            setIsAdmin(true)
+          }
         } else {
           console.error('User not found');
           setIsLoggedIn(false);
@@ -94,11 +98,12 @@ const LoginScreen = () => {
         // Update login status and username
         setIsLoggedIn(true);
         setUsername(loginData.username);
-        setIsAdmin(loginData.isAdmin);
+        //setIsAdmin(loginData.isAdmin);
         // Handle successful login logic (navigate to the home screen, etc.)
+        checkLoggedInStatus()
         console.log('Login successful!');
         console.log(loginData.username);
-        console.log('isAdmin:' + loginData.isAdmin);
+        //console.log('isAdmin:' + loginData.isAdmin);
       } else {
         // Handle login failure, show an error message to the user
         console.log('Login failed:', data.message);
@@ -114,6 +119,9 @@ const LoginScreen = () => {
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('username');
     await AsyncStorage.removeItem('isAdmin');
+    setLoginData({ ...loginData, username: "" })
+    setLoginData({ ...loginData, password: "" })
+    setIsAdmin(false)
     setIsLoggedIn(false);
   };
 
@@ -122,7 +130,10 @@ const LoginScreen = () => {
     // User is logged in, show username and logout button
     return (
       <View style={styles.container}>
-        <Text>Welcome, {loginData.username}!</Text>
+        <Text>Welcome, {username}!</Text>
+        {isAdmin && (
+        <Text>Testing Purposes: You are an admin, {username}</Text>
+      )}
         <Button title="Logout" onPress={handleLogout} />
       </View>
     );
@@ -152,9 +163,7 @@ const LoginScreen = () => {
         <Text style={styles.signupText}>Create Account</Text>
       </TouchableOpacity>
 
-      {isAdmin && (
-        <Text>Testing Purposes: You are an admin.</Text>
-      )}
+      
     </View>
     );
   }
