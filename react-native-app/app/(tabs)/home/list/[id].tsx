@@ -6,6 +6,7 @@ import storeMenuData from '../../../../utils/storage';
 import { Menu, MenuItem, OrderItem } from '../../../../utils/storage';
 import { parse } from 'path';
 import iosLocalHost from '../../../../utils/testingConsts';
+import AddToCartModal from '../../../../components/AddToCartModal';
 
 
 function convertToNumber(input: string | string[]): number | null {
@@ -72,6 +73,7 @@ const DetailsPage = () => {
     }, [id, collection]);
 
     const [itemQuantity, setQuantity] = useState(1);
+    const [isAddToCartModalVisible, setIsAddToCartModalVisible] = useState(false);
 
     const decreaseQuantity = () => {
         if (itemQuantity > 1) {
@@ -81,6 +83,10 @@ const DetailsPage = () => {
 
     const increaseQuantity = () => {
         setQuantity(itemQuantity + 1);
+    };
+
+    const handleCloseAddToCartModal = () => {
+      setIsAddToCartModalVisible(false);
     };
 
     const navigation = useNavigation();
@@ -106,7 +112,7 @@ const DetailsPage = () => {
           };
           order.push(itemToAdd);
           await AsyncStorage.setItem('order', JSON.stringify(order));
-          navigation.navigate('shoppingCart');
+          // MAKE MODAL APPEAR THAT THE USER ADDED SOMETHING TO CART 
           console.log("====================================================" + order)
           console.log(existingOrder)
         }
@@ -159,6 +165,7 @@ const DetailsPage = () => {
           </View>
         </TouchableOpacity>
         </View>
+        <AddToCartModal visible={isAddToCartModalVisible} onClose={handleCloseAddToCartModal} />
         </View>
     );
 }
