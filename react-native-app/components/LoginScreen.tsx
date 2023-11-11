@@ -35,9 +35,10 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
+    console.log('USE-EFFECT LOGIN SCREEN LOGIN SCREEN')
     // Check if user is already logged in (token exists in AsyncStorage)
     checkLoggedInStatus();
-  }, []);
+  }, [isLoggedIn]);
 
   const checkLoggedInStatus = async () => {
     const token = await AsyncStorage.getItem('token');
