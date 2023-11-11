@@ -3,7 +3,7 @@ import { Link, useNavigation, useFocusEffect } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MenuItem, getMenuData, createMenuItem, OrderItem, Order } from '../../../utils/storage';
 import getCurrentUserName from '../../../utils/getCurrentUser';
-
+import isEqual from 'lodash/isEqual';
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../home/order';
@@ -42,15 +42,20 @@ const OrderComponent = () => {
       const fetchOrderData = async () => {
         try {
           const data = await getOrderData();
-          setOrderItems(data);
+          
+          // Check if the new data is different from the current state
+          if (!isEqual(data, orderItems)) {
+            setOrderItems(data);
+          }
         } catch (error) {
           console.error('Error fetching order data:', error);
         }
       };
-
+  
       fetchOrderData();
-    },[orderItems])
+    }, []) // Add orderItems as a dependency
   );
+  
   const handleCloseSuccessModal = () => {
     setIsOrderSuccessModalVisible(false);
   }
@@ -59,13 +64,19 @@ const OrderComponent = () => {
   };
 
   const calculateSubtotal = (): number => {
-    return orderItems.reduce((total, item) => {
-      // Ensure item has a valid price before adding to the total
-      if (item && item.price) {
-        total += item.price * (item.quantity || 1);
-      }
-      return total;
-    }, 0);
+    try {
+      return orderItems.reduce((total, item) => {
+        // Ensure item has a valid price before adding to the total
+        if (item && item.price) {
+          total += item.price * (item.quantity || 1);
+        }
+        return total;
+      }, 0);
+
+    } catch {
+      return 0
+    }
+    
   };
 
   const getSubmittedData = async (): Promise<Order> => {
@@ -104,7 +115,7 @@ const OrderComponent = () => {
       const username = await AsyncStorage.getItem('username');
       const orderData = await getSubmittedData();
       console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO' + orderData)
-
+  
       const response = await fetch(`${iosLocalHost}:8080/api/orders`, {
         method: 'POST',
         headers: {
@@ -114,11 +125,14 @@ const OrderComponent = () => {
         },
         body: JSON.stringify(orderData),
       });
-
+  
       if (response.ok) {
         // Order placed successfully, handle the response if needed
         console.log('Order placed successfully!');
         setIsOrderSuccessModalVisible(true); // Show the success modal
+  
+        // Clear the order data from AsyncStorage
+        await AsyncStorage.setItem('order', '');
       } else {
         // Handle error response from the server
         console.error('Failed to place order:', response.status, response.statusText);
@@ -130,6 +144,7 @@ const OrderComponent = () => {
       Alert.alert('Error', 'Failed to place order. Please check your internet connection and try again.');
     }
   };
+  
   
   const handleDelete = async (itemId: number) => {
     try {
@@ -254,7 +269,7 @@ const OrderComponent = () => {
            <Icon name="trash" size={24} />
          </TouchableOpacity>
          <View style={styles.priceContainer}>
-           <Text style={styles.priceText}> {item.price !== undefined ? `$${item.price * item.quantity}` : 'Price not available'}</Text>
+           <Text style={styles.priceText}> {item.price !== undefined ? `$${(item.price * item.quantity).toFixed(2)}` : 'Price not available'}</Text>
            </View>
         </View>
       </View>

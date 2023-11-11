@@ -41,9 +41,11 @@ function findMenuItemById (itemId: number, menu: Menu): MenuItem | undefined {
 
 const DetailsPage = () => {
 
+    // AsyncStorage.removeItem("order")
     const [menuData, setMenuData] = useState<MenuItem | null>(null);
-    //const { id } = useLocalSearchParams();
+    const isMenuDataLoading = !menuData;
     const {collection, id } = useLocalSearchParams();
+    const [isAddToCartModalVisible, setIsAddToCartModalVisible] = useState(false);
     const idString = id;
     const isCollection = collection;
     const collections = ['burritos', 'sides', 'drinks'];
@@ -70,10 +72,10 @@ const DetailsPage = () => {
       };
   
       fetchMenuData();
-    }, [id, collection, menuData.]);
+    }, [id, collection]);
 
     const [itemQuantity, setQuantity] = useState(1);
-    const [isAddToCartModalVisible, setIsAddToCartModalVisible] = useState(false);
+    
 
     const decreaseQuantity = () => {
         if (itemQuantity > 1) {
@@ -97,29 +99,56 @@ const DetailsPage = () => {
 
     const addToOrder = async () => {
       try {
-        // get order array, any other orders should appear here.
+        // Get the existing order array from AsyncStorage
         const existingOrder = await AsyncStorage.getItem('order');
         let order: OrderItem[] = [];
+        console.log('ADD ORDER TRY BLOCK, EXISTING ORDER VAL: ' + existingOrder)
+    
         if (existingOrder) {
           order = JSON.parse(existingOrder);
-        }
-        if (menuData) {
+    
+          // Check if an item with the same name already exists in the order
+          const existingItemIndex = order.findIndex(item => item.name === menuData?.name);
+    
+          if (existingItemIndex !== -1) {
+            // If the item exists, update the quantity
+            order[existingItemIndex].quantity += itemQuantity;
+          } else {
+            // If the item doesn't exist, add a new item to the order
+            const itemToAdd: OrderItem = {
+              id: menuData?.id || 0, // Make sure to handle the case when menuData is null
+              name: menuData?.name || '',
+              price: menuData?.price || 0,
+              quantity: itemQuantity,
+            };
+            order.push(itemToAdd);
+          }
+    
+          // Update AsyncStorage with the modified order
+          await AsyncStorage.setItem('order', JSON.stringify(order));
+    
+          // Show the modal
+          //setIsAddToCartModalVisible(true);
+        } 
+        else {
           const itemToAdd: OrderItem = {
-            id: menuData.id,
-            name: menuData.name,
-            price: menuData.price,
-            quantity: itemQuantity
+            id: menuData?.id || 0, // Make sure to handle the case when menuData is null
+            name: menuData?.name || '',
+            price: menuData?.price || 0,
+            quantity: itemQuantity,
           };
           order.push(itemToAdd);
-          await AsyncStorage.setItem('order', JSON.stringify(order));
-          // MAKE MODAL APPEAR THAT THE USER ADDED SOMETHING TO CART 
-          console.log("====================================================" + order)
-          console.log(existingOrder)
         }
+  
+        // Update AsyncStorage with the modified order
+        await AsyncStorage.setItem('order', JSON.stringify(order));
       } catch (error) {
         console.error('Error adding item to order:', error);
       }
     };
+    
+    
+    
     
  
 
@@ -152,9 +181,9 @@ const DetailsPage = () => {
                 <TouchableOpacity onPress={increaseQuantity}>
                     <Text style={styles.actionButton}>+</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={addToOrder}>
-                    <View style={styles.addToOrderButton}>
-                        <Text style={styles.addToOrderButtonText}>Add to Order</Text>
+                <TouchableOpacity onPress={addToOrder} disabled={isMenuDataLoading}>
+                    <View style={[styles.addToOrderButton, { opacity: isMenuDataLoading ? 0.5 : 1 }]}>
+                        <Text style={styles.addToOrderButtonText}>{isMenuDataLoading ? 'Loading...' : 'Add to Order'}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -164,8 +193,8 @@ const DetailsPage = () => {
             <Text style={styles.shoppingCartButtonText}>View Shopping Cart</Text>
           </View>
         </TouchableOpacity>
-        </View>
         <AddToCartModal visible={isAddToCartModalVisible} onClose={handleCloseAddToCartModal} />
+        </View>
         </View>
     );
 }

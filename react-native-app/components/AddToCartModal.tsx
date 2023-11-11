@@ -1,12 +1,12 @@
 import React from 'react';
 import { Modal, View, Text, Button, StyleSheet } from 'react-native';
 
-interface SuccessModalProps {
+interface Props {
   visible: boolean;
   onClose: () => void;
 }
 
-const AddToCartModal = ({ visible, onClose }: SuccessModalProps) => {
+const AddToCartModal = ({ visible, onClose }: Props) => {
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
       <View style={styles.modalContainer}>
