@@ -31,7 +31,7 @@ const Notifications = () => {
     };
 
     fetchData();
-  }, []);
+  }, [orders]);
 
   const navigateToOrderStatus = (order) => {
     // Pass the order details to the next screen

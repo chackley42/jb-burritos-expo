@@ -26,7 +26,7 @@ export default () => {
     }
 
     fetchIsAdmin();
-  }, []);
+  }, [isAdmin]);
   return (
     <Tabs>
       <Tabs.Screen

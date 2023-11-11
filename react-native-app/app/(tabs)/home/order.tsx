@@ -55,7 +55,7 @@ const order = () => {
     };
 
     fetchMenuData();
-  }, []);
+  }, [menuData, isBurritosOpen, isSidesOpen, isBeveragesOpen]);
 
   const toggleBurritos = () => {
     setBurritosOpen(!isBurritosOpen);

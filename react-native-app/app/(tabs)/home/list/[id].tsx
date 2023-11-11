@@ -70,7 +70,7 @@ const DetailsPage = () => {
       };
   
       fetchMenuData();
-    }, [id, collection]);
+    }, [id, collection, menuData.]);
 
     const [itemQuantity, setQuantity] = useState(1);
     const [isAddToCartModalVisible, setIsAddToCartModalVisible] = useState(false);

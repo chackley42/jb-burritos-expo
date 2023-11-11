@@ -49,7 +49,7 @@ const OrderComponent = () => {
       };
 
       fetchOrderData();
-    }, [])
+    },[orderItems])
   );
   const handleCloseSuccessModal = () => {
     setIsOrderSuccessModalVisible(false);
