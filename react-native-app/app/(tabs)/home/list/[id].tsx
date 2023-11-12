@@ -128,7 +128,7 @@ const DetailsPage = () => {
           await AsyncStorage.setItem('order', JSON.stringify(order));
     
           // Show the modal
-          //setIsAddToCartModalVisible(true);
+          setIsAddToCartModalVisible(true);
         } 
         else {
           const itemToAdd: OrderItem = {
@@ -138,6 +138,7 @@ const DetailsPage = () => {
             quantity: itemQuantity,
           };
           order.push(itemToAdd);
+          setIsAddToCartModalVisible(true);
         }
   
         // Update AsyncStorage with the modified order
