@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
@@ -137,15 +137,25 @@ const LoginScreen = () => {
     return (
       <ScrollView>
       <View style={styles.container}>
+      <View style={styles.userIconContainer}>
+            <Image
+              source={require('../assets/user-icon.jpeg')}
+              style={styles.userIcon}
+            />
+          </View>
+          <Text style={styles.userInfo}>Account Details</Text>
       <View style={styles.userInfoContainer}>
-        <Text style={styles.userInfo}>Account Details</Text>
-        <Text style={styles.userInfo}>Username: {username}</Text>
-        <Text style={styles.userInfo}>Email: {email}</Text>
-        <Text style={styles.userInfo}>Phone Number: {phonenumber}</Text>
+        <Text style={styles.userInfoName}>Username</Text>
+        <Text style={styles.userInfo}>{username}</Text>
+        <Text style={styles.userInfoName}>Email</Text>
+        <Text style={styles.userInfo}>{email}</Text>
+        <Text style={styles.userInfoName}>Phone Number</Text>
+        <Text style={styles.userInfo}>{phonenumber}</Text>
       </View>
         {isAdmin && (
           <View style={styles.adminContainer}>
-          <Text style={styles.adminInfo}>You are an admin!</Text>
+            <Text style={styles.userInfo}>Admin Features</Text>
+          <Text style={styles.adminInfo}>Welcome admin, {username}!</Text>
         </View>
       )}
         <Button title="Logout" onPress={handleLogout} />
@@ -205,23 +215,30 @@ const styles = StyleSheet.create({
   },
   signupText: {
     fontSize: 16,
-    color: 'blue', // Customize the color as needed
+    color: 'blue',
   },
   orText: {
     fontSize: 16,
     marginTop: 10,
   },
   userInfo: {
-    fontSize: 20,
+    fontSize: 22,
     marginBottom: 5,
+    textAlign: 'center',
+  },
+  userInfoName: {
+    fontSize: 18,
+    marginBottom: 5,
+    textAlign: 'center',
   },
   userInfoContainer: {
     marginBottom: 20,
     padding: 10,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: '#ddd', // Customize the border color
-    backgroundColor: '#FFFCE5'
+    borderColor: '#ddd',
+    backgroundColor: '#FFFCE5',
+    alignItems: 'center',
   },
   adminInfo: {
     fontSize: 20,
@@ -232,9 +249,19 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: '#ddd', // Customize the border color
-    backgroundColor: '#f0f0f0', // Customize the background color
+    borderColor: '#515D52', 
+    backgroundColor: '#f0f0f0',
+  },
+  userIconContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  userIcon: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
   },
 });
 
 export default LoginScreen;
+

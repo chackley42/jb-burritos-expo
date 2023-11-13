@@ -7,9 +7,11 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
-        <Text>Food Truck's Current Location</Text>
+        <Text style={styles.navigateText}>Food Truck's Current Location</Text>
         <View style={styles.map}>
           {/* <TruckMapView /> */}
+          <Text style={styles.navigateText}>Operating Hours: </Text>
+          <Text style={styles.navigateText}>9AM - 5PM | Monday - Friday</Text>
         </View>
       </View>
       <View style={styles.linksContainer}>
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '80%',
-    height: '60%',
+    height: '65%',
     aspectRatio: 1,
   },
   linksContainer: {
@@ -57,15 +59,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#515D52',
     borderRadius: 8,
     marginBottom: 10,
-    width: '60%', // Limit the button width to 80% of the container
-    alignSelf: 'center', // Center the button horizontally
-    justifyContent: 'center', // Center the button vertically
+    width: '60%',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   linkText: {
     color: '#ffffff',
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center', // Center the text inside the button
+    textAlign: 'center',
+  },
+  navigateText: {
+    color: 'black',
+    fontSize: 22,
+    textAlign: 'center',
   },
 });
 
