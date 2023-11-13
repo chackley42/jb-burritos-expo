@@ -10,6 +10,7 @@ import order from '../home/order';
 import PaymentModal from '../../../components/PaymentModal';
 import iosLocalHost from '../../../utils/testingConsts';
 import OrderSuccessModal from '../../../components/OrderSuccessModal';
+import { router } from 'expo-router';
 
 
 
@@ -44,9 +45,9 @@ const OrderComponent = () => {
           const data = await getOrderData();
           
           // Check if the new data is different from the current state
-          if (!isEqual(data, orderItems)) {
-            setOrderItems(data);
-          }
+          // if (!isEqual(data, orderItems)) {
+          //   setOrderItems(data);
+          // }
         } catch (error) {
           console.error('Error fetching order data:', error);
         }
@@ -128,6 +129,7 @@ const OrderComponent = () => {
   
       if (response.ok) {
         // Order placed successfully, handle the response if needed
+        //setOrderItems([])
         console.log('Order placed successfully!');
         setIsOrderSuccessModalVisible(true); // Show the success modal
   
