@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   userInfoName: {
-    fontSize: 18,
+    fontSize: 14,
     marginBottom: 5,
     textAlign: 'center',
   },

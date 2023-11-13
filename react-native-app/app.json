@@ -2,7 +2,7 @@
   "expo": {
     "scheme": "acme",
     "splash": {
-      "image": ""
+      "image": "./assets/logo.png"
     },
     "web": {
       "bundler": "metro"
