@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
@@ -25,6 +25,8 @@ const LoginScreen = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [email, setEmail] = useState('');
+  const [phonenumber, setPhoneNumber] = useState('');
 
   const handleUsernameChange = (text: string) => {
     setLoginData({ ...loginData, username: text });
@@ -61,6 +63,9 @@ const LoginScreen = () => {
           await AsyncStorage.setItem('isAdmin', userData.isAdmin.toString());
           setIsLoggedIn(true)
           setUsername(userData.username);
+          setEmail(userData.email);
+          setPhoneNumber(userData.phonenumber)
+          console.log('SET THE FOLLOWING INFORMATION' + email, phonenumber, username)
           // await AsyncStorage.getItem("isAdmin")
           //setIsAdmin(userData.isAdmin)
           if (await AsyncStorage.getItem('isAdmin') === "true"){
@@ -130,13 +135,22 @@ const LoginScreen = () => {
   if (isLoggedIn) {
     // User is logged in, show username and logout button
     return (
+      <ScrollView>
       <View style={styles.container}>
-        <Text>Welcome, {username}!</Text>
+      <View style={styles.userInfoContainer}>
+        <Text style={styles.userInfo}>Account Details</Text>
+        <Text style={styles.userInfo}>Username: {username}</Text>
+        <Text style={styles.userInfo}>Email: {email}</Text>
+        <Text style={styles.userInfo}>Phone Number: {phonenumber}</Text>
+      </View>
         {isAdmin && (
-        <Text>Testing Purposes: You are an admin, {username}</Text>
+          <View style={styles.adminContainer}>
+          <Text style={styles.adminInfo}>You are an admin!</Text>
+        </View>
       )}
         <Button title="Logout" onPress={handleLogout} />
       </View>
+      </ScrollView>
     );
   } else {
     return (
@@ -196,6 +210,30 @@ const styles = StyleSheet.create({
   orText: {
     fontSize: 16,
     marginTop: 10,
+  },
+  userInfo: {
+    fontSize: 20,
+    marginBottom: 5,
+  },
+  userInfoContainer: {
+    marginBottom: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#ddd', // Customize the border color
+    backgroundColor: '#FFFCE5'
+  },
+  adminInfo: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  adminContainer: {
+    marginBottom: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#ddd', // Customize the border color
+    backgroundColor: '#f0f0f0', // Customize the background color
   },
 });
 
