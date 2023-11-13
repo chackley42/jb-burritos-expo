@@ -45,6 +45,8 @@ import { isEqual } from 'lodash';
           console.error('Error fetching orders:', error);
         }
 
+      } else{
+        setOrders([])
       }
     };
   
