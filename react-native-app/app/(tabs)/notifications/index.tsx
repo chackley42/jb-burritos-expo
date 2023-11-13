@@ -5,16 +5,28 @@ import getCurrentUserName from '../../../utils/getCurrentUser';
 import iosLocalHost from '../../../utils/testingConsts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import order from '../home/order';
+import { useFocusEffect } from 'expo-router';
+import { isEqual } from 'lodash';
 
 
 
   const Notifications = () => {
     const navigation = useNavigation();
     const [orders, setOrders] = useState([]);
+    const [username, setUserName] = useState('');
   
+    useFocusEffect(
+      React.useCallback(() => {
+        console.log('NOTIFICATIONS SCREEN USE EFFECT CALLED')
+        fetchData();
+      }, [])
+    )
+
     const fetchData = async () => {
       // Fetch orders associated with the username
-      const username = await getCurrentUserName();
+      //const username = await getCurrentUserName();
+      const username = await AsyncStorage.getItem('username');
+      setUserName(username);
       const token = await AsyncStorage.getItem('token');
       if (username && username !== 'Not Logged In' && username !== 'Error Retrieving Token') {
         try {
@@ -25,16 +37,16 @@ import order from '../home/order';
             },
           });
           const orderData = await response.json();
-          setOrders(orderData);
+          if(!isEqual(orderData, orders)){
+            setOrders(orderData);
+          }
+          
         } catch (error) {
           console.error('Error fetching orders:', error);
         }
+
       }
     };
-  
-    useEffect(() => {
-      fetchData();
-    }, []); // Run once when the component mounts
   
     const navigateToOrderStatus = (order) => {
       // Pass the order details to the next screen
