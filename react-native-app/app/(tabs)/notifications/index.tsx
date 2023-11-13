@@ -4,12 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 import getCurrentUserName from '../../../utils/getCurrentUser';
 import iosLocalHost from '../../../utils/testingConsts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import order from '../home/order';
 
-const Notifications = () => {
-  const navigation = useNavigation();
-  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
+
+  const Notifications = () => {
+    const navigation = useNavigation();
+    const [orders, setOrders] = useState([]);
+  
     const fetchData = async () => {
       // Fetch orders associated with the username
       const username = await getCurrentUserName();
@@ -29,33 +31,34 @@ const Notifications = () => {
         }
       }
     };
-
-    fetchData();
-  }, [orders]);
-
-  const navigateToOrderStatus = (order) => {
-    // Pass the order details to the next screen
-    navigation.navigate('notificationsOrderStatus', { order });
+  
+    useEffect(() => {
+      fetchData();
+    }, []); // Run once when the component mounts
+  
+    const navigateToOrderStatus = (order) => {
+      // Pass the order details to the next screen
+      navigation.navigate('notificationsOrderStatus', { order });
+    };
+  
+    // Reverse the orders array
+    const reversedOrders = [...orders].reverse();
+  
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
+        {reversedOrders.map((order) => (
+          <TouchableOpacity key={order._id} onPress={() => navigateToOrderStatus(order)}>
+            <View style={[styles.subTab]}>
+              <Text>Order Status</Text>
+              <Text>Your order was {order.status}.</Text>
+              <Text>Order# {order._id}</Text>
+              <Text>Placed on: {order.createdAt}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    );
   };
-
-  // Reverse the orders array
-  const reversedOrders = [...orders].reverse();
-
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {reversedOrders.map((order) => (
-        <TouchableOpacity key={order._id} onPress={() => navigateToOrderStatus(order)}>
-          <View style={[styles.subTab]}>
-            <Text>Order Status</Text>
-            <Text>Your order was {order.status}.</Text>
-            <Text>Order# {order._id}</Text>
-            <Text>Placed on: {order.createdAt}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  );
-};
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
