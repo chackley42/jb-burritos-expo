@@ -54,6 +54,7 @@ const OrderComponent = () => {
       };
   
       fetchOrderData();
+      console.log('SHOPPING CART USE EFFECT CALLED')
     }, []) // Add orderItems as a dependency
   );
   
@@ -306,11 +307,17 @@ const OrderComponent = () => {
            <View style={styles.tab}>
            <View style={styles.paymentModalButton}>
            <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
+           
            </View>
            </View>
       </View>
 
        <View style={styles.tab}>
+       <TouchableOpacity>
+          <View style={styles.signInButton}>
+            <Text style={styles.signInButtonText}>Sign In</Text>
+          </View>
+        </TouchableOpacity>
          <TouchableOpacity onPress={placeOrder}>
            <View style={styles.addToOrderButton}>
              <Text style={styles.addToOrderButtonText}>Place Order</Text>
@@ -358,6 +365,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
+  },
+  signInButton: {
+    backgroundColor: '#4CAF50', // Use your desired color
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginLeft: 10, // Adjust the margin as needed
+  },
+  signInButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
   },
   totalTabContainer: {
     backgroundColor: '#F8E435',
@@ -411,6 +429,8 @@ const styles = StyleSheet.create({
     // paddingVertical: 10,
     // paddingHorizontal: 20,
     height: 40,
+    justifyContent: 'space-between',
+    flexDirection: 'row'
   },
   noItemsContainer: {
     flex: 1,
