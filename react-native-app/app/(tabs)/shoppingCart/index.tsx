@@ -285,11 +285,11 @@ const OrderComponent = () => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.tab}>
-      <TouchableOpacity onPress={goToMenu}>
-        <View style={styles.addToOrderButton}>
-          <Text style={styles.addToOrderButtonText}>View Menu</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={goToMenu}>
+          <View style={styles.addToOrderButton}>
+            <Text style={styles.addToOrderButtonText}>View Menu</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <FlatList
         data={orderItems}
@@ -297,34 +297,43 @@ const OrderComponent = () => {
         keyExtractor={(item) => item?.id?.toString() || null}
       />
       <View style={styles.totalTabContainer}>
-        <Text>Subtotal: ${calculateSubtotal().toFixed(2)}</Text>
-        {/* Include tax calculation logic here if needed */}
-        <Text>Taxes: ${(calculateSubtotal() * 0.0725).toFixed(2)}</Text>
-        <Text>Total: ${(calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2)}</Text>
+        <View style={styles.rowContainer}>
+        <TouchableOpacity>
+            <View style={styles.signInButton}>
+              <Text style={styles.signInButtonText}>Sign In</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.totalInfoContainer}>
+          <Text style={styles.totalText}>Subtotal: ${calculateSubtotal().toFixed(2)}</Text>
+            {/* Include tax calculation logic here if needed */}
+            <Text style={styles.totalText}>Taxes: ${(calculateSubtotal() * 0.0725).toFixed(2)}</Text>
+            <Text style={styles.totalText}>Total: ${(calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2)}</Text>
+          </View>
+          
+        </View>
         {/* <View style={styles.addToOrderButton}>
-             <Text style={styles.addToOrderButtonText}>Payment Details</Text>
-           </View> */}
-           <View style={styles.tab}>
-           <View style={styles.paymentModalButton}>
-           <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
-           
-           </View>
-           </View>
+          <Text style={styles.addToOrderButtonText}>Payment Details</Text>
+        </View> */}
+        <View style={styles.tab}>
+          {/* <TouchableOpacity>
+            <View style={styles.signInButton}>
+              <Text style={styles.signInButtonText}>Sign In</Text>
+            </View>
+          </TouchableOpacity> */}
+          <View style={styles.paymentModalButton}>
+            <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
+          </View>
+        </View>
       </View>
 
-       <View style={styles.tab}>
-       <TouchableOpacity>
-          <View style={styles.signInButton}>
-            <Text style={styles.signInButtonText}>Sign In</Text>
+      <View style={styles.tab}>
+        <TouchableOpacity onPress={placeOrder}>
+          <View style={styles.addToOrderButton}>
+            <Text style={styles.addToOrderButtonText}>Place Order</Text>
           </View>
         </TouchableOpacity>
-         <TouchableOpacity onPress={placeOrder}>
-           <View style={styles.addToOrderButton}>
-             <Text style={styles.addToOrderButtonText}>Place Order</Text>
-           </View>
-         </TouchableOpacity>
-         </View>
-         <OrderSuccessModal
+      </View>
+      <OrderSuccessModal
         visible={isOrderSuccessModalVisible}
         onClose={handleCloseSuccessModal}
         onGoToNotifications={notifications} // Pass the function to navigate to notifications
@@ -367,11 +376,12 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   signInButton: {
-    backgroundColor: '#4CAF50', // Use your desired color
+    backgroundColor: '#515D52',
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 10, // Adjust the margin as needed
+    paddingHorizontal: 30,
+    marginLeft: 10,
+    marginHorizontal: 20,
   },
   signInButtonText: {
     color: '#ffffff',
@@ -379,9 +389,9 @@ const styles = StyleSheet.create({
   },
   totalTabContainer: {
     backgroundColor: '#F8E435',
-    padding: 30,
+    padding: 20,
     width: '100%',
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
@@ -424,32 +434,44 @@ const styles = StyleSheet.create({
   paymentModalButton:{
     paddingVertical: 0,
     paddingHorizontal: 20,
-    //backgroundColor: '#515D52',
-    // borderRadius: 10,
-    // paddingVertical: 10,
-    // paddingHorizontal: 20,
     height: 40,
     justifyContent: 'space-between',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 0,
+    marginBottom: 0,
   },
   noItemsContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF', // You can set the background color here
+    backgroundColor: '#FFFFFF',
   },
   backButton: {
-    backgroundColor: '#515D52', // Change this color to your desired background color
+    backgroundColor: '#515D52',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    margin: 10, // Adjust the margin as needed
+    margin: 10,
   },
   backButtonText: {
     color: '#ffffff',
     fontSize: 16,
     textAlign: 'center',
     backgroundColor: '#515D52'
+  },
+  totalInfoContainer: {
+    marginRight: 35, 
+    justifyContent: 'space-between',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  totalText: {
+    textAlign: 'right',
+    marginLeft: 50,
+    fontSize: 18,
   },
 });
 

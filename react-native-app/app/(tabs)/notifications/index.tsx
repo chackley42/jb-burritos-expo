@@ -70,6 +70,9 @@ import { isEqual } from 'lodash';
             </View>
           </TouchableOpacity>
         ))}
+        {!username || username === 'Not Logged In' || username === 'Error Retrieving Token' ? (
+        <Text style={styles.signedOutText}>Sign in to view notifications.</Text>
+      ) : null}
       </ScrollView>
     );
   };
@@ -104,6 +107,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
+  },
+  signedOutText: {
+    textAlign: 'center',
+    fontSize: 20,
+    marginTop: 300,
   },
 });
 

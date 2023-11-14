@@ -138,10 +138,10 @@ const LoginScreen = () => {
       <ScrollView>
       <View style={styles.container}>
       <View style={styles.userIconContainer}>
-            <Image
+            {/* <Image
               source={require('../assets/user-icon.jpeg')}
               style={styles.userIcon}
-            />
+            /> */}
           </View>
           <Text style={styles.userInfo}>Account Details</Text>
       <View style={styles.userInfoContainer}>
@@ -255,11 +255,6 @@ const styles = StyleSheet.create({
   userIconContainer: {
     alignItems: 'center',
     marginBottom: 20,
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
   },
 });
 
