@@ -34,20 +34,32 @@ const order = () => {
       //   console.error('Error fetching menu data from AsyncStorage:', error);
       // }
       try {
-        // Fetch burritos data from the API
-        const burritosResponse = await fetch(`${iosLocalHost}:8080/api/burritos`);
-        const burritosData = await burritosResponse.json();
+        // // Fetch burritos data from the API
+        // const burritosResponse = await fetch(`${iosLocalHost}:8080/api/burritos`);
+        // const burritosData = await burritosResponse.json();
         
-        // Fetch sides data from the API
-        const sidesResponse = await fetch(`${iosLocalHost}:8080/api/sides`);
-        const sidesData = await sidesResponse.json();
+        // // Fetch sides data from the API
+        // const sidesResponse = await fetch(`${iosLocalHost}:8080/api/sides`);
+        // const sidesData = await sidesResponse.json();
 
-        // Fetch beverages data from the API
-        const beveragesResponse = await fetch(`${iosLocalHost}:8080/api/drinks`);
-        const beveragesData = await beveragesResponse.json();
+        // // Fetch beverages data from the API
+        // const beveragesResponse = await fetch(`${iosLocalHost}:8080/api/drinks`);
+        // const beveragesData = await beveragesResponse.json();
 
-        // Set the menu data state
-        setMenuData({ burritos: burritosData, sides: sidesData, drinks: beveragesData });
+        // console.log('API FETCHED DATA OLD: ' + JSON.stringify(burritosData))
+
+        const burritosData = await AsyncStorage.getItem('burritos');
+        const sidesData = await AsyncStorage.getItem('sides');
+        const beveragesData = await AsyncStorage.getItem('drinks');
+
+        const parsedBurritos = burritosData ? JSON.parse(burritosData) : [];
+        const parsedSides = sidesData ? JSON.parse(sidesData) : [];
+        const parsedBeverages = beveragesData ? JSON.parse(beveragesData) : [];
+
+        setMenuData({ burritos: parsedBurritos, sides: parsedSides, drinks: parsedBeverages });
+
+        // OLD WAY
+        //setMenuData({ burritos: burritosData, sides: sidesData, drinks: beveragesData});
       } catch (error) {
         console.error('Error fetching menu data:', error);
       }
@@ -55,7 +67,7 @@ const order = () => {
     };
 
     fetchMenuData();
-  }, [menuData, isBurritosOpen, isSidesOpen, isBeveragesOpen]);
+  }, [isBurritosOpen, isSidesOpen, isBeveragesOpen]);
 
   const toggleBurritos = () => {
     setBurritosOpen(!isBurritosOpen);
