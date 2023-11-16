@@ -282,6 +282,10 @@ const OrderComponent = () => {
   const goToMenu = () => {
     navigation.navigate('order'); // Navigate back to the menu or any other appropriate route
   };
+  const navigateToSignIn = () => {
+    navigation.navigate('profile'); // Replace 'SignIn' with the actual name of your sign-in page
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.tab}>
@@ -298,7 +302,7 @@ const OrderComponent = () => {
       />
       <View style={styles.totalTabContainer}>
         <View style={styles.rowContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={navigateToSignIn}>
             <View style={styles.signInButton}>
               <Text style={styles.signInButtonText}>Sign In</Text>
             </View>

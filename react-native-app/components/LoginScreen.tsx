@@ -131,6 +131,11 @@ const LoginScreen = () => {
     setIsLoggedIn(false);
   };
 
+  const viewShoppingCart = () => {
+    navigation.navigate('shoppingCart');
+  };
+
+
 
   if (isLoggedIn) {
     // User is logged in, show username and logout button
@@ -142,6 +147,11 @@ const LoginScreen = () => {
               source={require('../assets/user-icon.jpeg')}
               style={styles.userIcon}
             /> */}
+          <TouchableOpacity onPress={viewShoppingCart}>
+            <View style={styles.shoppingCartButton}>
+              <Text style={styles.shoppingCartButtonText}>View Shopping Cart</Text>
+            </View>
+          </TouchableOpacity>
           </View>
           <Text style={styles.userInfo}>Account Details</Text>
       <View style={styles.userInfoContainer}>
@@ -255,6 +265,18 @@ const styles = StyleSheet.create({
   userIconContainer: {
     alignItems: 'center',
     marginBottom: 20,
+  },
+  shoppingCartButton: {
+    backgroundColor: '#515D52',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    marginLeft: 10,
+    marginHorizontal: 20,
+  },
+  shoppingCartButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
   },
 });
 
