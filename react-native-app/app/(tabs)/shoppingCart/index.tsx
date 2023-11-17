@@ -259,12 +259,12 @@ const OrderComponent = () => {
     return (
       <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.subTab}>
-        <Text>{item.name}</Text>
+        <Text style={styles.itemName}>{item.name}</Text>
         <View style={styles.quantityContainer}>
         <TouchableOpacity onPress={() => handleDecrement(item.id)}>
           <Text style={styles.actionButton}>-</Text>
           </TouchableOpacity>
-          <Text>{item.quantity}</Text>
+          <Text style={styles.quantity}>{item.quantity}</Text>
           <TouchableOpacity onPress={() => handleIncrement(item.id)}>
           <Text style={styles.actionButton}>+</Text>
           </TouchableOpacity>
@@ -408,12 +408,15 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFFCE5',
   },
+  itemName: {
+    fontSize: 20,
+  },
   actionButton: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   quantity: {
-    fontSize: 18,
+    fontSize: 20,
   },
   priceContainer: {
     backgroundColor: '#FFFCE5',
@@ -423,7 +426,7 @@ const styles = StyleSheet.create({
   },
   priceText: {
     color: '#000000',
-    fontSize: 18,
+    fontSize: 20,
   },
   addToOrderButton: {
     backgroundColor: '#515D52',
