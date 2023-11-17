@@ -4,6 +4,7 @@ import { Link, useNavigation, Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../../utils/storage';
 import iosLocalHost from '../../../utils/testingConsts';
+import { fetchMenuDataAndStore } from '../../../utils/apiCalls';
 
 //storeMenuData()
 
@@ -47,16 +48,33 @@ const order = () => {
         // const beveragesData = await beveragesResponse.json();
 
         // console.log('API FETCHED DATA OLD: ' + JSON.stringify(burritosData))
-
+        
+        
         const burritosData = await AsyncStorage.getItem('burritos');
         const sidesData = await AsyncStorage.getItem('sides');
         const beveragesData = await AsyncStorage.getItem('drinks');
 
-        const parsedBurritos = burritosData ? JSON.parse(burritosData) : [];
-        const parsedSides = sidesData ? JSON.parse(sidesData) : [];
-        const parsedBeverages = beveragesData ? JSON.parse(beveragesData) : [];
+        if (burritosData && sidesData && beveragesData){
+          const parsedBurritos = burritosData ? JSON.parse(burritosData) : [];
+          const parsedSides = sidesData ? JSON.parse(sidesData) : [];
+          const parsedBeverages = beveragesData ? JSON.parse(beveragesData) : [];
 
-        setMenuData({ burritos: parsedBurritos, sides: parsedSides, drinks: parsedBeverages });
+          setMenuData({ burritos: parsedBurritos, sides: parsedSides, drinks: parsedBeverages });
+
+        }
+        else {
+          fetchMenuDataAndStore()
+          const burritosData = await AsyncStorage.getItem('burritos');
+          const sidesData = await AsyncStorage.getItem('sides');
+          const beveragesData = await AsyncStorage.getItem('drinks');
+          const parsedBurritos = burritosData ? JSON.parse(burritosData) : [];
+          const parsedSides = sidesData ? JSON.parse(sidesData) : [];
+          const parsedBeverages = beveragesData ? JSON.parse(beveragesData) : [];
+
+          setMenuData({ burritos: parsedBurritos, sides: parsedSides, drinks: parsedBeverages });
+
+        }
+        
 
         // OLD WAY
         //setMenuData({ burritos: burritosData, sides: sidesData, drinks: beveragesData});
