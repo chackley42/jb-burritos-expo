@@ -142,47 +142,55 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
-  const userLoggingIn = req.body;
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
 
-  User.findOne({ username: userLoggingIn.username })
-    .then((dbUser) => {
-      if (!dbUser) {
-        return res.json({
-          message: "Invalid Username or Password"
-        });
-      }
+  try {
+    // Find the user by username
+    const dbUser = await User.findOne({ username });
 
-      bcrypt.compare(userLoggingIn.password, dbUser.password)
-        .then((isCorrect) => {
-          if (isCorrect) {
-            const payload = {
-              id: dbUser._id,
-              username: dbUser.username,
-            };
+    if (!dbUser) {
+      return res.status(401).json({
+        message: "Invalid Username or Password",
+      });
+    }
 
-            jwt.sign(
-              payload,
-              process.env.JWT_SECRET,
-              { expiresIn: 86400 },
-              (err, token) => {
-                if (err) return res.json({ message: err });
-                return res.json({
-                  message: "Success",
-                  token: "Bearer " + token
-                });
-              }
-            );
-          } else {
-            return res.json({
-              message: "Invalid Username or Password"
-            });
+    // Compare the provided password with the hashed password in the database
+    const isCorrectPassword = await bcrypt.compare(password, dbUser.password);
+
+    if (isCorrectPassword) {
+      // Password is correct, generate a JWT token
+      const payload = {
+        id: dbUser._id,
+        username: dbUser.username,
+      };
+
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: 86400 }, // 24 hours
+        (err, token) => {
+          if (err) {
+            console.error('Error generating JWT token:', err);
+            return res.status(500).json({ message: 'Internal server error' });
           }
-        });
-    })
-    .catch((err) => {
-      return res.json({ message: err });
-    });
+
+          return res.json({
+            message: "Success",
+            token: "Bearer " + token,
+          });
+        }
+      );
+    } else {
+      // Incorrect password
+      return res.status(401).json({
+        message: "Invalid Username or Password",
+      });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 //get username info
