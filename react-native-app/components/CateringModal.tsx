@@ -1,23 +1,24 @@
 import React from 'react';
-import { Modal, View, Text, Button, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 
-interface Props {
-  visible: boolean;
-  onClose: () => void;
-}
-
-const AddToCartModal = ({ visible, onClose }: Props) => {
+const CateringModal = ({ isVisible, onClose }) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={onClose}
+    >
       <View style={styles.modalContainer}>
         {/* Background overlay */}
         <View style={styles.overlay} />
-      <View style={styles.modalContainer}>
+        
         <View style={styles.modalContent}>
-          <Text>Item added to shopping cart!</Text>
-          <Button title="Close" onPress={onClose} />
+          <Text>Your request was successfully submitted and will be reviewed soon!</Text>
+          <TouchableOpacity onPress={onClose}>
+            <Button title="Close" onPress={onClose} />
+          </TouchableOpacity>
         </View>
-      </View>
       </View>
     </Modal>
   );
@@ -45,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddToCartModal;
+export default CateringModal;

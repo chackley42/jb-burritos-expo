@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView
 import { useNavigation } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
+import FailedLoginModal from './FailedLoginModal';
+import { isError } from 'lodash';
 
 interface LoginFormValues {
   username: string;
@@ -10,10 +12,16 @@ interface LoginFormValues {
 }
 
 const LoginScreen = () => {
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [loginData, setLoginData] = useState<LoginFormValues>({
     username: '',
     password: '',
   });
+
+  const toggleErrorModal = () => {
+    console.log('TOGGLE ERROR MODAL CALLED')
+    setIsErrorModalVisible(!isErrorModalVisible);
+  };
 
   const navigation = useNavigation(); // Initialize navigation
 
@@ -80,6 +88,7 @@ const LoginScreen = () => {
       }
     } else {
       setIsLoggedIn(false);
+      //setIsErrorModalVisible(true)
     }
   };
 
@@ -102,16 +111,20 @@ const LoginScreen = () => {
         // Save the username in AsyncStorage
         await AsyncStorage.setItem('username', loginData.username);
         // Update login status and username
+
         setIsLoggedIn(true);
         setUsername(loginData.username);
+
         //setIsAdmin(loginData.isAdmin);
         // Handle successful login logic (navigate to the home screen, etc.)
         checkLoggedInStatus()
-        console.log('Login successful!');
-        console.log(loginData.username);
+        // console.log('Login successful!');
+        // console.log(loginData.username);
         //console.log('isAdmin:' + loginData.isAdmin);
       } else {
         // Handle login failure, show an error message to the user
+        setIsErrorModalVisible(true);
+        //toggleErrorModal();
         console.log('Login failed:', data.message);
       }
     } catch (error) {
@@ -198,7 +211,7 @@ const LoginScreen = () => {
         <Text style={styles.signupText}>Create Account</Text>
       </TouchableOpacity>
 
-      
+      <FailedLoginModal isVisible={isErrorModalVisible} onClose={toggleErrorModal} />
     </View>
     );
   }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import CateringModal from '../components/CateringModal';
 
 interface FormValues {
   name: string;
@@ -10,6 +11,7 @@ interface FormValues {
 }
 
 const CaterForm = () => {
+  const [isCateringModalVisible, setIsCateringModalVisible] = useState(false);
   const [formData, setFormData] = useState<FormValues>({
     name: '',
     email: '',
@@ -42,6 +44,9 @@ const CaterForm = () => {
     setFormData({ ...formData, comments: text });
   };
 
+  const handleCloseCateringModal = () => {
+    setIsCateringModalVisible(false);
+  };
   const handleSubmit = () => {
     // Simple form validation: Check if required fields are empty
     if (!formData.name || !formData.email || !formData.phoneNumber || !formData.numberOfPeople) {
@@ -53,6 +58,7 @@ const CaterForm = () => {
       console.log('Phone Number:', formData.phoneNumber);
       console.log('Number of People Served:', formData.numberOfPeople);
       console.log('Comments/Questions:', formData.comments);
+      setIsCateringModalVisible(true)
     }
   };
 
@@ -102,7 +108,9 @@ const CaterForm = () => {
         multiline
       />
 
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button title="Submit" onPress={handleSubmit} ></Button>
+      <CateringModal isVisible={isCateringModalVisible} onClose={handleCloseCateringModal}></CateringModal>
+
     </View>
   );
 };
