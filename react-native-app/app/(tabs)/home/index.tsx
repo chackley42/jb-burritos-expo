@@ -1,24 +1,33 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button, Linking } from 'react-native';
 import { Link } from 'expo-router';
 import TruckMapView from '../../../components/TruckMapView';
 
 const Home = () => {
+  const userLocation = { latitude: 40.231708, longitude: -111.658480 };
+  const truckLocation = { latitude: 40.2778, longitude: -111.7131 };
+  const handleNavigation = () => {
+    const destination = `${truckLocation.latitude},${truckLocation.longitude}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+    
+    // Open Google Maps or a browser with the navigation link
+    Linking.openURL(url);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <Text style={styles.navigateText}>Food Truck's Current Location</Text>
         <View style={styles.map}>
-          {/* <TruckMapView /> */}
+          <TruckMapView />
           <Text style={styles.navigateText}>Operating Hours: </Text>
           <Text style={styles.navigateText}>9AM - 5PM | Monday - Friday</Text>
         </View>
       </View>
       <View style={styles.linksContainer}>
         <View style={styles.link}>
-          <Link href="/home/navigate">
-            <Text style={styles.linkText}>Navigate to Food Truck</Text>
-          </Link>
+          
+            <Text style={styles.linkText} onPress={handleNavigation}>Navigate to Food Truck</Text>
+          
         </View>
         <View style={styles.link}>
           <Link href="/home/order">
