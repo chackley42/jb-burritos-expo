@@ -37,6 +37,7 @@ const getOrderData = async (): Promise<OrderItem[]> => {
 const OrderComponent = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [isOrderSuccessModalVisible, setIsOrderSuccessModalVisible] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -52,6 +53,21 @@ const OrderComponent = () => {
           console.error('Error fetching order data:', error);
         }
       };
+
+      const fetchUserData = async () => {
+        try {
+          //const username = await getCurrentUserName();
+          const username = await AsyncStorage.getItem('username');
+          console.log('HOORAY USERNAME'+ username)
+          if (username && username != 'Not Logged In') {
+            setLoggedInUser(username);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+  
+      fetchUserData();
   
       fetchOrderData();
       console.log('SHOPPING CART USE EFFECT CALLED')
@@ -302,11 +318,16 @@ const OrderComponent = () => {
       />
       <View style={styles.totalTabContainer}>
         <View style={styles.rowContainer}>
+        {/* Conditionally render based on logged-in user */}
+      {loggedInUser ? (
+        <Text style={styles.totalText}>{`Logged in as: ${loggedInUser}`}</Text>
+      ) : (
         <TouchableOpacity onPress={navigateToSignIn}>
-            <View style={styles.signInButton}>
-              <Text style={styles.signInButtonText}>Sign In</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.signInButton}>
+            <Text style={styles.signInButtonText}>Sign In</Text>
+          </View>
+        </TouchableOpacity>
+      )}
           <View style={styles.totalInfoContainer}>
           <Text style={styles.totalText}>Subtotal: ${calculateSubtotal().toFixed(2)}</Text>
             {/* Include tax calculation logic here if needed */}

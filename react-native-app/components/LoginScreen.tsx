@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { useNavigation, Redirect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
 import FailedLoginModal from './FailedLoginModal';
@@ -17,6 +17,14 @@ const LoginScreen = () => {
     username: '',
     password: '',
   });
+
+  const handleAdminButtonClick = () => {
+    // Navigate to the "/admin-home" route
+    navigation.navigate(<Redirect href={"/admin-home"}/>);
+    // return (
+    // <Redirect href={"/admin-home"}/>
+    // )
+  };
 
   const toggleErrorModal = () => {
     console.log('TOGGLE ERROR MODAL CALLED')
@@ -177,15 +185,26 @@ const LoginScreen = () => {
       </View>
         {isAdmin && (
           <View style={styles.adminContainer}>
-            <Text style={styles.userInfo}>Admin Features</Text>
+            <Text style={styles.userInfo}>Admin Features Unlocked</Text>
           <Text style={styles.adminInfo}>Welcome admin, {username}!</Text>
+          <TouchableOpacity onPress={handleAdminButtonClick}>
+        <Text>Go to Admin Home</Text>
+      </TouchableOpacity>
+
         </View>
       )}
         <Button title="Logout" onPress={handleLogout} />
       </View>
       </ScrollView>
     );
-  } else {
+  // } else if (isLoggedIn && isAdmin){
+  //   //new logic here 
+  //   return (
+  //     <Redirect href={"/admin-home"}/>
+  //   )
+    
+   }
+  else {
     return (
       <View style={styles.container}>
       <Text style={styles.label}>Username:</Text>
