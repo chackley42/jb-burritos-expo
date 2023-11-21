@@ -28,10 +28,10 @@ export default () => {
     fetchIsAdmin();
   }, [isAdmin]);
 
-  useEffect(() => {
-    fetchIsAdmin()
-    StatusBar.setBarStyle('dark-content');
-  }, [isAdmin]);
+  // useEffect(() => {
+  //   fetchIsAdmin()
+  //   StatusBar.setBarStyle('dark-content');
+  // }, [isAdmin]);
 
   const adminStyles = isAdmin
     ? {
@@ -56,7 +56,7 @@ export default () => {
       />
       <Tabs.Screen
         name="notifications"
-        options={tabOptions('Notifications', 'bell', adminStyles)}
+        options={tabOptions('Notifications', isAdmin ? 'list' : 'bell', adminStyles)}
       />
       {/* {isAdmin && (
         <Tabs.Screen

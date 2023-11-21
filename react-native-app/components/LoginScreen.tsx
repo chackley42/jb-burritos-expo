@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
 import FailedLoginModal from './FailedLoginModal';
 import { isError } from 'lodash';
+import { useAdminContext } from '../utils/AdminContext';
 
 interface LoginFormValues {
   username: string;
@@ -12,6 +13,9 @@ interface LoginFormValues {
 }
 
 const LoginScreen = () => {
+  const { isAdminGlobal, setAdminStatus } = useAdminContext();
+
+
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [loginData, setLoginData] = useState<LoginFormValues>({
     username: '',
@@ -86,6 +90,7 @@ const LoginScreen = () => {
           //setIsAdmin(userData.isAdmin)
           if (await AsyncStorage.getItem('isAdmin') === "true"){
             setIsAdmin(true)
+            setAdminStatus(true);
           }
         } else {
           console.error('User not found');
@@ -150,6 +155,7 @@ const LoginScreen = () => {
     setLoginData({ ...loginData, password: "" })
     setIsAdmin(false)
     setIsLoggedIn(false);
+    setAdminStatus(false)
   };
 
   const viewShoppingCart = () => {
