@@ -38,6 +38,7 @@ const OrderComponent = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [isOrderSuccessModalVisible, setIsOrderSuccessModalVisible] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -58,9 +59,11 @@ const OrderComponent = () => {
         try {
           //const username = await getCurrentUserName();
           const username = await AsyncStorage.getItem('username');
-          console.log('HOORAY USERNAME'+ username)
-          if (username && username != 'Not Logged In') {
+          if (username && username !== 'Not Logged In') {
             setLoggedInUser(username);
+            setIsUserAuthenticated(true);
+          } else {
+            setIsUserAuthenticated(false);
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -319,7 +322,7 @@ const OrderComponent = () => {
       <View style={styles.totalTabContainer}>
         <View style={styles.rowContainer}>
         {/* Conditionally render based on logged-in user */}
-      {loggedInUser ? (
+      {isUserAuthenticated ? (
         <Text style={styles.totalText}>{`Logged in as: ${loggedInUser}`}</Text>
       ) : (
         <TouchableOpacity onPress={navigateToSignIn}>
