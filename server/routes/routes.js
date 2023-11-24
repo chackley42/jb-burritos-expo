@@ -249,3 +249,28 @@ router.get('/orders/:username', async (req, res) => {
   }
 });
 
+// Update order status by ID Method
+router.patch('/orders/:id/status', async (req, res) => {
+  const orderId = req.params.id;
+  const { status } = req.body;
+
+  try {
+    // Find the order by ID and update its status
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { $set: { status: status } },
+      { new: true }
+    );
+
+    if (updatedOrder) {
+      res.status(200).json({ message: 'Order status updated successfully', order: updatedOrder });
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
