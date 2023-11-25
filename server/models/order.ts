@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema({
   username: String,
   status: {
     type: String,
-    enum: ['order received and is being prepared', 'ready for pickup'],
+    enum: ['order received and is being prepared', 'ready for pickup', 'complete'],
     default: 'order received and is being prepared', // Default value if not provided
   },
 },{timestamps: true});

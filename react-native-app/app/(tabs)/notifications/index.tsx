@@ -158,12 +158,44 @@ const Notifications = () => {
     }
   };
 
+  const archiveOrder = async (orderId, currentStatus) => {
+    const newStatus =
+      currentStatus === 'ready for pickup'
+        ? 'complete'
+        : 'ready for pickup';
+
+    // Update the order status on the server
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await fetch(`${iosLocalHost}:8080/api/orders/${orderId}/status`, {
+        method: 'PATCH', // Use PATCH method to update existing resources
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }), // Update the status
+      });
+
+      // Check if the request was successful
+      if (response.ok) {
+        // Fetch updated order data after the toggle
+        fetchData();
+      } else {
+        console.error('Error updating order status:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  };
+
   const OrderItem = ({ order, onToggleStatus }) => {
     const [loading, setLoading] = useState(false);
   
     const getStatusButtonColor = () => {
       return order.status === 'ready for pickup' ? 'green' : 'orange';
     };
+
+    const isArchiveDisabled = order.status === 'order received and is being prepared';
   
     const handleToggleStatus = async () => {
       setLoading(true);
@@ -181,11 +213,31 @@ const Notifications = () => {
     return (
       <TouchableOpacity onPress={() => navigateToOrderStatus(order)}>
         <View style={[styles.adminSubTab]}>
+          
+        <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+            <Text>Order# </Text>
+            <Text>{order._id}</Text>
+          </View>
+
+          {/* Order Details Text */}
+          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+            {/* <Text>Order# {order._id}</Text> */}
+            <Text>Placed on: </Text>
+            <Text>{formatDate(order.createdAt)}</Text>
+            <Text style={styles.statusText}>{order.username}</Text>
+          </View>
+  
+          {/* <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+            <Text style={[styles.statusText]}>username</Text>
+            <Text style={styles.statusText}>{order.username}</Text>
+          </View> */}
+
+          
           {/* Order Status Text */}
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
             <Text style={[styles.statusText]}>Status</Text>
 
-            <Text style={[styles.statusTextContainer, { color: getStatusButtonColor() }]}>
+            <Text style={[{ color: getStatusButtonColor() }]}>
               {loading ? (
                 <ActivityIndicator size="small" color="#000000" />
               ) : (
@@ -203,18 +255,8 @@ const Notifications = () => {
             
           </View>
   
-          {/* Order Details Text */}
-          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            {/* <Text>Order# {order._id}</Text> */}
-            <Text>Placed on: {formatDate(order.createdAt)}</Text>
-          </View>
-  
-          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            <Text style={[styles.statusText]}>username</Text>
-            <Text style={styles.statusText}>{order.username}</Text>
-          </View>
-  
           {/* Toggle Status Button */}
+          <View>
           <TouchableOpacity
             style={[
               styles.toggleButton,
@@ -225,6 +267,16 @@ const Notifications = () => {
           >
             <Text style={styles.toggleButtonText}>Toggle Status</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.archiveButton, { backgroundColor: isArchiveDisabled ? 'grey' : 'red', opacity: isArchiveDisabled ? 0.5 : 1 }]}
+            onPress={() => archiveOrder(order._id, order.status)}
+            disabled={isArchiveDisabled}
+          >
+            <Text style={styles.toggleButtonText}>Archive</Text>
+          </TouchableOpacity>
+          </View>
+          
+
         </View>
       </TouchableOpacity>
     );
@@ -232,18 +284,41 @@ const Notifications = () => {
 
   const UserOrderItem = ({order}) => {
 
+    const getStatusButtonColor = () => {
+      return order.status === 'ready for pickup' ? 'green' : 'orange';
+    };
+
     return (
     <TouchableOpacity onPress={() => navigateToOrderStatus(order)}>
         <View style={[styles.adminSubTab]}>
+
+
+
+
+        <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+            <Text>Order# {order._id}</Text>
+          </View>
+
+
+
           {/* Order Status Text */}
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
             <Text style={[styles.statusText]}>Status</Text>
             
                 <Text style={styles.statusText}>
                   {order.status === 'ready for pickup' ? (
-                    <FontAwesome name="check-circle-o" size={40} color="green" />
+                    <FontAwesome name="check-circle-o" size={20} color="green" />
                   ) : order.status === 'order received and is being prepared' ? (
-                    <FontAwesome name="clock-o" size={40} color="orange" />
+                    <FontAwesome name="clock-o" size={20} color="orange" />
+                  ) : (
+                    order.status
+                  )}
+                </Text>
+                <Text style={styles.statusText}>
+                  {order.status === 'ready for pickup' ? (
+                    <Text style={[styles.statusTextContainer, { color: getStatusButtonColor() }]}>Order ready</Text>
+                  ) : order.status === 'order received and is being prepared' ? (
+                    <Text style={[styles.statusTextContainer, { color: getStatusButtonColor() }]}>Order being prepared</Text>
                   ) : (
                     order.status
                   )}
@@ -251,15 +326,24 @@ const Notifications = () => {
           </View>
   
           {/* Order Details Text */}
+          {/* <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+            <Text>Order# {order._id}</Text>
+            <Text>Placed on: {order.createdAt}</Text>
+          </View> */}
+
+          
+
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
             {/* <Text>Order# {order._id}</Text> */}
-            {/* <Text>Placed on: {order.createdAt}</Text> */}
+            <Text>Placed on: {formatDate(order.createdAt)}</Text>
           </View>
+
+          
   
-          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+          {/* <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
             <Text style={[styles.statusText]}>username</Text>
             <Text style={styles.statusText}>{order.username}</Text>
-          </View>
+          </View> */}
         </View>
       </TouchableOpacity>
     )
@@ -287,7 +371,8 @@ const Notifications = () => {
 
 
   const renderAdminOrders = () => {
-    const reversedAdminOrders = [...orders].reverse();
+    const filteredOrders = orders.filter(order => order.status !== 'complete');
+    const reversedAdminOrders = [...filteredOrders].reverse();
 
     return (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -299,14 +384,26 @@ const Notifications = () => {
   };
 
   const renderUserOrders = () => {
-    const reversedAdminOrders = [...orders].reverse();
-
+    const reversedOrders = [...orders].reverse();
+  
+    // Separate completed and in-progress orders
+    const completedOrders = reversedOrders.filter(order => order.status === 'complete');
+    const inProgressOrders = reversedOrders.filter(order => order.status !== 'complete');
+  
+    // Concatenate the arrays to have completed orders at the bottom
+    const orderedOrders = [...inProgressOrders, ...completedOrders];
+  
     return (
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {reversedAdminOrders.map((order) => (
-          <UserOrderItem key={order._id} order={order} />
-        ))}
-      </ScrollView>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={fetchData} style={styles.clientReloadBtn}>
+          <Text style={styles.clientReloadText}>Refresh Page</Text>
+        </TouchableOpacity>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {orderedOrders.map((order) => (
+            <UserOrderItem key={order._id} order={order} />
+          ))}
+        </ScrollView>
+      </View>
     );
   };
 
@@ -360,15 +457,28 @@ const styles = StyleSheet.create({
   },
   adminSubTab: {
     backgroundColor: '#E5F2FF',
-    padding: 30,
+    padding: 25,
     width: '100%',
     alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
     flexDirection: 'row', // Added to align items horizontally
-    justifyContent: 'space-between', // Added to create space between items
+    justifyContent: 'space-around', // Added to create space between items
+    
 
+  },
+  
+  clientReloadBtn: {
+    backgroundColor: 'black',
+    alignItems: 'center',
+    height: 30
+  },
+
+  clientReloadText: {
+    color: 'white',
+    justifyContent: 'center',
+    padding: 5,
   },
 
   toggleButton: {
@@ -380,11 +490,21 @@ const styles = StyleSheet.create({
   toggleButtonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 12
+  },
+
+  archiveButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 5,
   },
 
   statusTextContainer: {
     padding: 0,
     width: 70,
+    margin: 5,
+    alignItems: 'center'
   },
 
   statusText: {
