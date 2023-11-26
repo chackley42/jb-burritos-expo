@@ -11,7 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 //import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 
-const formatDate = (isoDateString) => {
+export const formatDate = (isoDateString) => {
   // Check if isoDateString is undefined or null
   if (!isoDateString) {
     console.error('Invalid isoDateString:', isoDateString);
@@ -290,19 +290,19 @@ const Notifications = () => {
 
     return (
     <TouchableOpacity onPress={() => navigateToOrderStatus(order)}>
-        <View style={[styles.adminSubTab]}>
+        <View style={[styles.subTab]}>
 
 
 
 
-        <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+        <View style={[styles.statusTextContainer]}>
             <Text>Order# {order._id}</Text>
           </View>
 
 
 
           {/* Order Status Text */}
-          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+          <View style={[styles.statusTextContainer]}>
             <Text style={[styles.statusText]}>Status</Text>
             
                 <Text style={styles.statusText}>
@@ -333,7 +333,7 @@ const Notifications = () => {
 
           
 
-          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+          <View style={[styles.statusTextContainer]}>
             {/* <Text>Order# {order._id}</Text> */}
             <Text>Placed on: {formatDate(order.createdAt)}</Text>
           </View>
@@ -387,6 +387,10 @@ const Notifications = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer} refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
+        <View style={styles.refreshMsg}>
+        <Text style={styles.clientReloadText}><FontAwesome name="arrow-down" size={20} color="white" />    Pull down to refresh page    <FontAwesome name="arrow-down" size={20} color="white" /></Text>
+        
+        </View>  
         {reversedAdminOrders.map((order) => (
           <OrderItem key={order._id} order={order} onToggleStatus={toggleOrderStatus} />
         ))}
@@ -414,6 +418,8 @@ const Notifications = () => {
   
     return (
       <View style={styles.container}>
+        
+        
         {/* <TouchableOpacity onPress={fetchData} style={styles.clientReloadBtn}>
           <Text style={styles.clientReloadText}>Refresh Page</Text>
         </TouchableOpacity> */}
@@ -421,8 +427,11 @@ const Notifications = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
+          <View style={styles.refreshMsg}>
+        <Text style={styles.clientReloadText}><FontAwesome name="arrow-down" size={20} color="white" />    Pull down to refresh page    <FontAwesome name="arrow-down" size={20} color="white" /></Text>
+        
+        </View>  
             
-            <Text style={styles.clientReloadText}>Refresh Page</Text>
           {orderedOrders.map((order) => (
             <UserOrderItem key={order._id} order={order} />
           ))}
@@ -462,14 +471,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  refreshMsg: {
+    backgroundColor: '#59606e',
+    alignItems: 'center',
+  },
   subTab: {
     backgroundColor: '#FFFCE5',
-    padding: 30,
+    padding: 25,
     width: '100%',
     alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
+    flexDirection: 'row', // Added to align items horizontally
+    justifyContent: 'space-around', // Added to create space between items
   },
   subTabText: {
     fontSize: 18,
@@ -505,7 +520,6 @@ const styles = StyleSheet.create({
     color: 'white',
     justifyContent: 'center',
     padding: 5,
-    backgroundColor: 'black',
     alignItems: 'center'
   },
 
