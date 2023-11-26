@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import getCurrentUserName from '../../../utils/getCurrentUser';
 import iosLocalHost from '../../../utils/testingConsts';
@@ -374,8 +374,19 @@ const Notifications = () => {
     const filteredOrders = orders.filter(order => order.status !== 'complete');
     const reversedAdminOrders = [...filteredOrders].reverse();
 
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      fetchData();
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
+
     return (
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer} refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
         {reversedAdminOrders.map((order) => (
           <OrderItem key={order._id} order={order} onToggleStatus={toggleOrderStatus} />
         ))}
@@ -392,16 +403,31 @@ const Notifications = () => {
   
     // Concatenate the arrays to have completed orders at the bottom
     const orderedOrders = [...inProgressOrders, ...completedOrders];
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      fetchData();
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
   
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={fetchData} style={styles.clientReloadBtn}>
+        {/* <TouchableOpacity onPress={fetchData} style={styles.clientReloadBtn}>
           <Text style={styles.clientReloadText}>Refresh Page</Text>
-        </TouchableOpacity>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        </TouchableOpacity> */}
+        <ScrollView contentContainerStyle={styles.scrollContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+            
+            <Text style={styles.clientReloadText}>Refresh Page</Text>
           {orderedOrders.map((order) => (
             <UserOrderItem key={order._id} order={order} />
           ))}
+
+
         </ScrollView>
       </View>
     );
@@ -479,6 +505,8 @@ const styles = StyleSheet.create({
     color: 'white',
     justifyContent: 'center',
     padding: 5,
+    backgroundColor: 'black',
+    alignItems: 'center'
   },
 
   toggleButton: {
