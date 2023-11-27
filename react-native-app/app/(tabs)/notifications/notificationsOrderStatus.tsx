@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Link, Stack } from 'expo-router';
+import {formatDate} from './index'
+import {handleNavigation} from '../home/index'
 
 const NotificationsOrderStatus = () => {
   const navigation = useNavigation();
@@ -10,20 +12,13 @@ const NotificationsOrderStatus = () => {
   // Get the selected order from route.params
   const { order } = route.params;
 
-  const navigateToFoodTruck = () => {
-    navigation.navigate('navigate');
-  };
-  const goToNavigate = () => {
-    navigation.navigate('navigate'); // Navigate back to the menu or any other appropriate route
-  };
-
   return (
     <View style={{ flex: 1 }}>
     <ScrollView>
-      <Stack.Screen options={{title: 'Order Status and Details', headerStyle: {     backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Order Details', headerStyle: {     backgroundColor: '#F8E435'}}}/>
       <View style={[styles.subTab]}>
-        <Text>Order# {order.orderID}</Text>
-        <Text>Placed on {order.date}</Text>
+        <Text>Order# {order._id}</Text>
+        <Text>Placed on {formatDate(order.createdAt)}</Text>
         {/* Display other order details as needed */}
         {order.items.map((item, index) => (
           <View key={index}>
@@ -32,13 +27,18 @@ const NotificationsOrderStatus = () => {
             <Text>Quantity: {item.quantity}</Text>
           </View>
         ))} 
+        <View>
+          <Text>Subtotal: {order.subtotal}</Text>
+          <Text>Taxes: {order.tax}</Text>
+          <Text>Paid Order Total: {order.total}</Text>
+          </View>
         </View>
       {}
     </ScrollView>
     <View style={styles.bottomTab}>
-    <TouchableOpacity onPress={goToNavigate}>
-      <View style={styles.shoppingCartButton}>
-        <Text style={styles.shoppingCartButtonText}>Navigate to Food Truck</Text>
+    <TouchableOpacity onPress={handleNavigation}>
+      <View style={styles.foodTruckButton}>
+        <Text style={styles.foodTruckButtonText} >Navigate to Food Truck</Text>
       </View>
     </TouchableOpacity>
     </View>
@@ -110,16 +110,17 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
   },
-  shoppingCartButton: {
+  foodTruckButton: {
     backgroundColor: '#515D52',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
-  shoppingCartButtonText: {
+  foodTruckButtonText: {
     color: '#ffffff',
     fontSize: 16,
   },
+
 });
 
 export default NotificationsOrderStatus;

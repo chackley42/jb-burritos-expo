@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, Button, Linking } from 'react-native';
 import { Link } from 'expo-router';
 import TruckMapView from '../../../components/TruckMapView';
 
-const Home = () => {
+export const handleNavigation = () => {
   const userLocation = { latitude: 40.231708, longitude: -111.658480 };
   const truckLocation = { latitude: 40.2778, longitude: -111.7131 };
-  const handleNavigation = () => {
-    const destination = `${truckLocation.latitude},${truckLocation.longitude}`;
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
-    
-    // Open Google Maps or a browser with the navigation link
-    Linking.openURL(url);
-  };
+  const destination = `${truckLocation.latitude},${truckLocation.longitude}`;
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+  
+  // Open Google Maps or a browser with the navigation link
+  Linking.openURL(url);
+};
+
+ const Home = () => {
+  
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
