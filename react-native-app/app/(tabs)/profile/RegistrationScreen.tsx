@@ -64,6 +64,7 @@ const RegistrationScreen = () => {
     try {
       // Convert username to lowercase and remove spaces
       const cleanedUsername = registrationData.username.toLowerCase().trim();
+      setRegistrationData({ ...registrationData, username: cleanedUsername })
   
       const response = await fetch(`${iosLocalHost}:8080/api/register`, {
         method: 'POST',
@@ -72,7 +73,6 @@ const RegistrationScreen = () => {
         },
         body: JSON.stringify({
           ...registrationData,
-          username: cleanedUsername,
         }),
       });
   
@@ -97,6 +97,7 @@ const RegistrationScreen = () => {
       console.error('Error:', error);
     }
   };
+  
 
   return (
     
