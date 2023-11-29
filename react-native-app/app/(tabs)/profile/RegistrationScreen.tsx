@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import iosLocalHost from '../../../utils/testingConsts';
 import SuccessModal from '../../../components/SuccessModal';
 import { Link, Stack } from 'expo-router';
@@ -20,10 +20,21 @@ const RegistrationScreen = () => {
     email: '',
     phonenumber: '',
     password: '',
-    isAdmin: true, // Initialize isAdmin to false
+    isAdmin: false, // Initialize isAdmin to false
   });
 
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [tapCount, setTapCount] = useState(0);
+
+  const handleTap = () => {
+    setTapCount(tapCount + 1);
+
+    if (tapCount === 3) {
+      // After the third tap, toggle the isAdmin field
+      setRegistrationData({ ...registrationData, isAdmin: !registrationData.isAdmin });
+      setTapCount(0); // Reset tap count
+    }
+  };
 
   const handleUsernameChange = (text: string) => {
     setRegistrationData({ ...registrationData, username: text });
@@ -51,16 +62,22 @@ const RegistrationScreen = () => {
 
   const handleRegistration = async () => {
     try {
+      // Convert username to lowercase and remove spaces
+      const cleanedUsername = registrationData.username.toLowerCase().trim();
+  
       const response = await fetch(`${iosLocalHost}:8080/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(registrationData),
+        body: JSON.stringify({
+          ...registrationData,
+          username: cleanedUsername,
+        }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         // Handle successful registration logic (navigate to login screen, show success message, etc.)
         console.log('Registration successful!');
@@ -82,49 +99,54 @@ const RegistrationScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{ title: 'Registration', headerStyle: { backgroundColor: '#F8E435' } }} />
-      <Text style={styles.label}>Username:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your username"
-        value={registrationData.username}
-        onChangeText={handleUsernameChange}
-      />
+    
+      <ScrollView contentContainerStyle={styles.container}>
+        <Stack.Screen options={{ title: 'Registration', headerStyle: { backgroundColor: '#F8E435' } }} />
+        <Text style={styles.label}>Username:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your username"
+          value={registrationData.username}
+          onChangeText={handleUsernameChange}
+        />
 
-      <Text style={styles.label}>Email:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        value={registrationData.email}
-        onChangeText={handleEmailChange}
-      />
+        <Text style={styles.label}>Email:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your email"
+          value={registrationData.email}
+          onChangeText={handleEmailChange}
+        />
 
-      <Text style={styles.label}>Phone Number:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your phone number"
-        value={registrationData.phonenumber}
-        onChangeText={handlePhonenumberChange}
-      />
+        <Text style={styles.label}>Phone Number:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your phone number"
+          value={registrationData.phonenumber}
+          onChangeText={handlePhonenumberChange}
+        />
 
-      <Text style={styles.label}>Password:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={registrationData.password}
-        onChangeText={handlePasswordChange}
-        secureTextEntry
-      />
-
-      <Text style={styles.label}>Is Admin:</Text>
-      <View style={styles.checkboxContainer}>
-      <ToggleSwitch label="Is Admin:" value={registrationData.isAdmin} onValueChange={toggleIsAdmin} />
-      </View>
-
-      <Button title="Register" onPress={handleRegistration} />
-      <SuccessModal visible={isSuccessModalVisible} onClose={handleCloseSuccessModal} />
-    </ScrollView>
+        <Text style={styles.label}>Password:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your password"
+          value={registrationData.password}
+          onChangeText={handlePasswordChange}
+          secureTextEntry
+        />
+<TouchableWithoutFeedback onPress={handleTap}>
+<View style={{ height: 20 }} />
+</TouchableWithoutFeedback>
+        {tapCount === 3 && (
+          
+          <View style={styles.checkboxContainer}>
+            <ToggleSwitch label="Is Admin:" value={registrationData.isAdmin} onValueChange={toggleIsAdmin}/>
+          </View>
+          
+        )}
+        <Button title="Register" onPress={handleRegistration} />
+        <SuccessModal visible={isSuccessModalVisible} onClose={handleCloseSuccessModal} />
+      </ScrollView>
   );
 };
 
