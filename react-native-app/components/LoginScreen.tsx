@@ -190,13 +190,12 @@ const LoginScreen = () => {
         <Text style={styles.userInfo}>{phonenumber}</Text>
       </View>
         {isAdmin && (
+          <View>
+          <Text style={styles.userInfo}>Admin Features Unlocked</Text>
           <View style={styles.adminContainer}>
-            <Text style={styles.userInfo}>Admin Features Unlocked</Text>
           <Text style={styles.adminInfo}>Welcome admin, {username}!</Text>
-          <TouchableOpacity onPress={handleAdminButtonClick}>
-        <Text>Go to Admin Home</Text>
-      </TouchableOpacity>
 
+        </View>
         </View>
       )}
         <Button title="Logout" onPress={handleLogout} />
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: '#515D52', 
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#E5F2FF',
   },
   userIconContainer: {
     alignItems: 'center',
