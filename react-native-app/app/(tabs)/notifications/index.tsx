@@ -194,49 +194,35 @@ const Notifications = () => {
     const getStatusButtonColor = () => {
       return order.status === 'ready for pickup' ? 'green' : 'orange';
     };
-
+  
     const isArchiveDisabled = order.status === 'order received and is being prepared';
   
     const handleToggleStatus = async () => {
       setLoading(true);
       await onToggleStatus(order._id, order.status);
-      //setLoading(false);
+      setLoading(false);
     };
-
-    let orderItemUseEffectArr: number = 0;
+  
     useEffect(() => {
-      orderItemUseEffectArr += 1;
-      console.log('ORDERITEM USE EFFECT CALLED'+ orderItemUseEffectArr)
       setLoading(false);
     }, [order, onToggleStatus]);
   
     return (
       <TouchableOpacity onPress={() => navigateToOrderStatus(order)}>
         <View style={[styles.adminSubTab]}>
-          
-        <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
+          <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
             <Text>Order# </Text>
             <Text>{order._id}</Text>
           </View>
-
-          {/* Order Details Text */}
+  
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            {/* <Text>Order# {order._id}</Text> */}
             <Text>Placed on: </Text>
             <Text>{formatDate(order.createdAt)}</Text>
             <Text style={styles.statusText}>{order.username}</Text>
           </View>
   
-          {/* <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            <Text style={[styles.statusText]}>username</Text>
-            <Text style={styles.statusText}>{order.username}</Text>
-          </View> */}
-
-          
-          {/* Order Status Text */}
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
             <Text style={[styles.statusText]}>Status</Text>
-
             <Text style={[{ color: getStatusButtonColor() }]}>
               {loading ? (
                 <ActivityIndicator size="small" color="#000000" />
@@ -252,31 +238,34 @@ const Notifications = () => {
                 </Text>
               )}
             </Text>
-            
           </View>
   
-          {/* Toggle Status Button */}
           <View>
-          <TouchableOpacity
-            style={[
-              styles.toggleButton,
-              { backgroundColor: getStatusButtonColor(), opacity: loading ? 0.5 : 1 },
-            ]}
-            onPress={handleToggleStatus}
-            disabled={loading}
-          >
-            <Text style={styles.toggleButtonText}>Toggle Status</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.archiveButton, { backgroundColor: isArchiveDisabled ? 'grey' : 'red', opacity: isArchiveDisabled ? 0.5 : 1 }]}
-            onPress={() => archiveOrder(order._id, order.status)}
-            disabled={isArchiveDisabled}
-          >
-            <Text style={styles.toggleButtonText}>Archive</Text>
-          </TouchableOpacity>
+            {order.status !== 'complete' && (
+              <TouchableOpacity
+                style={[
+                  styles.toggleButton,
+                  { backgroundColor: getStatusButtonColor(), opacity: loading ? 0.5 : 1 },
+                ]}
+                onPress={handleToggleStatus}
+                disabled={loading}
+              >
+                <Text style={styles.toggleButtonText}>Toggle Status</Text>
+              </TouchableOpacity>
+            )}
+            {order.status !== 'complete' && (
+              <TouchableOpacity
+                style={[
+                  styles.archiveButton,
+                  { backgroundColor: isArchiveDisabled ? 'grey' : 'red', opacity: isArchiveDisabled ? 0.5 : 1 },
+                ]}
+                onPress={() => archiveOrder(order._id, order.status)}
+                disabled={isArchiveDisabled}
+              >
+                <Text style={styles.toggleButtonText}>Archive</Text>
+              </TouchableOpacity>
+            )}
           </View>
-          
-
         </View>
       </TouchableOpacity>
     );
@@ -368,12 +357,15 @@ const Notifications = () => {
   //     </ScrollView>
   //   );
   // };
-
+  const [filter, setFilter] = useState('active');
 
   const renderAdminOrders = () => {
-    const filteredOrders = orders.filter(order => order.status !== 'complete');
-    const reversedAdminOrders = [...filteredOrders].reverse();
-
+    const reversedOrders = [...orders].reverse();
+    const activeOrders = reversedOrders.filter((order) => order.status !== 'complete');
+    const completedOrders = reversedOrders.filter((order) => order.status === 'complete');
+  
+    const filteredOrders = filter === 'active' ? activeOrders : completedOrders;
+  
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
       setRefreshing(true);
@@ -382,22 +374,42 @@ const Notifications = () => {
         setRefreshing(false);
       }, 2000);
     }, []);
-
+  
     return (
-      <ScrollView contentContainerStyle={styles.scrollContainer} refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
         <View style={styles.refreshMsg}>
-        <Text style={styles.clientReloadText}><FontAwesome name="arrow-down" size={20} color="white" />    Pull down to refresh page    <FontAwesome name="arrow-down" size={20} color="white" /></Text>
-        
-        </View>  
-        {reversedAdminOrders.map((order) => (
-          <OrderItem key={order._id} order={order} onToggleStatus={toggleOrderStatus} />
-        ))}
+          <Text style={styles.clientReloadText}>
+            <FontAwesome name="arrow-down" size={20} color="white" /> Pull down to refresh page{' '}
+            <FontAwesome name="arrow-down" size={20} color="white" />
+          </Text>
+        </View>
+  
+        <View>
+          <View style={styles.tabButtonsContainer}>
+            <TouchableOpacity
+              style={[styles.tabButton, filter === 'active' && styles.activeTabButton]}
+              onPress={() => setFilter('active')}
+            >
+              <Text style={styles.tabButtonText}>Active Orders</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tabButton, filter === 'completed' && styles.activeTabButton]}
+              onPress={() => setFilter('completed')}
+            >
+              <Text style={styles.tabButtonText}>Completed Orders</Text>
+            </TouchableOpacity>
+          </View>
+  
+          {filteredOrders.map((order) => (
+            <OrderItem key={order._id} order={order} onToggleStatus={toggleOrderStatus} />
+          ))}
+        </View>
       </ScrollView>
     );
   };
-
   const renderUserOrders = () => {
     const reversedOrders = [...orders].reverse();
   
@@ -405,8 +417,6 @@ const Notifications = () => {
     const completedOrders = reversedOrders.filter(order => order.status === 'complete');
     const inProgressOrders = reversedOrders.filter(order => order.status !== 'complete');
   
-    // Concatenate the arrays to have completed orders at the bottom
-    const orderedOrders = [...inProgressOrders, ...completedOrders];
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
       setRefreshing(true);
@@ -418,25 +428,40 @@ const Notifications = () => {
   
     return (
       <View style={styles.container}>
-        
-        
-        {/* <TouchableOpacity onPress={fetchData} style={styles.clientReloadBtn}>
-          <Text style={styles.clientReloadText}>Refresh Page</Text>
-        </TouchableOpacity> */}
-        <ScrollView contentContainerStyle={styles.scrollContainer}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
           <View style={styles.refreshMsg}>
-        <Text style={styles.clientReloadText}><FontAwesome name="arrow-down" size={20} color="white" />    Pull down to refresh page    <FontAwesome name="arrow-down" size={20} color="white" /></Text>
-        
-        </View>  
-            
-          {orderedOrders.map((order) => (
-            <UserOrderItem key={order._id} order={order} />
-          ))}
-
-
+            <Text style={styles.clientReloadText}>
+              <FontAwesome name="arrow-down" size={20} color="white" /> Pull down to refresh page{' '}
+              <FontAwesome name="arrow-down" size={20} color="white" />
+            </Text>
+          </View>
+  
+          <View>
+            <View style={styles.tabButtonsContainer}>
+              <TouchableOpacity
+                style={[styles.tabButton, filter === 'active' && styles.activeTabButton]}
+                onPress={() => setFilter('active')}
+              >
+                <Text style={styles.tabButtonText}>Active Orders</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.tabButton, filter === 'completed' && styles.activeTabButton]}
+                onPress={() => setFilter('completed')}
+              >
+                <Text style={styles.tabButtonText}>Completed Orders</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+  
+          {/* Display Active or Completed Orders based on the filter */}
+          {filter === 'active' ? (
+            inProgressOrders.map((order) => <UserOrderItem key={order._id} order={order} />)
+          ) : (
+            completedOrders.map((order) => <UserOrderItem key={order._id} order={order} />)
+          )}
         </ScrollView>
       </View>
     );
@@ -558,6 +583,24 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: 'white',
+  },
+  tabButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 0,
+    backgroundColor: 'black'
+  },
+  tabButton: {
+    padding: 10,
+    borderRadius: 5,
+    
+  },
+  activeTabButton: {
+    backgroundColor: '#515D52', // Customize the active tab color
+  },
+  tabButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
