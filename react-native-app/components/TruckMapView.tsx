@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 export default function TruckMapView() {
@@ -28,6 +28,7 @@ export default function TruckMapView() {
   };
 
   return (
+    
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -79,6 +80,7 @@ export default function TruckMapView() {
       </View>
       
     </KeyboardAvoidingView>
+    
   );
 }
 

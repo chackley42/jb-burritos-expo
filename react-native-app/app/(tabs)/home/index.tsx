@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Linking } from 'react-native';
+import { View, Text, StyleSheet, Scrollview, Button, Linking } from 'react-native';
 import { Link } from 'expo-router';
 import TruckMapView from '../../../components/TruckMapView';
 
@@ -17,15 +17,20 @@ export const handleNavigation = () => {
   
   return (
     <View style={styles.container}>
+      
       <View style={styles.mapContainer}>
         <Text style={styles.navigateText}>Food Truck's Current Location</Text>
         <View style={styles.map}>
           <TruckMapView />
-          <Text style={styles.navigateText}>Operating Hours: </Text>
-          <Text style={styles.navigateText}>9AM - 5PM | Monday - Friday</Text>
+          
         </View>
       </View>
+      
       <View style={styles.linksContainer}>
+      <View>
+        <Text style={styles.navigateText}>Operating Hours: </Text>
+          <Text style={styles.navigateText}>9AM - 5PM | Monday - Friday</Text>
+        </View>
         <View style={styles.link}>
           
             <Text style={styles.linkText} onPress={handleNavigation}>Navigate to Food Truck</Text>
@@ -54,8 +59,9 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop: 50,
   },
   map: {
     width: '80%',
