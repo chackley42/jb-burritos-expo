@@ -159,7 +159,7 @@ const DetailsPage = () => {
     };
     return (
       <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView>
             <Stack.Screen options={{headerTitle: `Menu`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
             <Image
                 source={require('../../../../assets/breakfastBurrito.jpeg')}
@@ -203,7 +203,7 @@ const DetailsPage = () => {
 const windowWidth = Dimensions.get('window').width;
 const imageWidth = windowWidth * 1.0;
 
-const imageHeight = imageWidth / 1;
+const imageHeight = imageWidth / 1.2;
 
 const styles = StyleSheet.create({
     container: {
