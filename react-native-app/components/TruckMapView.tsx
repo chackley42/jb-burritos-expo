@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import iosLocalHost from '../utils/testingConsts';
 
 export default function TruckMapView() {
   const initialRegion = {
@@ -26,6 +27,33 @@ export default function TruckMapView() {
       });
     }
   };
+  
+
+  const handleChangeLocation = async () => {
+    try {
+      const response = await fetch(`${iosLocalHost}:8080/api/updateTruckLocation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          latitude: truckLocation.latitude,
+          longitude: truckLocation.longitude,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      // Optionally, you can handle success or show a message to the user
+      console.log('Truck location updated successfully');
+    } catch (error) {
+      console.error('Error updating truck location:', error);
+      // Handle error, show an error message, etc.
+    }
+  };
+  
 
   return (
     
@@ -75,7 +103,7 @@ export default function TruckMapView() {
             }}
           />
 
-          <Button title="Change Location" onPress={() => {}} />
+          <Button title="Change Location" onPress={() => {handleChangeLocation}} />
         </View>
       </View>
       
@@ -86,7 +114,7 @@ export default function TruckMapView() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
   },
   map: {
     width: '100%',

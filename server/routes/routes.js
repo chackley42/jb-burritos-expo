@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/users.ts")
 const Order = require("../models/order.ts")
+const Truck = require("../models/truck.ts")
 //New Imports End
 
 const router = express.Router()
@@ -269,6 +270,26 @@ router.patch('/orders/:id/status', async (req, res) => {
     }
   } catch (error) {
     console.error('Error updating order status:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+router.post('/updateTruckLocation', async (req, res) => {
+  const { latitude, longitude } = req.body;
+
+  try {
+    // Assuming you have a model for the truck, update its location in the database
+    // Replace 'Truck' with the actual model name for your truck
+    const updatedTruck = await Truck.updateOne({}, { $set: { latitude, longitude } });
+
+    if (updatedTruck.nModified > 0) {
+      res.status(200).json({ message: 'Truck location updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Truck not found or location not updated' });
+    }
+  } catch (error) {
+    console.error('Error updating truck location:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
