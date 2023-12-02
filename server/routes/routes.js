@@ -47,6 +47,23 @@ router.get('/getOne/:collection/:id', async (req, res) => {
   }
 });
 
+router.get('/getTruckLocation', async (req,res) => {
+  console.log('GET TRUCK LOCATION CALLEDDDDDD')
+  try {
+    const truck = await Truck.findOne();
+    console.log('GETTING TRUCK' + JSON.stringify(truck))
+    if (truck) {
+      res.status(200).json({ latitude: truck.latitude, longitude: truck.longitude });
+    } else {
+      res.status(404).json({ message: 'Truck not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching truck location:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 router.get('/:collection', async (req, res) => {
   const { collection } = req.params;
@@ -274,22 +291,6 @@ router.patch('/orders/:id/status', async (req, res) => {
   }
 });
 
-router.get('/getTruckLocation', async (req,res) => {
-  console.log(req.params)
-  console.log('GET TRUCK LOCATION CALLEDDDDDD')
-  try {
-    const truck = await Truck.findOne();
-    console.log('GETTING TRUCK' + JSON.stringify(truck))
-    if (truck) {
-      res.status(200).json({ latitude: truck.latitude, longitude: truck.longitude });
-    } else {
-      res.status(404).json({ message: 'Truck not found' });
-    }
-  } catch (error) {
-    console.error('Error fetching truck location:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 
 router.post('/updateTruckLocation', async (req, res) => {
