@@ -279,17 +279,27 @@ router.post('/updateTruckLocation', async (req, res) => {
   const { latitude, longitude } = req.body;
 
   try {
-    // Assuming you have a model for the truck, update its location in the database
-    // Replace 'Truck' with the actual model name for your truck
-    const updatedTruck = await Truck.updateOne({}, { $set: { latitude, longitude } });
+    // Check if a truck exists in the database
+    const existingTruck = await Truck.findOne();
 
-    if (updatedTruck.nModified > 0) {
-      res.status(200).json({ message: 'Truck location updated successfully' });
+    if (existingTruck) {
+      // If a truck exists, update its location
+      const oldTruck = existingTruck;
+      const updatedTruck = await Truck.updateOne({}, { $set: { latitude, longitude } });
+
+      if (oldTruck !== updatedTruck) {
+        res.status(200).json({ message: 'Truck location updated successfully' });
+      } else {
+        res.status(500).json({ message: 'Failed to update truck location' });
+      }
     } else {
-      res.status(404).json({ message: 'Truck not found or location not updated' });
+      // If no truck exists, create a new truck with the provided location
+      const newTruck = new Truck({ latitude, longitude });
+      await newTruck.save();
+      res.status(201).json({ message: 'New truck created with the provided location' });
     }
   } catch (error) {
-    console.error('Error updating truck location:', error);
+    console.error('Error updating/creating truck location:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

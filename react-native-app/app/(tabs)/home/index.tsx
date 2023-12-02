@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Scrollview, Button, Linking } from 'react-native';
+import { View, Text, StyleSheet, Scrollview, Button, Linking, KeyboardAvoidingView, Platform } from 'react-native';
 import { Link } from 'expo-router';
 import TruckMapView from '../../../components/TruckMapView';
 
@@ -25,7 +25,11 @@ export const handleNavigation = () => {
           
         </View>
       </View>
-      
+      <KeyboardAvoidingView
+      style={{ flex: 0.5 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      </KeyboardAvoidingView>
       <View style={styles.linksContainer}>
       <View>
         <Text style={styles.navigateText}>Operating Hours: </Text>
@@ -47,7 +51,9 @@ export const handleNavigation = () => {
           </Link>
         </View>
       </View>
+      
     </View>
+    
   );
 };
 

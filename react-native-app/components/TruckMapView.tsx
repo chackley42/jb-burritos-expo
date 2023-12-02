@@ -57,10 +57,7 @@ export default function TruckMapView() {
 
   return (
     
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+  
       <View style={styles.container}>
         <MapView
           style={styles.map}
@@ -103,18 +100,17 @@ export default function TruckMapView() {
             }}
           />
 
-          <Button title="Change Location" onPress={() => {handleChangeLocation}} />
+          <Button title="Change Location" onPress={() => {handleChangeLocation()}} />
         </View>
       </View>
       
-    </KeyboardAvoidingView>
     
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0,
+    flex: 1,
   },
   map: {
     width: '100%',
