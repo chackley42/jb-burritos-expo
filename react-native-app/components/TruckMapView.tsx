@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -13,9 +13,33 @@ export default function TruckMapView() {
   };
 
   const [truckLocation, setTruckLocation] = useState({
-    latitude: 40.2778,
-    longitude: -111.7131,
+    latitude: initialRegion.latitude,
+    longitude: initialRegion.longitude
   });
+  
+
+  useEffect(() => {
+    // Fetch the initial truck location when the component mounts
+    fetchTruckLocation();
+  }, []); // Empty dependency array ensures this effect runs only once
+
+  const fetchTruckLocation = async () => {
+    try {
+      const response = await fetch(`${iosLocalHost}:8080/api/getTruckLocation`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const truckLocationData = await response.json();
+      console.log(JSON.stringify(truckLocation))
+      setTruckLocation({
+        latitude: truckLocationData.latitude,
+        longitude: truckLocationData.longitude,
+      });
+    } catch (error) {
+      console.error('Error fetching truck location:', error);
+    }
+  };
 
   const handleLocationChange = (data, details) => {
     const { geometry } = details;
@@ -27,7 +51,6 @@ export default function TruckMapView() {
       });
     }
   };
-  
 
   const handleChangeLocation = async () => {
     try {
@@ -41,70 +64,63 @@ export default function TruckMapView() {
           longitude: truckLocation.longitude,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
-      // Optionally, you can handle success or show a message to the user
+
       console.log('Truck location updated successfully');
     } catch (error) {
       console.error('Error updating truck location:', error);
-      // Handle error, show an error message, etc.
     }
   };
-  
 
   return (
-    
-  
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          showsUserLocation={true}
-          initialRegion={initialRegion}
-        >
-          <Marker coordinate={truckLocation} title="TRUCK" description="Utah Valley University" />
-        </MapView>
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        initialRegion={initialRegion}
+      >
+        <Marker coordinate={truckLocation} title="TRUCK" description="Utah Valley University" />
+      </MapView>
 
-        <View style={styles.inputContainer}>
-          <GooglePlacesAutocomplete
-            placeholder="Enter new address or location"
-            onPress={handleLocationChange}
-            query={{
-              key: 'AIzaSyCkGJZl-UcuxlyW9cQnJ1N7r-HHkeTVRNo',
-              language: 'en',
-            }}
-            fetchDetails={true}
-            styles={{
-              container: {
-                flex: 0,
-              },
-              textInputContainer: {
-                width: '100%',
-                backgroundColor: 'transparent',
-                borderTopWidth: 0,
-                borderBottomWidth: 0,
-              },
-              textInput: {
-                marginLeft: 0,
-                marginRight: 0,
-                height: 38,
-                color: '#5d5d5d',
-                fontSize: 16,
-              },
-              predefinedPlacesDescription: {
-                color: '#1faadb',
-              },
-            }}
-          />
+      <View style={styles.inputContainer}>
+        <GooglePlacesAutocomplete
+          placeholder="Enter new address or location"
+          onPress={handleLocationChange}
+          query={{
+            key: 'AIzaSyCkGJZl-UcuxlyW9cQnJ1N7r-HHkeTVRNo',
+            language: 'en',
+          }}
+          fetchDetails={true}
+          styles={{
+            container: {
+              flex: 0,
+            },
+            textInputContainer: {
+              width: '100%',
+              backgroundColor: 'transparent',
+              borderTopWidth: 0,
+              borderBottomWidth: 0,
+            },
+            textInput: {
+              marginLeft: 0,
+              marginRight: 0,
+              height: 38,
+              color: '#5d5d5d',
+              fontSize: 16,
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb',
+            },
+          }}
+        />
 
-          <Button title="Change Location" onPress={() => {handleChangeLocation()}} />
-        </View>
+        <Button title="Change Location" onPress={handleChangeLocation} />
       </View>
-      
-    
+    </View>
   );
 }
 
