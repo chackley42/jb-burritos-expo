@@ -110,8 +110,8 @@ const order = () => {
         <Text style={styles.tabText}>Burritos</Text>
       </TouchableOpacity>
       {isBurritosOpen && menuData && menuData.burritos.map((item) => (
-        <View key={item.id} style={[styles.subTab]}>
-          <Link style={[styles.link]} href={`home/list/${item.id}`}>
+        <View key={item.id} style={styles.subTab}>
+          <Link  style={[styles.linkTab]} href={`home/list/${item.id}`}>
             <Text>{item.name}</Text>
           </Link>
         </View>
@@ -120,21 +120,21 @@ const order = () => {
         <Text style={styles.tabText}>Sides</Text>
       </TouchableOpacity>
       {isSidesOpen && menuData && menuData.sides.map((item) => (
-        <View key={item.id} style={[styles.subTab]}>
-          <Link style={[styles.link]} href={`home/list/${item.id}`}>
-            <Text>{item.name}</Text>
-          </Link>
-        </View>
+        <View key={item.id} style={styles.subTab}>
+        <Link style={[styles.linkTab]} href={`home/list/${item.id}`}>
+          <Text>{item.name}</Text>
+        </Link>
+      </View>
       ))}
       <TouchableOpacity style={[styles.tab]} onPress={toggleBeverages}>
         <Text style={styles.tabText}>Beverages</Text>
       </TouchableOpacity>
       {isBeveragesOpen && menuData && menuData.drinks.map((item) => (
-        <View key={item.id} style={[styles.subTab]}>
-          <Link style={[styles.link]} href={`home/list/${item.id}`}>
-            <Text>{item.name}</Text>
-          </Link>
-        </View>
+        <View key={item.id} style={styles.subTab}>
+        <Link style={[styles.linkTab]} href={`home/list/${item.id}`}>
+          <Text>{item.name}</Text>
+        </Link>
+      </View>
       ))}
     </ScrollView>
     <View style={styles.bottomTab}>
@@ -174,12 +174,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 0,
   },
-  subTab: {
+  linkTab: {
     backgroundColor: '#FFFCE5',
     padding: 10,
     width: '100%',
-    alignItems: 'flex-start',
     marginBottom: 0,
+    fontSize: 20,
+    color: 'black',
+    textAlign: 'center'
+  },
+  subTab: {
     borderBottomWidth: 1,
     borderBottomColor: 'black',
   },

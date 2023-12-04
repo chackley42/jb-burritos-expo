@@ -462,6 +462,9 @@ const Notifications = () => {
           ) : (
             completedOrders.map((order) => <UserOrderItem key={order._id} order={order} />)
           )}
+          {!username || username === 'Not Logged In' || username === 'Error Retrieving Token' ? (
+           <Text style={styles.signedOutText}>Sign in to view notifications.</Text>
+         ) : null}
         </ScrollView>
       </View>
     );
@@ -593,7 +596,8 @@ const styles = StyleSheet.create({
   tabButton: {
     padding: 10,
     borderRadius: 5,
-    
+    marginTop: 2,
+    marginBottom: 2,
   },
   activeTabButton: {
     backgroundColor: '#515D52', // Customize the active tab color

@@ -281,14 +281,20 @@ const OrderComponent = () => {
         <Text style={styles.itemName}>{item.name}</Text>
         <View style={styles.quantityContainer}>
         <TouchableOpacity onPress={() => handleDecrement(item.id)}>
-          <Text style={styles.actionButton}>-</Text>
+        <View style={styles.actionButtonContainer}>
+        <Icon name="minus" style={styles.actionButton}/>
+          </View>
           </TouchableOpacity>
           <Text style={styles.quantity}>{item.quantity}</Text>
           <TouchableOpacity onPress={() => handleIncrement(item.id)}>
-          <Text style={styles.actionButton}>+</Text>
+          <View style={styles.actionButtonContainer}>
+          <Icon name="plus" style={styles.actionButton}/>
+          </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleDelete(item.id)}>
-           <Icon name="trash" size={24} />
+          <View style={styles.actionButtonContainer}>
+          <Icon name="trash" size={30} color="white" />
+          </View>
          </TouchableOpacity>
          <View style={styles.priceContainer}>
            <Text style={styles.priceText}> {item.price !== undefined ? `$${(item.price * item.quantity).toFixed(2)}` : 'Price not available'}</Text>
@@ -435,9 +441,14 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 20,
   },
+  actionButtonContainer: {
+    backgroundColor: '#515D52',
+    padding: 5,
+    borderRadius: 5,
+  },
   actionButton: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 25,
+    color: 'white',
   },
   quantity: {
     fontSize: 20,

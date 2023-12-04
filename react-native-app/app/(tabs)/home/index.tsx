@@ -21,7 +21,7 @@ export const handleNavigation = () => {
       <View style={styles.mapContainer}>
         <Text style={styles.navigateText}>Food Truck's Current Location</Text>
         <View style={styles.map}>
-          <TruckMapView />
+          {/* <TruckMapView /> */}
           
         </View>
       </View>

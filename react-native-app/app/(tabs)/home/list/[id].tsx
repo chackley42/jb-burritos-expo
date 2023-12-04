@@ -1,13 +1,13 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
-import { Link, useNavigation,  Stack, useLocalSearchParams} from 'expo-router';
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, } from 'react-native';
+import { Link, useNavigation, Stack, useLocalSearchParams} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storeMenuData from '../../../../utils/storage';
 import { Menu, MenuItem, OrderItem } from '../../../../utils/storage';
 import { parse } from 'path';
 import iosLocalHost from '../../../../utils/testingConsts';
 import AddToCartModal from '../../../../components/AddToCartModal';
-
+import ImageComponent from '../../../../components/ImageComponent';
 
 function convertToNumber(input: string | string[]): number | null {
     if (typeof input === 'string'){
@@ -43,6 +43,7 @@ const DetailsPage = () => {
 
     // AsyncStorage.removeItem("order")
     const [menuData, setMenuData] = useState<MenuItem | null>(null);
+    //const [imageString, setImageString] = useState<null>(null);
     const isMenuDataLoading = !menuData;
     const {collection, id } = useLocalSearchParams();
     const [isAddToCartModalVisible, setIsAddToCartModalVisible] = useState(false);
@@ -51,6 +52,8 @@ const DetailsPage = () => {
     const collections = ['burritos', 'sides', 'drinks'];
     console.log(collection)
     console.log(idString)
+
+    const imgArr = ['../../../../assets/breakfastBurrito.jpeg', '../../../../assets/beanAndCheeseBurrito.jpeg', '../../../../assets/veggieBurrito.jpeg', '../../../../assets/nftMan.jpg']
 
     useEffect(() => {
       const fetchMenuData = async () => {
@@ -61,6 +64,7 @@ const DetailsPage = () => {
               const data = await response.json();
               //console.log("+++++++++++++++++++++++++++++" + JSON.stringify(data))
               setMenuData(data);
+              //setImageString(`../../../../assets/${data.image}`)
               return; // Exit the loop if a valid response is found
             }
           }
@@ -154,17 +158,27 @@ const DetailsPage = () => {
  
 
     console.log(menuData)
+    // const tryThis: string = menuData.image;
+    // console.log(tryThis)
+    //const imageString: string = `../../../../assets/${tryThis}`
+    // console.log(menuData.image)
+    // const imgPlzWork = menuData.image
     const goToShoppingCart = () => {
       navigation.navigate('shoppingCart'); // Navigate back to the menu or any other appropriate route
     };
     return (
+      <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Use 'padding' behavior for iOS, 'height' for Android
+      keyboardVerticalOffset={100}
+    >
       <View style={{ flex: 1 }}>
       <ScrollView>
             <Stack.Screen options={{headerTitle: `Menu`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
             <Image
                 source={require('../../../../assets/breakfastBurrito.jpeg')}
                 style={styles.image}
-            />
+            /> 
             <View style={styles.tab}>
                 <Text style={styles.tabText}>{menuData ? menuData.name : 'Loading...'}</Text>
             </View>
@@ -175,13 +189,34 @@ const DetailsPage = () => {
             </View>
         </ScrollView>
         <View style={styles.quantityContainer}>
-                <TouchableOpacity onPress={decreaseQuantity}>
-                    <Text style={styles.actionButton}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantity}>{itemQuantity}</Text>
-                <TouchableOpacity onPress={increaseQuantity}>
-                    <Text style={styles.actionButton}>+</Text>
-                </TouchableOpacity>
+        <TouchableOpacity onPress={decreaseQuantity}>
+    <View style={styles.actionButtonContainer}>
+      <Text style={styles.actionButton}>-</Text>
+    </View>
+  </TouchableOpacity>
+  <TextInput
+  style={[
+    styles.quantityInput,
+    { color: itemQuantity === 0 ? 'red' : 'black' },
+  ]}
+  keyboardType="numeric"
+  value={itemQuantity.toString()} // Convert the number to a string for initial value
+  onChangeText={(text) => {
+    const parsedValue = parseInt(text);
+    if (!isNaN(parsedValue) && parsedValue >= 0) {
+      setQuantity(parsedValue);
+    } else {
+      // Handle the case where the input is not a valid non-negative number
+      // For example, you can set a default value or handle it according to your needs
+      setQuantity(0); // Set a default value of 1 or handle it based on your requirements
+    }
+  }}
+/>
+  <TouchableOpacity onPress={increaseQuantity}>
+    <View style={styles.actionButtonContainer}>
+      <Text style={styles.actionButton}>+</Text>
+    </View>
+  </TouchableOpacity>
                 <TouchableOpacity onPress={addToOrder} disabled={isMenuDataLoading}>
                     <View style={[styles.addToOrderButton, { opacity: isMenuDataLoading ? 0.5 : 1 }]}>
                         <Text style={styles.addToOrderButtonText}>{isMenuDataLoading ? 'Loading...' : 'Add to Order'}</Text>
@@ -197,13 +232,14 @@ const DetailsPage = () => {
         <AddToCartModal visible={isAddToCartModalVisible} onClose={handleCloseAddToCartModal} />
         </View>
         </View>
+        </KeyboardAvoidingView>
     );
 }
 
 const windowWidth = Dimensions.get('window').width;
 const imageWidth = windowWidth * 1.0;
 
-const imageHeight = imageWidth / 1.2;
+const imageHeight = imageWidth / 1;
 
 const styles = StyleSheet.create({
     container: {
@@ -232,9 +268,8 @@ const styles = StyleSheet.create({
       marginBottom: 0,
     },
     image: {
-      width: imageWidth,
-      height: imageHeight,
-      resizeMode: 'contain',
+      width: 100,
+      height: 100,
     },
     infoContainer: {
       padding: 10,
@@ -256,6 +291,7 @@ const styles = StyleSheet.create({
     actionButton: {
       fontSize: 20,
       fontWeight: 'bold',
+      color: '#ffffff',
     },
     quantity: {
       fontSize: 18,
@@ -279,6 +315,20 @@ const styles = StyleSheet.create({
     shoppingCartButtonText: {
       color: '#ffffff',
       fontSize: 16,
+    },
+    actionButtonContainer: {
+      backgroundColor: '#515D52',
+      padding: 8,
+      borderRadius: 5,
+    },
+    quantityInput: {
+      fontSize: 20,
+      borderWidth: 1,
+      borderColor: 'black',
+      paddingHorizontal: 10,
+      width: 50, // Adjust the width as needed
+      textAlign: 'center',
+      backgroundColor: 'white'
     },
   });
 
