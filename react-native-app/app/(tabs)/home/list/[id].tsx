@@ -7,7 +7,7 @@ import { Menu, MenuItem, OrderItem } from '../../../../utils/storage';
 import { parse } from 'path';
 import iosLocalHost from '../../../../utils/testingConsts';
 import AddToCartModal from '../../../../components/AddToCartModal';
-import ImageComponent from '../../../../components/ImageComponent';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function convertToNumber(input: string | string[]): number | null {
     if (typeof input === 'string'){
@@ -52,8 +52,6 @@ const DetailsPage = () => {
     const collections = ['burritos', 'sides', 'drinks'];
     console.log(collection)
     console.log(idString)
-
-    const imgArr = ['../../../../assets/breakfastBurrito.jpeg', '../../../../assets/beanAndCheeseBurrito.jpeg', '../../../../assets/veggieBurrito.jpeg', '../../../../assets/nftMan.jpg']
 
     useEffect(() => {
       const fetchMenuData = async () => {
@@ -152,11 +150,6 @@ const DetailsPage = () => {
       }
     };
     
-    
-    
-    
- 
-
     console.log(menuData)
     // const tryThis: string = menuData.image;
     // console.log(tryThis)
@@ -191,7 +184,7 @@ const DetailsPage = () => {
         <View style={styles.quantityContainer}>
         <TouchableOpacity onPress={decreaseQuantity}>
     <View style={styles.actionButtonContainer}>
-      <Text style={styles.actionButton}>-</Text>
+    <Icon name="minus" style={styles.actionButton}/>
     </View>
   </TouchableOpacity>
   <TextInput
@@ -214,7 +207,7 @@ const DetailsPage = () => {
 />
   <TouchableOpacity onPress={increaseQuantity}>
     <View style={styles.actionButtonContainer}>
-      <Text style={styles.actionButton}>+</Text>
+    <Icon name="plus" style={styles.actionButton}/>
     </View>
   </TouchableOpacity>
                 <TouchableOpacity onPress={addToOrder} disabled={isMenuDataLoading}>
@@ -268,8 +261,9 @@ const styles = StyleSheet.create({
       marginBottom: 0,
     },
     image: {
-      width: 100,
-      height: 100,
+      width: imageWidth,
+      height: imageHeight,
+      resizeMode: 'contain',
     },
     infoContainer: {
       padding: 10,
