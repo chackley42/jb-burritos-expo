@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import iosLocalHost from '../utils/testingConsts';
+import { useAdminContext } from '../utils/AdminContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TruckMapView() {
   const initialRegion = {
@@ -16,12 +18,26 @@ export default function TruckMapView() {
     latitude: initialRegion.latitude,
     longitude: initialRegion.longitude
   });
-  
+
+  const { isAdmin, setAdminStatus } = useAdminContext();
+  async function fetchIsAdmin() {
+    try {
+      const isAdminValue = await AsyncStorage.getItem('isAdmin');
+      if (isAdminValue !== null) {
+        setAdminStatus(isAdminValue === 'true');
+      }
+    } catch (error) {
+      console.error('Error retrieving isAdmin from AsyncStorage:', error);
+    }
+  }
 
   useEffect(() => {
-    // Fetch the initial truck location when the component mounts
+    fetchIsAdmin();
+  }, [isAdmin]);
+
+  useEffect(() => {
     fetchTruckLocation();
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []);
 
   const fetchTruckLocation = async () => {
     try {
@@ -31,7 +47,6 @@ export default function TruckMapView() {
       }
 
       const truckLocationData = await response.json();
-      console.log(JSON.stringify(truckLocation))
       setTruckLocation({
         latitude: truckLocationData.latitude,
         longitude: truckLocationData.longitude,
@@ -86,40 +101,43 @@ export default function TruckMapView() {
         <Marker coordinate={truckLocation} title="TRUCK" description="Utah Valley University" />
       </MapView>
 
-      <View style={styles.inputContainer}>
-        <GooglePlacesAutocomplete
-          placeholder="Enter new address or location"
-          onPress={handleLocationChange}
-          query={{
-            key: 'AIzaSyCkGJZl-UcuxlyW9cQnJ1N7r-HHkeTVRNo',
-            language: 'en',
-          }}
-          fetchDetails={true}
-          styles={{
-            container: {
-              flex: 0,
-            },
-            textInputContainer: {
-              width: '100%',
-              backgroundColor: 'transparent',
-              borderTopWidth: 0,
-              borderBottomWidth: 0,
-            },
-            textInput: {
-              marginLeft: 0,
-              marginRight: 0,
-              height: 38,
-              color: '#5d5d5d',
-              fontSize: 16,
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb',
-            },
-          }}
-        />
+      {isAdmin && (
+        <View style={styles.inputContainer}>
+          <GooglePlacesAutocomplete
+            placeholder="Enter new address or location"
+            onPress={handleLocationChange}
+            query={{
+              key: 'AIzaSyCkGJZl-UcuxlyW9cQnJ1N7r-HHkeTVRNo',
+              language: 'en',
+            }}
+            fetchDetails={true}
+            styles={{
+              container: {
+                flex: 0,
+              },
+              textInputContainer: {
+                width: '100%',
+                backgroundColor: 'transparent',
+                borderTopWidth: 0,
+                borderBottomWidth: 0,
+              },
+              textInput: {
+                marginLeft: 0,
+                marginRight: 0,
+                height: 38,
+                color: '#5d5d5d',
+                fontSize: 16,
+              },
+              predefinedPlacesDescription: {
+                color: '#1faadb',
+              },
+            }}
+          />
 
-        <Button title="Change Location" onPress={handleChangeLocation} />
-      </View>
+          <Button title="Change Location" onPress={handleChangeLocation} />
+        </View>
+        
+      )}
     </View>
   );
 }

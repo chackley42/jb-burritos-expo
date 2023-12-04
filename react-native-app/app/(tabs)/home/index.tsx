@@ -1,25 +1,74 @@
 import React from 'react';
-import { View, Text, StyleSheet, Scrollview, Button, Linking, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, Scrollview, Button, Linking, KeyboardAvoidingView, Platform} from 'react-native';
 import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
 import TruckMapView from '../../../components/TruckMapView';
+import iosLocalHost from '../../../utils/testingConsts';
+import { useAdminContext } from '../../../utils/AdminContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const handleNavigation = () => {
-  const userLocation = { latitude: 40.231708, longitude: -111.658480 };
-  const truckLocation = { latitude: 40.2778, longitude: -111.7131 };
-  const destination = `${truckLocation.latitude},${truckLocation.longitude}`;
-  const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
-  
-  // Open Google Maps or a browser with the navigation link
-  Linking.openURL(url);
-};
 
  const Home = () => {
+
+  const initialRegion = {
+    latitude: 40.5622,
+    longitude: -111.9297,
+    latitudeDelta: 1.0,
+    longitudeDelta: 1.0,
+  };
+
+  const [truckLocation, setTruckLocation] = useState({
+    latitude: initialRegion.latitude,
+    longitude: initialRegion.longitude
+  });
+
+
+
+  useEffect(() => {
+    // Fetch the initial truck location when the component mounts
+    fetchTruckLocation();
+  }, []); // Empty dependency array ensures this effect runs only once
+
   
+
+
+  const fetchTruckLocation = async () => {
+    try {
+      const response = await fetch(`${iosLocalHost}:8080/api/getTruckLocation`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const truckLocationData = await response.json();
+      console.log(JSON.stringify(truckLocation))
+      setTruckLocation({
+        latitude: truckLocationData.latitude,
+        longitude: truckLocationData.longitude,
+      });
+    } catch (error) {
+      console.error('Error fetching truck location:', error);
+    }
+  };
+
+  
+
+ const handleNavigation = async () => {
+    await fetchTruckLocation();
+
+    const userLocation = { latitude: 40.231708, longitude: -111.658480 };
+    const destination = `${truckLocation.latitude},${truckLocation.longitude}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+    
+    // Open Google Maps or a browser with the navigation link
+    Linking.openURL(url);
+  };
+
   return (
     <View style={styles.container}>
       
       <View style={styles.mapContainer}>
         <Text style={styles.navigateText}>Food Truck's Current Location</Text>
+        <Text style={styles.navigateText}>Currently near: </Text>
         <View style={styles.map}>
           <TruckMapView />
           
@@ -28,7 +77,7 @@ export const handleNavigation = () => {
       <KeyboardAvoidingView
       
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={200}
+      keyboardVerticalOffset={150}
     >
       </KeyboardAvoidingView>
       <View style={styles.linksContainer}>
@@ -37,7 +86,7 @@ export const handleNavigation = () => {
           <Text style={styles.navigateText}>9AM - 5PM | Monday - Friday</Text>
         </View>
         <View style={styles.link}>
-          
+        
             <Text style={styles.linkText} onPress={handleNavigation}>Navigate to Food Truck</Text>
           
         </View>
