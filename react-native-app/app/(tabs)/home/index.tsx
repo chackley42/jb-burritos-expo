@@ -21,13 +21,14 @@ export const handleNavigation = () => {
       <View style={styles.mapContainer}>
         <Text style={styles.navigateText}>Food Truck's Current Location</Text>
         <View style={styles.map}>
-          {/* <TruckMapView /> */}
+          <TruckMapView />
           
         </View>
       </View>
       <KeyboardAvoidingView
-      style={{ flex: 0.5 }}
+      
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={200}
     >
       </KeyboardAvoidingView>
       <View style={styles.linksContainer}>
