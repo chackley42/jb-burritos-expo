@@ -2,11 +2,10 @@ import React from 'react';
 import { View, Image } from 'react-native';
 
 const LogoPng = ({ scale = 1 }) => {
-  // Define the image source path (update as needed)
   const imagePath = require('../assets/logo.png');
 
   return (
-    <View style={{ width: 50 * scale, height: 50 * scale}}>
+    <View style={{ width: 90 * scale, height: 60 * scale}}>
       <Image
         source={imagePath}
         style={{
@@ -14,8 +13,8 @@ const LogoPng = ({ scale = 1 }) => {
           justifyContent: 'flex-end',
           width: undefined,
           height: undefined,
-          marginBottom: 15,
-          resizeMode: 'contain', // Maintain aspect ratio and fit within the dimensions
+          marginBottom: 10,
+          resizeMode: 'contain',
         }}
       />
     </View>

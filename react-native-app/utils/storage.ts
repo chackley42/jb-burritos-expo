@@ -55,7 +55,6 @@ export function createMenuItem(id: number, name: string, price: number, calories
         description: 'The burrito that started it all made with fresh tortilla, eggs, beef, and cheese',
         image: '../assets/breakfastBurrito.jpeg',
       },
-      // Add more burrito items here
       {
         id: 2,
         name: 'Bean and Cheese Burrito',

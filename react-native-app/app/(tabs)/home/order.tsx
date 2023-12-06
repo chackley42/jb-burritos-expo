@@ -6,16 +6,7 @@ import storeMenuData from '../../../utils/storage';
 import iosLocalHost from '../../../utils/testingConsts';
 import { fetchMenuDataAndStore } from '../../../utils/apiCalls';
 
-//storeMenuData()
-
 const order = () => {
-  // const navigation = useNavigation();
-  // navigation.setOptions({
-  //   title: 'Order',
-  //   headerStyle: {
-  //     backgroundColor: '#F8E435',
-  //   },
-  // });
   const [isBurritosOpen, setBurritosOpen] = useState(true);
   const [isSidesOpen, setSidesOpen] = useState(true);
   const [isBeveragesOpen, setBeveragesOpen] = useState(true);
@@ -25,31 +16,7 @@ const order = () => {
   useEffect(() => {
     // Fetch menu data from AsyncStorage
     const fetchMenuData = async () => {
-      // try {
-      //   const menuDataJSON = await AsyncStorage.getItem('menuData');
-      //   if (menuDataJSON) {
-      //     const parsedMenuData = JSON.parse(menuDataJSON);
-      //     setMenuData(parsedMenuData);
-      //   }
-      // } catch (error) {
-      //   console.error('Error fetching menu data from AsyncStorage:', error);
-      // }
-      try {
-        // // Fetch burritos data from the API
-        // const burritosResponse = await fetch(`${iosLocalHost}:8080/api/burritos`);
-        // const burritosData = await burritosResponse.json();
-        
-        // // Fetch sides data from the API
-        // const sidesResponse = await fetch(`${iosLocalHost}:8080/api/sides`);
-        // const sidesData = await sidesResponse.json();
-
-        // // Fetch beverages data from the API
-        // const beveragesResponse = await fetch(`${iosLocalHost}:8080/api/drinks`);
-        // const beveragesData = await beveragesResponse.json();
-
-        // console.log('API FETCHED DATA OLD: ' + JSON.stringify(burritosData))
-        
-        
+      try {      
         const burritosData = await AsyncStorage.getItem('burritos');
         const sidesData = await AsyncStorage.getItem('sides');
         const beveragesData = await AsyncStorage.getItem('drinks');
@@ -58,9 +25,7 @@ const order = () => {
           const parsedBurritos = burritosData ? JSON.parse(burritosData) : [];
           const parsedSides = sidesData ? JSON.parse(sidesData) : [];
           const parsedBeverages = beveragesData ? JSON.parse(beveragesData) : [];
-
           setMenuData({ burritos: parsedBurritos, sides: parsedSides, drinks: parsedBeverages });
-
         }
         else {
           fetchMenuDataAndStore()
@@ -70,20 +35,12 @@ const order = () => {
           const parsedBurritos = burritosData ? JSON.parse(burritosData) : [];
           const parsedSides = sidesData ? JSON.parse(sidesData) : [];
           const parsedBeverages = beveragesData ? JSON.parse(beveragesData) : [];
-
           setMenuData({ burritos: parsedBurritos, sides: parsedSides, drinks: parsedBeverages });
-
         }
-        
-
-        // OLD WAY
-        //setMenuData({ burritos: burritosData, sides: sidesData, drinks: beveragesData});
       } catch (error) {
         console.error('Error fetching menu data:', error);
       }
-
     };
-
     fetchMenuData();
   }, [isBurritosOpen, isSidesOpen, isBeveragesOpen]);
 
@@ -99,13 +56,13 @@ const order = () => {
     setBeveragesOpen(!isBeveragesOpen);
   };
   const goToShoppingCart = () => {
-    navigation.navigate('shoppingCart'); // Navigate back to the menu or any other appropriate route
+    navigation.navigate('shoppingCart');
   };
 
   return (
     <View style={{ flex: 1 }}>
     <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{title: 'Menu', headerStyle: {     backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Menu', headerStyle: {backgroundColor: '#F8E435'}}}/>
       <TouchableOpacity style={styles.tab} onPress={toggleBurritos}>
         <Text style={styles.tabText}>Burritos</Text>
       </TouchableOpacity>

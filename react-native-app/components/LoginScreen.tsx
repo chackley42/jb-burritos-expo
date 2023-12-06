@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation, Redirect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iosLocalHost from '../utils/testingConsts';
@@ -145,7 +145,6 @@ const LoginScreen = () => {
     }
   };
   
-
   const handleLogout = async () => {
     // Clear token from AsyncStorage and update login status
     await AsyncStorage.removeItem('token');
@@ -162,18 +161,12 @@ const LoginScreen = () => {
     navigation.navigate('shoppingCart');
   };
 
-
-
   if (isLoggedIn) {
     // User is logged in, show username and logout button
     return (
       <ScrollView>
       <View style={styles.container}>
       <View style={styles.userIconContainer}>
-            {/* <Image
-              source={require('../assets/user-icon.jpeg')}
-              style={styles.userIcon}
-            /> */}
           <TouchableOpacity onPress={viewShoppingCart}>
             <View style={styles.shoppingCartButton}>
               <Text style={styles.shoppingCartButtonText}>View Shopping Cart</Text>
@@ -211,38 +204,51 @@ const LoginScreen = () => {
    }
   else {
     return (
-      <View style={styles.container}>
-      <Text style={styles.label}>Username:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your username"
-        value={loginData.username}
-        onChangeText={handleUsernameChange}
-      />
+      <KeyboardAvoidingView
+        style={{ flex: 0 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={175}
+      >
+        <View style={styles.container}>
+          <Text style={styles.label}>Username:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your username"
+            value={loginData.username}
+            onChangeText={handleUsernameChange}
+          />
 
-      <Text style={styles.label}>Password:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your password"
-        value={loginData.password}
-        onChangeText={handlePasswordChange}
-        secureTextEntry
-      />
+          <Text style={styles.label}>Password:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            value={loginData.password}
+            onChangeText={handlePasswordChange}
+            secureTextEntry
+          />
 
-      <Button title="Login" onPress={handleLogin} />
+          <TouchableOpacity style={styles.signupButton} onPress={handleLogin}>
+            <Text style={styles.signupText}>Login</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signupButton} onPress={handleCreateAccount}>
-        <Text style={styles.signupText}>Create Account</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.signupButton} onPress={handleCreateAccount}>
+            <Text style={styles.signupText}>Create Account</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.aboutUs}>
+            <Text style={styles.signupText}>About Us</Text>
+          </TouchableOpacity>
 
-      <FailedLoginModal isVisible={isErrorModalVisible} onClose={toggleErrorModal} />
-    </View>
+          <FailedLoginModal isVisible={isErrorModalVisible} onClose={toggleErrorModal} />
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 };
 
+
 const styles = StyleSheet.create({
   container: {
+    flex: 0,
     padding: 20,
   },
   label: {
@@ -255,13 +261,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+    width: 370,
   },
   signupButton: {
     alignItems: 'center',
     marginTop: 10,
   },
   signupText: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'blue',
   },
   orText: {
@@ -286,10 +293,12 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     backgroundColor: '#FFFCE5',
     alignItems: 'center',
+    width: 375,
   },
   adminInfo: {
     fontSize: 20,
     marginBottom: 10,
+    textAlign: 'center',
   },
   adminContainer: {
     marginBottom: 20,
@@ -298,6 +307,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#515D52', 
     backgroundColor: '#E5F2FF',
+    width: 375,
   },
   userIconContainer: {
     alignItems: 'center',
@@ -314,6 +324,10 @@ const styles = StyleSheet.create({
   shoppingCartButtonText: {
     color: '#ffffff',
     fontSize: 16,
+  },
+  aboutUs: {
+    alignItems: 'center',
+    marginTop: 350
   },
 });
 

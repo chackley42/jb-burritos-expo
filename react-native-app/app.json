@@ -1,6 +1,7 @@
 {
   "expo": {
     "scheme": "acme",
+    "orientation": "portrait",
     "splash": {
       "image": "./assets/logo.png"
     },

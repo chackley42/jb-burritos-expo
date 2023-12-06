@@ -1,13 +1,52 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Link, Stack } from 'expo-router';
 import {formatDate} from './index'
-import {handleNavigation} from '../home/index'
+import handleNavigation from '../home/index'
+import iosLocalHost from '../../../utils/testingConsts';
+import { useState, useEffect } from 'react';
 
 const NotificationsOrderStatus = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const [truckLocation, setTruckLocation] = useState({
+    latitude: 0,
+    longitude: 0
+  });
+
+  const fetchTruckLocation = async () => {
+    try {
+      const response = await fetch(`${iosLocalHost}:8080/api/getTruckLocation`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const truckLocationData = await response.json();
+      setTruckLocation({
+        latitude: truckLocationData.latitude,
+        longitude: truckLocationData.longitude,
+      });
+    } catch (error) {
+      console.error('Error fetching truck location:', error);
+    }
+  };
+  
+  const handleNavigation = async () => {
+    await fetchTruckLocation();
+    const userLocation = { latitude: 40.231708, longitude: -111.658480 };
+    const destination = `${truckLocation.latitude},${truckLocation.longitude}`;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+    
+    // Open Google Maps or a browser with the navigation link
+    Linking.openURL(url);
+  };
+
+  useEffect(() => {
+    // Fetch the initial truck location when the component mounts
+    fetchTruckLocation();
+  }, []); // Empty dependency array ensures this effect runs only once
+
 
   // Get the selected order from route.params
   const { order } = route.params;
@@ -15,22 +54,25 @@ const NotificationsOrderStatus = () => {
   return (
     <View style={{ flex: 1 }}>
     <ScrollView>
-      <Stack.Screen options={{title: 'Order Details', headerStyle: {     backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Order Details', headerStyle: {backgroundColor: '#F8E435'}}}/>
+      <View>
       <View style={[styles.subTab]}>
-        <Text>Order# {order._id}</Text>
-        <Text>Placed on {formatDate(order.createdAt)}</Text>
+        <Text style={styles.subTabTextTitle}>Order# {order._id}</Text>
+        <Text style={styles.subTabText}>Placed on {formatDate(order.createdAt)}</Text>
         {/* Display other order details as needed */}
+        </View>
         {order.items.map((item, index) => (
-          <View key={index}>
-            <Text>Item: {item.name}</Text>
-            <Text>Price: {item.price}</Text>
-            <Text>Quantity: {item.quantity}</Text>
+          <View key={index} style={[styles.subTab]}>
+            <Text style={styles.subTabText}>Item: {item.name}</Text>
+            <Text style={styles.subTabText}>Qty: {item.quantity}</Text>
+            <Text style={styles.subTabText}>Total Item Price: {item.price}</Text>
+
           </View>
         ))} 
-        <View>
-          <Text>Subtotal: {order.subtotal}</Text>
-          <Text>Taxes: {order.tax}</Text>
-          <Text>Paid Order Total: {order.total}</Text>
+        <View style={[styles.subTab]}>
+          <Text style={styles.subTabText}>Subtotal: {order.subtotal}</Text>
+          <Text style={styles.subTabText}>Taxes: {order.tax}</Text>
+          <Text style={styles.subTabText}>Paid Order Total: {order.total}</Text>
           </View>
         </View>
       {}
@@ -38,7 +80,7 @@ const NotificationsOrderStatus = () => {
     <View style={styles.bottomTab}>
     <TouchableOpacity onPress={handleNavigation}>
       <View style={styles.foodTruckButton}>
-        <Text style={styles.foodTruckButtonText} >Navigate to Food Truck</Text>
+        <Text style={styles.foodTruckButtonText} onPress={handleNavigation}>Navigate to Food Truck</Text>
       </View>
     </TouchableOpacity>
     </View>
@@ -77,20 +119,26 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   tabText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
   },
   subTab: {
     backgroundColor: '#FFFCE5',
-    padding: 30,
+    padding: 20,
     width: '100%',
     alignItems: 'flex-start',
     marginBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
-  subTabText: {
+  subTabTextTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: 'black',
+  },
+  subTabText: {
+    fontSize: 20,
     color: 'black',
   },
   bottomTab: {

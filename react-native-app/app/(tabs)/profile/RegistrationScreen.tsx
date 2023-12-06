@@ -20,7 +20,7 @@ const RegistrationScreen = () => {
     email: '',
     phonenumber: '',
     password: '',
-    isAdmin: false, // Initialize isAdmin to false
+    isAdmin: false,
   });
 
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
@@ -97,7 +97,6 @@ const RegistrationScreen = () => {
       console.error('Error:', error);
     }
   };
-  
 
   return (
     

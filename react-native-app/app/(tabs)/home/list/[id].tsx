@@ -15,7 +15,6 @@ function convertToNumber(input: string | string[]): number | null {
         if (isNaN(parsedNumber)){
             return null;
         }
-
         return parsedNumber
     } else if (Array.isArray(input)){
         const joinedString = input.join('');
@@ -35,15 +34,12 @@ function findMenuItemById (itemId: number, menu: Menu): MenuItem | undefined {
     if (!menuItem){
         menuItem = menu.drinks.find(item => item.id === itemId)
     }
-
     return menuItem;
 }
 
 const DetailsPage = () => {
-
     // AsyncStorage.removeItem("order")
     const [menuData, setMenuData] = useState<MenuItem | null>(null);
-    //const [imageString, setImageString] = useState<null>(null);
     const isMenuDataLoading = !menuData;
     const {collection, id } = useLocalSearchParams();
     const [isAddToCartModalVisible, setIsAddToCartModalVisible] = useState(false);
@@ -60,9 +56,7 @@ const DetailsPage = () => {
             const response = await fetch(`${iosLocalHost}:8080/api/getOne/${collectionItemItem}/${id}`);
             if (response.ok) {
               const data = await response.json();
-              //console.log("+++++++++++++++++++++++++++++" + JSON.stringify(data))
               setMenuData(data);
-              //setImageString(`../../../../assets/${data.image}`)
               return; // Exit the loop if a valid response is found
             }
           }
@@ -94,10 +88,6 @@ const DetailsPage = () => {
     };
 
     const navigation = useNavigation();
-
-    // const addToOrder = () => {
-    //     navigation.navigate('shoppingCart');
-    // };
 
     const addToOrder = async () => {
       try {
@@ -148,21 +138,16 @@ const DetailsPage = () => {
       } catch (error) {
         console.error('Error adding item to order:', error);
       }
-    };
-    
+    }; 
     console.log(menuData)
-    // const tryThis: string = menuData.image;
-    // console.log(tryThis)
-    //const imageString: string = `../../../../assets/${tryThis}`
-    // console.log(menuData.image)
-    // const imgPlzWork = menuData.image
+
     const goToShoppingCart = () => {
       navigation.navigate('shoppingCart'); // Navigate back to the menu or any other appropriate route
     };
     return (
       <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Use 'padding' behavior for iOS, 'height' for Android
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={100}
     >
       <View style={{ flex: 1 }}>
@@ -320,7 +305,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: 'black',
       paddingHorizontal: 10,
-      width: 50, // Adjust the width as needed
+      width: 50,
       textAlign: 'center',
       backgroundColor: 'white'
     },

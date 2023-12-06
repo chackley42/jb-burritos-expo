@@ -8,8 +8,6 @@ import order from '../home/order';
 import { useFocusEffect } from 'expo-router';
 import { isEqual } from 'lodash';
 import { FontAwesome } from '@expo/vector-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-
 
 export const formatDate = (isoDateString) => {
   // Check if isoDateString is undefined or null
@@ -59,12 +57,6 @@ const getDayWithSuffix = (day) => {
       return `${day}th`;
   }
 };
-
-// Example usage
-// const isoDateString = '2023-11-06T19:40:46.727+00:00';
-// const formattedDate = formatDate(isoDateString);
-// console.log(formattedDate);
-
 
 const Notifications = () => {
   const navigation = useNavigation();
@@ -138,7 +130,7 @@ const Notifications = () => {
     try {
       const token = await AsyncStorage.getItem('token');
       const response = await fetch(`${iosLocalHost}:8080/api/orders/${orderId}/status`, {
-        method: 'PATCH', // Use PATCH method to update existing resources
+        method: 'PATCH', // Used PATCH method to update existing resources
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -168,7 +160,7 @@ const Notifications = () => {
     try {
       const token = await AsyncStorage.getItem('token');
       const response = await fetch(`${iosLocalHost}:8080/api/orders/${orderId}/status`, {
-        method: 'PATCH', // Use PATCH method to update existing resources
+        method: 'PATCH', // Used PATCH method to update existing resources
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -211,13 +203,13 @@ const Notifications = () => {
       <TouchableOpacity onPress={() => navigateToOrderStatus(order)}>
         <View style={[styles.adminSubTab]}>
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            <Text>Order# </Text>
-            <Text>{order._id}</Text>
+            <Text style={styles.subTabText}>Order# </Text>
+            <Text style={styles.subTabText}>{order._id}</Text>
           </View>
   
           <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            <Text>Placed on: </Text>
-            <Text>{formatDate(order.createdAt)}</Text>
+            <Text style={styles.subTabText}>Placed on: </Text>
+            <Text style={styles.subTabText}>{formatDate(order.createdAt)}</Text>
             <Text style={styles.statusText}>{order.username}</Text>
           </View>
   
@@ -280,16 +272,9 @@ const Notifications = () => {
     return (
     <TouchableOpacity onPress={() => navigateToOrderStatus(order)}>
         <View style={[styles.subTab]}>
-
-
-
-
         <View style={[styles.statusTextContainer]}>
-            <Text>Order# {order._id}</Text>
+            <Text style={styles.subTabText}>Order# {order._id}</Text>
           </View>
-
-
-
           {/* Order Status Text */}
           <View style={[styles.statusTextContainer]}>
             <Text style={[styles.statusText]}>Status</Text>
@@ -313,50 +298,14 @@ const Notifications = () => {
                   )}
                 </Text>
           </View>
-  
-          {/* Order Details Text */}
-          {/* <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            <Text>Order# {order._id}</Text>
-            <Text>Placed on: {order.createdAt}</Text>
-          </View> */}
-
-          
-
           <View style={[styles.statusTextContainer]}>
-            {/* <Text>Order# {order._id}</Text> */}
-            <Text>Placed on: {formatDate(order.createdAt)}</Text>
+            <Text style={styles.subTabText}>Placed on: {formatDate(order.createdAt)}</Text>
           </View>
-
-          
-  
-          {/* <View style={[styles.statusTextContainer, { backgroundColor: '#E5F2FF' }]}>
-            <Text style={[styles.statusText]}>username</Text>
-            <Text style={styles.statusText}>{order.username}</Text>
-          </View> */}
         </View>
       </TouchableOpacity>
     )
   }
-  
-  // const renderUserOrders = () => {
-  //   return (
-  //     <ScrollView contentContainerStyle={styles.scrollContainer}>
-  //       {orders.map((order) => (
-  //         <TouchableOpacity key={order._id} onPress={() => navigateToOrderStatus(order)}>
-  //           <View style={[styles.subTab]}>
-  //             <Text>Order Status</Text>
-  //             <Text> {order.status}.</Text>
-  //             <Text>Order# {order._id}</Text>
-  //             <Text>Placed on: {order.createdAt}</Text>
-  //           </View>
-  //         </TouchableOpacity>
-  //       ))}
-  //       {!username || username === 'Not Logged In' || username === 'Error Retrieving Token' ? (
-  //         <Text style={styles.signedOutText}>Sign in to view notifications.</Text>
-  //       ) : null}
-  //     </ScrollView>
-  //   );
-  // };
+
   const [filter, setFilter] = useState('active');
 
   const renderAdminOrders = () => {
@@ -511,12 +460,11 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
-    flexDirection: 'row', // Added to align items horizontally
-    justifyContent: 'space-around', // Added to create space between items
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   subTabText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
     color: 'black',
   },
   signedOutText: {
@@ -526,16 +474,14 @@ const styles = StyleSheet.create({
   },
   adminSubTab: {
     backgroundColor: '#E5F2FF',
-    padding: 25,
+    padding: 15,
     width: '100%',
     alignItems: 'flex-start',
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
-    flexDirection: 'row', // Added to align items horizontally
-    justifyContent: 'space-around', // Added to create space between items
-    
-
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   
   clientReloadBtn: {
@@ -571,14 +517,14 @@ const styles = StyleSheet.create({
   },
 
   statusTextContainer: {
-    padding: 0,
-    width: 70,
+    padding: 5,
+    width: 85,
     margin: 5,
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
 
   statusText: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 
@@ -600,13 +546,12 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   activeTabButton: {
-    backgroundColor: '#515D52', // Customize the active tab color
+    backgroundColor: '#515D52',
   },
   tabButtonText: {
     color: 'white',
     fontWeight: 'bold',
   },
 });
-
 
 export default Notifications;

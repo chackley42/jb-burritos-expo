@@ -18,10 +18,8 @@ const getOrderData = async (): Promise<OrderItem[]> => {
   try {
     const orderData = await AsyncStorage.getItem('order');
     if (orderData) {
-      const parsedOrderData: OrderItem[] = JSON.parse(orderData);
-      
+      const parsedOrderData: OrderItem[] = JSON.parse(orderData);   
       console.log('------------------------------' + orderData)
-      // console.log('++++++++++++++++++++++++++++++++' + parsedOrderData)
       return parsedOrderData;
     } else {
       return [];
@@ -57,7 +55,6 @@ const OrderComponent = () => {
 
       const fetchUserData = async () => {
         try {
-          //const username = await getCurrentUserName();
           const username = await AsyncStorage.getItem('username');
           if (username && username !== 'Not Logged In') {
             setLoggedInUser(username);
@@ -97,7 +94,6 @@ const OrderComponent = () => {
     } catch {
       return 0
     }
-    
   };
 
   const getSubmittedData = async (): Promise<Order> => {
@@ -111,7 +107,7 @@ const OrderComponent = () => {
         const newOrder: Order = {
           orderID: '12345',
           phoneNumber: '000-000-0000',
-          subtotal: calculateSubtotal().toFixed(2).toString(), // Note: Assuming subtotal, tax, and total are represented as strings
+          subtotal: calculateSubtotal().toFixed(2).toString(),
           tax: (calculateSubtotal() * 0.0725).toFixed(2).toString(),
           total: (calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2).toString(),
           items: parsedOrderData,
@@ -119,7 +115,6 @@ const OrderComponent = () => {
         };
         console.log('New Order:', newOrder);
         console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$' + JSON.stringify(newOrder))
-        // console.log('++++++++++++++++++++++++++++++++' + parsedOrderData)
         return newOrder;
       } else {
         return ;
@@ -224,9 +219,6 @@ const OrderComponent = () => {
     }
   };
   
-  
-  
-
   const handleDecrement = async (itemId: number) => {
     try {
       // Get the current order data from AsyncStorage
@@ -244,7 +236,7 @@ const OrderComponent = () => {
           // Decrement the quantity property of the item
           if (updatedOrderItems[itemIndex].quantity > 1)
           updatedOrderItems[itemIndex] = {
-            ...updatedOrderItems[itemIndex], // Copy existing properties
+            ...updatedOrderItems[itemIndex], // Copies existing properties
             quantity: (updatedOrderItems[itemIndex].quantity || 1) - 1, // Decrement the quantity
           };
   
@@ -305,10 +297,10 @@ const OrderComponent = () => {
     );
   };
   const goToMenu = () => {
-    navigation.navigate('order'); // Navigate back to the menu or any other appropriate route
+    navigation.navigate('order');
   };
   const navigateToSignIn = () => {
-    navigation.navigate('profile'); // Replace 'SignIn' with the actual name of your sign-in page
+    navigation.navigate('profile'); 
   };
 
   return (
@@ -343,17 +335,8 @@ const OrderComponent = () => {
             <Text style={styles.totalText}>Taxes: ${(calculateSubtotal() * 0.0725).toFixed(2)}</Text>
             <Text style={styles.totalText}>Total: ${(calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2)}</Text>
           </View>
-          
         </View>
-        {/* <View style={styles.addToOrderButton}>
-          <Text style={styles.addToOrderButtonText}>Payment Details</Text>
-        </View> */}
         <View style={styles.tab}>
-          {/* <TouchableOpacity>
-            <View style={styles.signInButton}>
-              <Text style={styles.signInButtonText}>Sign In</Text>
-            </View>
-          </TouchableOpacity> */}
           <View style={styles.paymentModalButton}>
             <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
           </View>
@@ -423,7 +406,7 @@ const styles = StyleSheet.create({
   },
   totalTabContainer: {
     backgroundColor: '#F8E435',
-    padding: 20,
+    padding: 10,
     width: '100%',
     alignItems: 'flex-end',
     marginBottom: 0,

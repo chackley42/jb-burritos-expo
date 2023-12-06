@@ -1,13 +1,10 @@
 const express = require('express');
 const { MongoClient, ObjectId, Decimal128 } = require('mongodb'); // Import ObjectId from mongodb
-//New Imports
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/users.ts")
 const Order = require("../models/order.ts")
 const Truck = require("../models/truck.ts")
-//New Imports End
-
 const router = express.Router()
 
 module.exports = router;
@@ -29,7 +26,6 @@ async function getMenuItemById(collectionName, id) {
     client.close();
   }
 }
-
 
 // Get by ID Method
 router.get('/getOne/:collection/:id', async (req, res) => {
@@ -63,8 +59,6 @@ router.get('/getTruckLocation', async (req,res) => {
   }
 });
 
-
-
 router.get('/:collection', async (req, res) => {
   const { collection } = req.params;
   const client = new MongoClient(uri);
@@ -84,34 +78,12 @@ router.get('/:collection', async (req, res) => {
   }
 });
 
-
-//Post Method
-// router.post('/post', (req, res) => {
-//   res.send('Post API')
-// })
-
 // Get all Method
 router.get('/getAll', (req, res) => {
   res.send('Get All API CHAD')
   console.log('GET ALL API was called')
 })
 
-//Get by ID Method
-// router.get('/getOne/:id', (req, res) => {
-//   res.send('Get by ID API')
-// })
-
-//Update by ID Method
-// router.patch('/update/:id', (req, res) => {
-//   res.send('Update by ID API')
-// })
-
-//Delete by ID Method
-// router.delete('/delete/:id', (req, res) => {
-//   res.send('Delete by ID API')
-// })
-
-//New Routes
 function verifyJWT(req, res, next) {
   const token = req.headers["x-access-token"]?.split(' ')[1];
   console.log("VERIFY JWT CALLED");
@@ -134,7 +106,6 @@ function verifyJWT(req, res, next) {
   }
 }
 
-// Define your routes
 router.post("/register", async (req, res) => {
   const user = req.body;
 
@@ -291,8 +262,6 @@ router.patch('/orders/:id/status', async (req, res) => {
   }
 });
 
-
-
 router.post('/updateTruckLocation', async (req, res) => {
   const { latitude, longitude } = req.body;
 
@@ -321,6 +290,3 @@ router.post('/updateTruckLocation', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-
-

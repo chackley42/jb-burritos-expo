@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Tabs } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import LogoPng from '../../components/LogoImage';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, AppState } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAdminContext } from '../../utils/AdminContext';
 
 export default () => {
   
-  //const { isAdmin, setAdminStatus} = useAdminContext();
-
   const {isAdmin, setAdminStatus} = useAdminContext();
   async function fetchIsAdmin() {
     try {
@@ -26,12 +24,23 @@ export default () => {
   useEffect(() => {
     console.log('TABS LAYOUT USE EFFECT CALLED HOOOOOOOOORAYYYYYYY')
     fetchIsAdmin();
-  }, [isAdmin]);
+    // Set bar style to dark-content for both Android and iOS
+    StatusBar.setBarStyle('dark-content');
+    // Handle app state changes
+    const handleAppStateChange = (nextAppState: string) => {
+      if (nextAppState === 'active') {
+        // App is in the foreground
+        StatusBar.setBarStyle('dark-content');
+      } else {
+        // App is in the background
+        StatusBar.setBarStyle('dark-content');
+      }
+    };
 
-  // useEffect(() => {
-  //   fetchIsAdmin()
-  //   StatusBar.setBarStyle('dark-content');
-  // }, [isAdmin]);
+    // Subscribe to app state changes
+    AppState.addEventListener('change', handleAppStateChange);
+
+  }, [isAdmin]);
 
   const adminStyles = isAdmin
     ? {
@@ -58,12 +67,6 @@ export default () => {
         name="notifications"
         options={tabOptions('Notifications', isAdmin ? 'list' : 'bell', adminStyles)}
       />
-      {/* {isAdmin && (
-        <Tabs.Screen
-          name="admin"
-          options={tabOptions('Admin', 'cog', adminStyles)} // Adjust icon and label as needed
-        />
-      )} */}
       <Tabs.Screen
         name="profile"
         options={tabOptions('Profile', 'user', adminStyles)}

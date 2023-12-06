@@ -29,9 +29,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     fetchTruckLocation();
   }, []); // Empty dependency array ensures this effect runs only once
 
-  
-
-
   const fetchTruckLocation = async () => {
     try {
       const response = await fetch(`${iosLocalHost}:8080/api/getTruckLocation`);
@@ -50,8 +47,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     }
   };
 
-  
-
  const handleNavigation = async () => {
     await fetchTruckLocation();
 
@@ -68,7 +63,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
       
       <View style={styles.mapContainer}>
         <Text style={styles.navigateText}>Food Truck's Current Location</Text>
-        <Text style={styles.navigateText}>Currently near: </Text>
         <View style={styles.map}>
           <TruckMapView />
           
@@ -77,18 +71,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
       <KeyboardAvoidingView
       
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={150}
+      keyboardVerticalOffset={175}
     >
       </KeyboardAvoidingView>
       <View style={styles.linksContainer}>
-      <View>
+      <View style={styles.hoursContainer}>
         <Text style={styles.navigateText}>Operating Hours: </Text>
           <Text style={styles.navigateText}>9AM - 5PM | Monday - Friday</Text>
         </View>
         <View style={styles.link}>
-        
             <Text style={styles.linkText} onPress={handleNavigation}>Navigate to Food Truck</Text>
-          
         </View>
         <View style={styles.link}>
           <Link href="/home/order">
@@ -101,9 +93,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
           </Link>
         </View>
       </View>
-      
     </View>
-    
   );
 };
 
@@ -117,22 +107,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 20,
   },
   map: {
-    width: '80%',
-    height: '65%',
+    width: '85%',
+    height: '75%',
     aspectRatio: 1,
+    marginTop: 10,
   },
   linksContainer: {
     width: '100%',
+    marginBottom: 15
   },
   link: {
     padding: 10,
     backgroundColor: '#515D52',
     borderRadius: 8,
     marginBottom: 10,
-    width: '60%',
+    width: '85%',
     alignSelf: 'center',
     justifyContent: 'center',
   },
@@ -145,7 +137,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 22,
     textAlign: 'center',
+    marginBottom: 2,
   },
+  hoursContainer: {
+    marginBottom: 10,
+  }
 });
 
 export default Home;

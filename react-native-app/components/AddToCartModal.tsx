@@ -10,7 +10,6 @@ const AddToCartModal = ({ visible, onClose }: Props) => {
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
       <View style={styles.modalContainer}>
-        {/* Background overlay */}
         <View style={styles.overlay} />
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the alpha value for darkness
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     backgroundColor: 'white',

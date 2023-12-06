@@ -10,9 +10,7 @@ const CateringModal = ({ isVisible, onClose }) => {
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        {/* Background overlay */}
         <View style={styles.overlay} />
-        
         <View style={styles.modalContent}>
           <Text>Your request was successfully submitted and will be reviewed soon!</Text>
           <TouchableOpacity onPress={onClose}>

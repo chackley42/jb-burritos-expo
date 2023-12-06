@@ -10,9 +10,7 @@ const FailedLoginModal = ({ isVisible, onClose }) => {
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        {/* Background overlay */}
-        <View style={styles.overlay} />
-        
+        <View style={styles.overlay} />   
         <View style={styles.modalContent}>
           <Text>Username or password incorrect</Text>
           <TouchableOpacity onPress={onClose}>

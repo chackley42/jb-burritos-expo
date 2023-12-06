@@ -124,7 +124,7 @@ export default function TruckMapView() {
               textInput: {
                 marginLeft: 0,
                 marginRight: 0,
-                height: 38,
+                height: 30,
                 color: '#5d5d5d',
                 fontSize: 16,
               },
@@ -148,10 +148,10 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '80%',
+    height: '100%',
   },
   inputContainer: {
-    padding: 16,
+    padding: 0,
     backgroundColor: 'white',
   },
 });
