@@ -14,9 +14,9 @@ export default function TruckMapView() {
     longitudeDelta: 1.0,
   };
 
-  const [truckLocation, setTruckLocation] = useState({
+  const [currentTruckLocation, setTruckLocation] = useState({
     latitude: initialRegion.latitude,
-    longitude: initialRegion.longitude
+    longitude: initialRegion.longitude,
   });
 
   const { isAdmin, setAdminStatus } = useAdminContext();
@@ -37,6 +37,7 @@ export default function TruckMapView() {
 
   useEffect(() => {
     fetchTruckLocation();
+    console.log('USE EFFECT LOCATIONXXXXXX' + currentTruckLocation)
   }, []);
 
   const fetchTruckLocation = async () => {
@@ -51,6 +52,7 @@ export default function TruckMapView() {
         latitude: truckLocationData.latitude,
         longitude: truckLocationData.longitude,
       });
+      console.log('THIS IS THE TRUCK LOCATION CALLED QQQQ' + JSON.stringify(truckLocationData))
     } catch (error) {
       console.error('Error fetching truck location:', error);
     }
@@ -75,8 +77,8 @@ export default function TruckMapView() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          latitude: truckLocation.latitude,
-          longitude: truckLocation.longitude,
+          latitude: currentTruckLocation.latitude,
+          longitude: currentTruckLocation.longitude,
         }),
       });
 
@@ -98,7 +100,8 @@ export default function TruckMapView() {
         showsUserLocation={true}
         initialRegion={initialRegion}
       >
-        <Marker coordinate={truckLocation} title="TRUCK" description="Utah Valley University" />
+        <Marker coordinate={{latitude: Number(currentTruckLocation.latitude), longitude: Number(currentTruckLocation.longitude)}} title="TRUCK" description="Utah Valley University" />
+        {/* <Marker coordinate={{latitude: 40.3916172, longitude: -111.8507662}} title="TRUCK" description="Utah Valley University" /> */}
       </MapView>
 
       {isAdmin && (
