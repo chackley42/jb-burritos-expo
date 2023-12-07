@@ -5,7 +5,10 @@ const bcrypt = require("bcrypt");
 const User = require("../models/users.ts")
 const Order = require("../models/order.ts")
 const Truck = require("../models/truck.ts")
-const router = express.Router()
+const router = express.Router();
+const stripe = require('stripe')('sk_test_51OJkAOLiow7igI3qmlsvbfeg83LQjpdH4Z9mOOCshIdh3J2Q8xqncuCUaCIMhYECl7kANTEUIlmM9a0psKGq60oa00pgStrbLN');
+// This example sets up an endpoint using the Express framework.
+// Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
 
 module.exports = router;
 
@@ -41,6 +44,31 @@ router.get('/getOne/:collection/:id', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+router.post('/payment-sheet', async (req, res) => {
+  // Use an existing Customer ID if this is a returning customer.
+  const customer = await stripe.customers.create();
+  const ephemeralKey = await stripe.ephemeralKeys.create(
+    {customer: customer.id},
+    {apiVersion: '2023-10-16'}
+  );
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 1099,
+    currency: 'eur',
+    customer: customer.id,
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.json({
+    paymentIntent: paymentIntent.client_secret,
+    ephemeralKey: ephemeralKey.secret,
+    customer: customer.id,
+    publishableKey: 'pk_test_51OJkAOLiow7igI3q9tXMLYfYrx76Mf1txAmsC0A7ECdPbUFGIA15VgWGYZ7TsI2MXp6teVQvpA6uAxRiuJpZpZHa00Q6ZTMyJV'
+  });
 });
 
 router.get('/getTruckLocation', async (req,res) => {

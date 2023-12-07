@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button, Alert} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Button, Modal, Alert} from 'react-native';
 import { Link, useNavigation, useFocusEffect } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MenuItem, getMenuData, createMenuItem, OrderItem, Order } from '../../../utils/storage';
@@ -11,7 +11,8 @@ import PaymentModal from '../../../components/PaymentModal';
 import iosLocalHost from '../../../utils/testingConsts';
 import OrderSuccessModal from '../../../components/OrderSuccessModal';
 import { router } from 'expo-router';
-
+import { StripeProvider } from '@stripe/stripe-react-native';
+import CheckoutScreen from '../../../components/CheckoutScreen';
 
 
 const getOrderData = async (): Promise<OrderItem[]> => {
@@ -33,6 +34,7 @@ const getOrderData = async (): Promise<OrderItem[]> => {
 
 
 const OrderComponent = () => {
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [isOrderSuccessModalVisible, setIsOrderSuccessModalVisible] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
@@ -73,7 +75,16 @@ const OrderComponent = () => {
       console.log('SHOPPING CART USE EFFECT CALLED')
     }, []) // Add orderItems as a dependency
   );
+
+  const handleCheckoutPress = () => {
+    // Set the state to show the CheckoutScreen
+    setShowCheckoutModal(true);
+  };
   
+  const handleCloseCheckoutModal = () => {
+    setShowCheckoutModal(false);
+  };
+
   const handleCloseSuccessModal = () => {
     setIsOrderSuccessModalVisible(false);
   }
@@ -349,6 +360,11 @@ const OrderComponent = () => {
             <Text style={styles.addToOrderButtonText}>Place Order</Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleCheckoutPress}>
+          <View style={styles.addToOrderButton}>
+            <Text style={styles.addToOrderButtonText}>Checkout <CheckoutScreen/></Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <OrderSuccessModal
         visible={isOrderSuccessModalVisible}
@@ -356,6 +372,7 @@ const OrderComponent = () => {
         onGoToNotifications={notifications} // Pass the function to navigate to notifications
       />
     </View>
+
   );
 };
 
