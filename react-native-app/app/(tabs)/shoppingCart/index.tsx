@@ -13,6 +13,7 @@ import OrderSuccessModal from '../../../components/OrderSuccessModal';
 import { router } from 'expo-router';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import CheckoutScreen from '../../../components/CheckoutScreen';
+import getCurrentUserInfo, { UserData, UserInfoResponse } from '../../../utils/getCurrentUserInfo';
 
 
 const getOrderData = async (): Promise<OrderItem[]> => {
@@ -85,6 +86,10 @@ const OrderComponent = () => {
     setShowCheckoutModal(false);
   };
 
+  const updateOrderItems = (newOrderItems) => {
+    setOrderItems(newOrderItems);
+  };
+
   const handleCloseSuccessModal = () => {
     setIsOrderSuccessModalVisible(false);
   }
@@ -111,7 +116,6 @@ const OrderComponent = () => {
     try {
       const orderData = await AsyncStorage.getItem('order');
       if (orderData) {
-        
         const parsedOrderData: OrderItem[] = JSON.parse(orderData);
         const username: string = await getCurrentUserName()
         console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" +username)
@@ -330,16 +334,6 @@ const OrderComponent = () => {
       />
       <View style={styles.totalTabContainer}>
         <View style={styles.rowContainer}>
-        {/* Conditionally render based on logged-in user */}
-      {isUserAuthenticated ? (
-        <Text style={styles.totalText}>{`Logged in as: ${loggedInUser}`}</Text>
-      ) : (
-        <TouchableOpacity onPress={navigateToSignIn}>
-          <View style={styles.signInButton}>
-            <Text style={styles.signInButtonText}>Sign In</Text>
-          </View>
-        </TouchableOpacity>
-      )}
           <View style={styles.totalInfoContainer}>
           <Text style={styles.totalText}>Subtotal: ${calculateSubtotal().toFixed(2)}</Text>
             {/* Include tax calculation logic here if needed */}
@@ -347,23 +341,23 @@ const OrderComponent = () => {
             <Text style={styles.totalText}>Total: ${(calculateSubtotal() + calculateSubtotal() * 0.0725).toFixed(2)}</Text>
           </View>
         </View>
-        <View style={styles.tab}>
-          <View style={styles.paymentModalButton}>
-            <Text style={styles.addToOrderButtonText}><PaymentModal></PaymentModal></Text>
-          </View>
-        </View>
       </View>
+      
+      {isUserAuthenticated ? (
+        <View style={styles.tab}>
+        <Text style={styles.loggedInText}>{`Logged in as: ${loggedInUser}`}</Text>
+        </View>
+      ) : (
+        <View style={styles.tab}>
+        <TouchableOpacity onPress={navigateToSignIn} style={styles.tabNew}>
+            <Text style={styles.signInButtonText}>Sign In</Text>
+        </TouchableOpacity>
+        </View>
+      )}
 
       <View style={styles.tab}>
-        <TouchableOpacity onPress={placeOrder}>
-          <View style={styles.addToOrderButton}>
-            <Text style={styles.addToOrderButtonText}>Place Order</Text>
-          </View>
-        </TouchableOpacity>
         <TouchableOpacity onPress={handleCheckoutPress}>
-          <View style={styles.addToOrderButton}>
-            <Text style={styles.addToOrderButtonText}>Checkout <CheckoutScreen/></Text>
-          </View>
+            <CheckoutScreen orderItems={orderItems} updateOrderItems={updateOrderItems}/>
         </TouchableOpacity>
       </View>
       <OrderSuccessModal
@@ -375,7 +369,6 @@ const OrderComponent = () => {
 
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -514,6 +507,18 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     marginLeft: 50,
     fontSize: 18,
+  },
+  tabNew: {
+    backgroundColor: '#515D52',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  loggedInText: {
+    fontSize: 20,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });
 
