@@ -73,7 +73,7 @@ const LoginScreen = () => {
   
     if (token && username) {
       try {
-        const response = await fetch(`${iosLocalHost}:8080/api/getUsername/${username}`, {
+        const response = await fetch(`${iosLocalHost}/api/getUsername/${username}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -112,7 +112,7 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`${iosLocalHost}:8080/api/login`, {
+      const response = await fetch(`${iosLocalHost}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

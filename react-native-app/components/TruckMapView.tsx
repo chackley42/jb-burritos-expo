@@ -42,7 +42,7 @@ export default function TruckMapView() {
 
   const fetchTruckLocation = async () => {
     try {
-      const response = await fetch(`${iosLocalHost}:8080/api/getTruckLocation`);
+      const response = await fetch(`${iosLocalHost}/api/getTruckLocation`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -71,7 +71,7 @@ export default function TruckMapView() {
 
   const handleChangeLocation = async () => {
     try {
-      const response = await fetch(`${iosLocalHost}:8080/api/updateTruckLocation`, {
+      const response = await fetch(`${iosLocalHost}/api/updateTruckLocation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

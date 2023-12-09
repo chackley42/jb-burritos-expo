@@ -53,7 +53,7 @@ const DetailsPage = () => {
       const fetchMenuData = async () => {
         try {
           for (const collectionItemItem of collections) {
-            const response = await fetch(`${iosLocalHost}:8080/api/getOne/${collectionItemItem}/${id}`);
+            const response = await fetch(`${iosLocalHost}/api/getOne/${collectionItemItem}/${id}`);
             if (response.ok) {
               const data = await response.json();
               setMenuData(data);

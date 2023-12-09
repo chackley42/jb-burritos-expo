@@ -17,7 +17,7 @@ const NotificationsOrderStatus = () => {
 
   const fetchTruckLocation = async () => {
     try {
-      const response = await fetch(`${iosLocalHost}:8080/api/getTruckLocation`);
+      const response = await fetch(`${iosLocalHost}/api/getTruckLocation`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

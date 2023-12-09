@@ -29,7 +29,7 @@ export interface UserData {
       if (token) {
         console.log("IF STATEMENT REACHED");
         try {
-          const response = await fetch(`${iosLocalHost}:8080/api/getUsername/${username}`, {
+          const response = await fetch(`${iosLocalHost}/api/getUsername/${username}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,

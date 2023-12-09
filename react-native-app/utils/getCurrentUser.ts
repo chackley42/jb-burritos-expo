@@ -18,7 +18,7 @@ const getCurrentUserName = async (): Promise<string> => {
             // Token found, user is logged in
             try {
                 // Fetch user details using the token and update the state with the username
-                const response = await fetch(`${iosLocalHost}:8080/api/getUsername`, {
+                const response = await fetch(`${iosLocalHost}/api/getUsername`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

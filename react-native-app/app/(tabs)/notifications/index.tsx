@@ -78,7 +78,7 @@ const Notifications = () => {
     if (isAdmin) {
       try {
         const token = await AsyncStorage.getItem('token');
-        const response = await fetch(`${iosLocalHost}:8080/api/orders`, {
+        const response = await fetch(`${iosLocalHost}/api/orders`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ const Notifications = () => {
       const token = await AsyncStorage.getItem('token');
       if (username && username !== 'Not Logged In' && username !== 'Error Retrieving Token') {
         try {
-          const response = await fetch(`${iosLocalHost}:8080/api/orders/${username}`, {
+          const response = await fetch(`${iosLocalHost}/api/orders/${username}`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -129,7 +129,7 @@ const Notifications = () => {
     // Update the order status on the server
     try {
       const token = await AsyncStorage.getItem('token');
-      const response = await fetch(`${iosLocalHost}:8080/api/orders/${orderId}/status`, {
+      const response = await fetch(`${iosLocalHost}/api/orders/${orderId}/status`, {
         method: 'PATCH', // Used PATCH method to update existing resources
         headers: {
           'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ const Notifications = () => {
     // Update the order status on the server
     try {
       const token = await AsyncStorage.getItem('token');
-      const response = await fetch(`${iosLocalHost}:8080/api/orders/${orderId}/status`, {
+      const response = await fetch(`${iosLocalHost}/api/orders/${orderId}/status`, {
         method: 'PATCH', // Used PATCH method to update existing resources
         headers: {
           'Content-Type': 'application/json',

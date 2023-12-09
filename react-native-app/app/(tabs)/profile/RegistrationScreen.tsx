@@ -66,7 +66,7 @@ const RegistrationScreen = () => {
       const cleanedUsername = registrationData.username.toLowerCase().trim();
       setRegistrationData({ ...registrationData, username: cleanedUsername })
   
-      const response = await fetch(`${iosLocalHost}:8080/api/register`, {
+      const response = await fetch(`${iosLocalHost}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

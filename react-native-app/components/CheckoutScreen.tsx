@@ -35,7 +35,7 @@ export default function CheckoutScreen({orderItems, updateOrderItems}) {
     const [loading, setLoading] = useState(false);
   
     const fetchPaymentSheetParams = async () => {
-      const response = await fetch(`${iosLocalHost}:8080/api/payment-sheet`, {
+      const response = await fetch(`${iosLocalHost}/api/payment-sheet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export default function CheckoutScreen({orderItems, updateOrderItems}) {
           const orderData = await getSubmittedData();
           console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO' + JSON.stringify(orderData))
       
-          const response = await fetch(`${iosLocalHost}:8080/api/orders`, {
+          const response = await fetch(`${iosLocalHost}/api/orders`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -147,7 +147,7 @@ const OrderComponent = () => {
       const orderData = await getSubmittedData();
       console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO' + orderData)
   
-      const response = await fetch(`${iosLocalHost}:8080/api/orders`, {
+      const response = await fetch(`${iosLocalHost}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

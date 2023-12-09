@@ -7,7 +7,7 @@ export const fetchMenuDataAndStore = async () => {
 
     // Use Promise.all to fetch all collections simultaneously
     const fetchPromises = collections.map(async (collectionItem) => {
-      const response = await fetch(`${iosLocalHost}:8080/api/${collectionItem}`);
+      const response = await fetch(`${iosLocalHost}/api/${collectionItem}`);
       if (response.ok) {
         const data = await response.json();
         console.log('COLLECTION ITEM NAME: ' + collectionItem)
