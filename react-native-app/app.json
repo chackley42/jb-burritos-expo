@@ -15,10 +15,22 @@
     "slug": "jb-burritos-expo",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.example.ProjectName",
-      "config": {
-        "googleMapsApiKey": "AIzaSyCiW6MgySmBfYFcH8oHUtbkB7Xv59Pl_q4"
-    }
+      "bundleIdentifier": "com.example.ProjectName"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "9db40fc1-bcc4-469f-95a4-72c2f1770016"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/9db40fc1-bcc4-469f-95a4-72c2f1770016"
+    },
+    "android": {}
   }
-}
 }
