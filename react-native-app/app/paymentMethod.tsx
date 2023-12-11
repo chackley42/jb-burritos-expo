@@ -7,7 +7,7 @@ const paymentMethod = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{title: 'Payment Method', headerStyle: {     backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Payment Method', headerStyle: {     backgroundColor: '#F5A800'}}}/>
       <View style={[styles.container2]}>
         <PaymentForm></PaymentForm>
       </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   tab: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
     padding: 10,
     width: '100%',
     alignItems: 'center',

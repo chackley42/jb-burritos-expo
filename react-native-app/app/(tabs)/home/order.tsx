@@ -62,7 +62,7 @@ const order = () => {
   return (
     <View style={{ flex: 1 }}>
     <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{title: 'Menu', headerStyle: {backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Menu', headerStyle: {backgroundColor: '#F5A800'}}}/>
       <TouchableOpacity style={styles.tab} onPress={toggleBurritos}>
         <Text style={styles.tabText}>Burritos</Text>
       </TouchableOpacity>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFCE5',
   },
   tab: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
     padding: 10,
     width: '100%',
     alignItems: 'center',
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   bottomTab: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
     padding: 10,
     width: '100%',
     alignItems: 'center',

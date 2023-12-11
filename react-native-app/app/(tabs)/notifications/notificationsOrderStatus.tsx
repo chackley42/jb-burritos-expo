@@ -54,7 +54,7 @@ const NotificationsOrderStatus = () => {
   return (
     <View style={{ flex: 1 }}>
     <ScrollView>
-      <Stack.Screen options={{title: 'Order Details', headerStyle: {backgroundColor: '#F8E435'}}}/>
+      <Stack.Screen options={{title: 'Order Details', headerStyle: {backgroundColor: '#F5A800'}}}/>
       <View>
       <View style={[styles.subTab]}>
         <Text style={styles.subTabTextTitle}>Order# {order._id}</Text>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   tab: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
     padding: 10,
     width: '100%',
     alignItems: 'center',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   bottomTab: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
     padding: 10,
     width: '100%',
     alignItems: 'center',

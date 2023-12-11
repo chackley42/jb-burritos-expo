@@ -152,7 +152,7 @@ const DetailsPage = () => {
     >
       <View style={{ flex: 1 }}>
       <ScrollView>
-            <Stack.Screen options={{headerTitle: `Menu`, headerStyle: {     backgroundColor: '#F8E435'}}}/>
+            <Stack.Screen options={{headerTitle: `Menu`, headerStyle: {     backgroundColor: '#F5A800'}}}/>
             <Image
                 source={require('../../../../assets/breakfastBurrito.jpeg')}
                 style={styles.image}
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFFCE5',
     },
     tab: {
-      backgroundColor: '#F8E435',
+      backgroundColor: '#F5A800',
       padding: 10,
       width: '100%',
       alignItems: 'center',
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
       color: 'black',
     },
     bottomTab: {
-      backgroundColor: '#F8E435',
+      backgroundColor: '#F5A800',
       padding: 10,
       width: '100%',
       alignItems: 'center',
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       width: '100%',
       padding: 10,
-      backgroundColor: '#F8E435',
+      backgroundColor: '#F5A800',
       borderBottomWidth: 1,
     borderBottomColor: 'black',
     },

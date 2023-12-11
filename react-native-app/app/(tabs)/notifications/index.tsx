@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   tab: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
     padding: 10,
     width: '100%',
     alignItems: 'center',

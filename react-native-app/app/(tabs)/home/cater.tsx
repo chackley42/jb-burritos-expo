@@ -7,7 +7,7 @@ import { Link, Stack } from 'expo-router';
 const cater = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Stack.Screen options={{ title: 'Catering Requests', headerStyle: { backgroundColor: '#F8E435' } }} />
+      <Stack.Screen options={{ title: 'Catering Requests', headerStyle: { backgroundColor: '#F5A800' } }} />
       <CaterForm></CaterForm>
     </ScrollView>
   );

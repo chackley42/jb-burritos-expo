@@ -8,7 +8,8 @@ import { useAdminContext } from '../../utils/AdminContext';
 
 export default () => {
   
-  const {isAdmin, setAdminStatus} = useAdminContext();
+  const { isAdmin, setAdminStatus } = useAdminContext();
+
   async function fetchIsAdmin() {
     try {
       const isAdminValue = await AsyncStorage.getItem('isAdmin');
@@ -20,20 +21,19 @@ export default () => {
     }
   }
 
-
   useEffect(() => {
-    console.log('TABS LAYOUT USE EFFECT CALLED HOOOOOOOOORAYYYYYYY')
     fetchIsAdmin();
-    // Set bar style to dark-content for both Android and iOS
-    StatusBar.setBarStyle('dark-content');
+    // Set bar style to 'light-content' for both Android and iOS when isAdmin is true
+    StatusBar.setBarStyle(isAdmin ? 'light-content' : 'dark-content');
+
     // Handle app state changes
     const handleAppStateChange = (nextAppState: string) => {
       if (nextAppState === 'active') {
         // App is in the foreground
-        StatusBar.setBarStyle('dark-content');
+        StatusBar.setBarStyle(isAdmin ? 'light-content' : 'dark-content');
       } else {
         // App is in the background
-        StatusBar.setBarStyle('dark-content');
+        StatusBar.setBarStyle(isAdmin ? 'light-content' : 'dark-content');
       }
     };
 
@@ -79,40 +79,40 @@ const tabOptions = (headerTitle, iconName, styles) => ({
   headerShown: true,
   headerTitle: headerTitle,
   headerLeft: () => <LogoPng />,
-  ...styles, // Spread the styles object to apply the appropriate styles
+  ...styles,
   tabBarShowLabel: false,
   tabBarIcon: ({ focused }) => (
     <FontAwesome
       name={iconName}
       size={focused ? 40 : 30}
-      color={focused ? 'black' : 'grey'}
+      color={focused ? 'black' : 'gray'}
     />
   ),
 });
 
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
   },
   headerTitleStyle: {
     color: '#000000',
     fontSize: 20,
   },
   tabBarStyle: {
-    backgroundColor: '#F8E435',
+    backgroundColor: '#F5A800',
   },
   tabBarLabelStyle: {
     color: '#000000',
   },
   adminHeaderStyle: {
-    backgroundColor: '#34eb8f',
+    backgroundColor: '#505F4E',
   },
   adminHeaderTitleStyle: {
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 20,
   },
   adminTabBarStyle: {
-    backgroundColor: '#34eb8f',
+    backgroundColor: '#505F4E',
   },
   adminTabBarLabelStyle: {
     color: '#000000',

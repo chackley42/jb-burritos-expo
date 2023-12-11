@@ -83,13 +83,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
             <Text style={styles.linkText} onPress={handleNavigation}>Navigate to Food Truck</Text>
         </View>
         <View style={styles.link}>
-          <Link href="/home/order">
-            <Text style={styles.linkText}>View Menu</Text>
+          <Link href="/home/order" style={styles.linkText}>
+            <Text>View Menu</Text>
           </Link>
         </View>
         <View style={styles.link}>
-          <Link href="/home/cater">
-            <Text style={styles.linkText}>Catering Requests</Text>
+          <Link href="/home/cater" style={styles.linkText}>
+            <Text>Catering Requests</Text>
           </Link>
         </View>
       </View>

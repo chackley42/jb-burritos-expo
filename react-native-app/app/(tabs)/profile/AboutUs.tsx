@@ -6,7 +6,7 @@ export class AboutUs extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Stack.Screen options={{ title: 'About Us', headerStyle: { backgroundColor: '#F8E435' } }} />
+        <Stack.Screen options={{ title: 'About Us', headerStyle: { backgroundColor: '#F5A800' } }} />
         <Image source={require('../../../assets/logo.png')} style={styles.logo} />
         <Text style={styles.text}>&copy;2023 JB Burritos</Text>
         <Text style={styles.description}>

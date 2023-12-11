@@ -17,7 +17,7 @@ const StackLayout = () => {
           headerShown: false,
           headerRight: () => <LogoPng />,
           headerStyle: {
-            backgroundColor: '#F8E435',
+            backgroundColor: '#F5A800',
           },
           headerTitleStyle: {
             color: '#000000',

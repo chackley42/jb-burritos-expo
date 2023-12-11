@@ -101,7 +101,7 @@ const RegistrationScreen = () => {
   return (
     
       <ScrollView contentContainerStyle={styles.container}>
-        <Stack.Screen options={{ title: 'Registration', headerStyle: { backgroundColor: '#F8E435' } }} />
+        <Stack.Screen options={{ title: 'Registration', headerStyle: { backgroundColor: '#F5A800' } }} />
         <Text style={styles.label}>Username:</Text>
         <TextInput
           style={styles.input}
