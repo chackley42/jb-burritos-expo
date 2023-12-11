@@ -88,8 +88,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
           </Link>
         </View>
         <View style={styles.link}>
-          <Link href="/home/cater" style={styles.linkText}>
-            <Text>Catering Requests</Text>
+          <Link href="/home/AboutUs" style={styles.linkText}>
+            <Text>About Us</Text>
           </Link>
         </View>
       </View>

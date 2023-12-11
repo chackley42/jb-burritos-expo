@@ -243,11 +243,6 @@ const LoginScreen = () => {
       </TouchableOpacity>
 
       <FailedLoginModal isVisible={isErrorModalVisible} onClose={toggleErrorModal} />
-      <View style={styles.bottomTab}>
-      <TouchableOpacity  onPress={handleAboutUs}>
-            <Text style={styles.signupText}>About Us</Text>
-          </TouchableOpacity>
-          </View>
     </View>
     );
   }
