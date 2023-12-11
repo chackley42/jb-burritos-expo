@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
   },
   linksContainer: {
     width: '100%',
-    marginBottom: 15
+    marginBottom: 15,
+    paddingTop:10
   },
   link: {
     padding: 10,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
   },
   navigateText: {
     color: 'black',
-    fontSize: 22,
+    fontSize: 17,
     textAlign: 'center',
     marginBottom: 2,
   },
