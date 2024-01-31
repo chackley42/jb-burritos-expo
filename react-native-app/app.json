@@ -1,36 +1,22 @@
 {
   "expo": {
-    "scheme": "acme",
-    "orientation": "portrait",
-    "splash": {
-      "image": "./assets/logo.png"
-    },
-    "web": {
-      "bundler": "metro"
-    },
-    "plugins": [
-      "expo-router"
-    ],
-    "name": "jb-burritos-expo",
-    "slug": "jb-burritos-expo",
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.example.ProjectName"
-    },
+    "name": "My app",
+    "slug": "my-app",
     "extra": {
-      "router": {
-        "origin": false
-      },
       "eas": {
-        "projectId": "9db40fc1-bcc4-469f-95a4-72c2f1770016"
+        "projectId": "4f06cad8-e0b4-4b23-a4b8-a9885a9d3492"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "updates": {
-      "url": "https://u.expo.dev/9db40fc1-bcc4-469f-95a4-72c2f1770016"
+      "url": "https://u.expo.dev/4f06cad8-e0b4-4b23-a4b8-a9885a9d3492"
     },
-    "android": {}
+    "android": {
+      "runtimeVersion": "1.0.0"
+    },
+    "ios": {
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    }
   }
 }
